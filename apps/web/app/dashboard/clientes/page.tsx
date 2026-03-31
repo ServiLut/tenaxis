@@ -11,7 +11,27 @@ import { ClienteList, type Cliente, type Sugerencia, type SugerenciaStats } from
 
 export const dynamic = "force-dynamic";
 
-export default async function ClientesPage() {
+type PageSearchParams = Record<string, string | string[] | undefined>;
+
+function getFirstParam(
+  value: string | string[] | undefined,
+): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export default async function ClientesPage({
+  searchParams,
+}: {
+  searchParams?: Promise<PageSearchParams> | PageSearchParams;
+}) {
+  const resolvedSearchParams = (await searchParams) || {};
+  const dashboardQuery = Object.fromEntries(
+    Object.entries(resolvedSearchParams).map(([key, value]) => [
+      key,
+      getFirstParam(value),
+    ]),
+  );
+
   const [
     dashboardData,
     sugerencias,
@@ -19,7 +39,7 @@ export default async function ClientesPage() {
     departments, 
     municipalities
   ] = await Promise.all([
-    getClientesDashboardAction<Cliente>(),
+    getClientesDashboardAction<Cliente>(dashboardQuery),
     getSugerenciasAction(),
     getSugerenciasStatsAction(),
     getDepartmentsAction(),
@@ -31,6 +51,8 @@ export default async function ClientesPage() {
       <ClienteList
         initialClientes={dashboardData.clientes}
         segmentedData={dashboardData.segmentacion}
+        initialOverview={dashboardData.overview}
+        initialPagination={dashboardData.pagination}
         initialSugerencias={sugerencias as unknown as Sugerencia[]}
         sugerenciasStats={sugerenciasStats as unknown as SugerenciaStats}
         initialDepartments={departments}

@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
+import { QueryClientesDashboardDto } from './dto/query-clientes-dashboard.dto';
 import {
   Cliente,
   ClasificacionCliente,
@@ -24,11 +25,71 @@ type ClienteWithRelations = Cliente & {
   direcciones?: any[];
   vehiculos?: any[];
   configuracionesOperativas?: any[];
-  ordenesServicio?: any[];
+  ordenesServicio?: Array<{
+    id: string;
+    estadoPago?: string | null;
+    valorCotizado?: Prisma.Decimal | number | null;
+    valorPagado?: Prisma.Decimal | number | null;
+    valorRepuestos?: Prisma.Decimal | number | null;
+  }>;
   empresa?: any;
   tenant?: any;
   tipoInteres?: any;
+  dashboardSegments?: DashboardSegmentKey[];
 };
+
+type DashboardSegmentKey =
+  | 'riesgoFuga'
+  | 'upsellPotencial'
+  | 'dormidos'
+  | 'operacionEstable';
+
+type DashboardSegmentedSummary = Record<
+  DashboardSegmentKey,
+  { count: number; data: ClienteWithRelations[] }
+>;
+
+interface DashboardPaginationMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+interface DashboardOverview {
+  total: number;
+  empresas: number;
+  oro: number;
+  riesgoCritico: number;
+  avgScore: number;
+}
+
+interface NormalizedDashboardQuery {
+  page: number;
+  limit: number;
+  search: string;
+  segment: 'all' | DashboardSegmentKey;
+  sort: string;
+  dir: 'asc' | 'desc';
+  empresas: string[];
+  dept: string;
+  muni: string;
+  barrio: string;
+  class: string;
+  seg: string;
+  risk: string;
+  from: string;
+  to: string;
+  onlySinVisita: boolean;
+  onlyWithPendingPayments: boolean;
+  onlySinServicios: boolean;
+}
+
+interface ClienteIdRow {
+  id: string;
+}
 
 @Injectable()
 export class ClientesService {
@@ -208,6 +269,536 @@ export class ClientesService {
     }
   }
 
+  private normalizeDashboardQuery(
+    query?: QueryClientesDashboardDto,
+  ): NormalizedDashboardQuery {
+    const toFlag = (value?: string) => value === 'true';
+
+    return {
+      page: Math.max(1, Number(query?.page ?? 1) || 1),
+      limit: Math.min(100, Math.max(1, Number(query?.limit ?? 10) || 10)),
+      search: (query?.search || '').trim(),
+      segment: (query?.segment || 'all') as NormalizedDashboardQuery['segment'],
+      sort: (query?.sort || '').trim(),
+      dir: query?.dir === 'asc' ? 'asc' : 'desc',
+      empresas: (query?.empresas || '')
+        .split(',')
+        .map((value) => value.trim())
+        .filter(Boolean),
+      dept: query?.dept || 'all',
+      muni: query?.muni || 'all',
+      barrio: (query?.barrio || '').trim(),
+      class: query?.class || 'all',
+      seg: query?.seg || 'all',
+      risk: query?.risk || 'all',
+      from: query?.from || '',
+      to: query?.to || '',
+      onlySinVisita: toFlag(query?.sinVisita),
+      onlyWithPendingPayments: toFlag(query?.pendingPayments),
+      onlySinServicios: toFlag(query?.sinServicios),
+    };
+  }
+
+  private buildDashboardWhere(
+    accessFilter: PrismaAccessFilter,
+    query: NormalizedDashboardQuery,
+    extraWhere: Prisma.ClienteWhereInput = {},
+  ): Prisma.ClienteWhereInput {
+    const andConditions: Prisma.ClienteWhereInput[] = [{ deletedAt: null }];
+
+    if (query.search) {
+      andConditions.push({
+        OR: [
+          { nombre: { contains: query.search, mode: 'insensitive' } },
+          { apellido: { contains: query.search, mode: 'insensitive' } },
+          { razonSocial: { contains: query.search, mode: 'insensitive' } },
+          { nit: { contains: query.search, mode: 'insensitive' } },
+          { numeroDocumento: { contains: query.search, mode: 'insensitive' } },
+          { correo: { contains: query.search, mode: 'insensitive' } },
+          { telefono: { contains: query.search, mode: 'insensitive' } },
+        ],
+      });
+    }
+
+    if (query.empresas.length > 0) {
+      andConditions.push({
+        empresaId: {
+          in: query.empresas,
+        },
+      });
+    }
+
+    if (query.dept !== 'all') {
+      andConditions.push({
+        direcciones: {
+          some: {
+            departmentId: query.dept,
+          },
+        },
+      });
+    }
+
+    if (query.muni !== 'all') {
+      andConditions.push({
+        direcciones: {
+          some: {
+            municipioId: query.muni,
+          },
+        },
+      });
+    }
+
+    if (query.barrio) {
+      andConditions.push({
+        direcciones: {
+          some: {
+            barrio: {
+              contains: query.barrio,
+              mode: 'insensitive',
+            },
+          },
+        },
+      });
+    }
+
+    if (query.class !== 'all') {
+      andConditions.push({
+        clasificacion: query.class as ClasificacionCliente,
+      });
+    }
+
+    if (query.seg !== 'all') {
+      andConditions.push({
+        segmento: query.seg as SegmentoCliente,
+      });
+    }
+
+    if (query.risk !== 'all') {
+      andConditions.push({
+        nivelRiesgo: query.risk as NivelRiesgo,
+      });
+    }
+
+    if (query.from || query.to) {
+      andConditions.push({
+        createdAt: {
+          ...(query.from
+            ? { gte: new Date(`${query.from}T00:00:00.000Z`) }
+            : {}),
+          ...(query.to ? { lte: new Date(`${query.to}T23:59:59.999Z`) } : {}),
+        },
+      });
+    }
+
+    if (query.onlySinVisita) {
+      andConditions.push({
+        OR: [{ proximaVisita: null }, { proximaVisita: { lt: new Date() } }],
+      });
+    }
+
+    return this.buildClienteWhere(accessFilter, {
+      AND: andConditions,
+      ...extraWhere,
+    });
+  }
+
+  private buildClienteInclude(
+    accessFilter: PrismaAccessFilter,
+  ): Prisma.ClienteInclude {
+    const empresaWhere = this.buildEmpresaWhere(accessFilter.empresaId);
+    const clienteDireccionesInclude =
+      this.buildClienteDireccionesInclude(accessFilter);
+    const direccionGeoWhere = this.buildDireccionGeoWhere(accessFilter);
+
+    return {
+      direcciones: clienteDireccionesInclude,
+      vehiculos: true,
+      tipoInteres: true,
+      empresa: true,
+      configuracionesOperativas: {
+        where: {
+          ...(empresaWhere ? { empresaId: empresaWhere } : {}),
+        },
+      },
+      ordenesServicio: {
+        where: {
+          ...(empresaWhere ? { empresaId: empresaWhere } : {}),
+          ...(direccionGeoWhere
+            ? {
+                direccion: {
+                  is: direccionGeoWhere,
+                },
+              }
+            : {}),
+          estadoPago: { not: 'PAGADO' },
+        },
+        select: {
+          id: true,
+          estadoPago: true,
+          valorCotizado: true,
+          valorPagado: true,
+          valorRepuestos: true,
+        },
+      },
+    };
+  }
+
+  private applyCommercialRisk(
+    client: ClienteWithRelations,
+  ): ClienteWithRelations {
+    if (client.clasificacion === ClasificacionCliente.RIESGO) {
+      return client;
+    }
+
+    const now = startOfBogotaDayUtc(new Date());
+    const lastVisit = client.ultimaVisita
+      ? new Date(client.ultimaVisita)
+      : null;
+
+    if (!lastVisit) {
+      return client;
+    }
+
+    const diffDays = (now.getTime() - lastVisit.getTime()) / (1000 * 3600 * 24);
+    const frequency = client.frecuenciaServicio || 30;
+    const isCommercialRisk =
+      diffDays > (frequency === 30 ? 45 : frequency * 1.5);
+
+    if (!isCommercialRisk) {
+      return client;
+    }
+
+    return {
+      ...client,
+      clasificacion: ClasificacionCliente.RIESGO,
+    };
+  }
+
+  private buildDashboardOrderBy(
+    query: NormalizedDashboardQuery,
+  ): Prisma.ClienteOrderByWithRelationInput {
+    switch (query.sort) {
+      case 'score':
+        return { score: query.dir };
+      case 'proximaVisita':
+        return { proximaVisita: query.dir };
+      default:
+        return { createdAt: 'desc' };
+    }
+  }
+
+  private requiresInMemoryDashboardProcessing(
+    query: NormalizedDashboardQuery,
+  ): boolean {
+    return (
+      query.segment !== 'all' ||
+      query.sort === 'nombre' ||
+      query.sort === 'riesgo'
+    );
+  }
+
+  private buildSegmentIdSets(segmented: DashboardSegmentedSummary) {
+    return {
+      riesgoFuga: new Set(segmented.riesgoFuga.data.map((client) => client.id)),
+      upsellPotencial: new Set(
+        segmented.upsellPotencial.data.map((client) => client.id),
+      ),
+      dormidos: new Set(segmented.dormidos.data.map((client) => client.id)),
+      operacionEstable: new Set(
+        segmented.operacionEstable.data.map((client) => client.id),
+      ),
+    };
+  }
+
+  private attachDashboardSegments(
+    clients: ClienteWithRelations[],
+    segmentIdSets: ReturnType<ClientesService['buildSegmentIdSets']>,
+  ): ClienteWithRelations[] {
+    return clients.map((client) => ({
+      ...client,
+      dashboardSegments: (
+        Object.entries(segmentIdSets) as [DashboardSegmentKey, Set<string>][]
+      )
+        .filter(([, ids]) => ids.has(client.id))
+        .map(([segment]) => segment),
+    }));
+  }
+
+  private filterClientsBySegment(
+    clients: ClienteWithRelations[],
+    segment: NormalizedDashboardQuery['segment'],
+  ): ClienteWithRelations[] {
+    if (segment === 'all') {
+      return clients;
+    }
+
+    return clients.filter((client) =>
+      (client.dashboardSegments || []).includes(segment),
+    );
+  }
+
+  private filterClientsInMemory(
+    clients: ClienteWithRelations[],
+    query: NormalizedDashboardQuery,
+  ): ClienteWithRelations[] {
+    const todayYmd = startOfBogotaDayUtc(new Date()).toISOString().slice(0, 10);
+
+    return clients.filter((client) => {
+      const matchesPendingPayments =
+        !query.onlyWithPendingPayments ||
+        Boolean(
+          client.ordenesServicio?.some((order) => {
+            const total =
+              Number(order.valorCotizado || 0) +
+              Number(order.valorRepuestos || 0);
+            const pagado = Number(order.valorPagado || 0);
+            return (
+              pagado < total &&
+              order.estadoPago !== 'PAGADO' &&
+              order.estadoPago !== 'CORTESIA'
+            );
+          }),
+        );
+
+      const matchesSinServicios =
+        !query.onlySinServicios ||
+        !client.ordenesServicio ||
+        client.ordenesServicio.length === 0;
+
+      const matchesSinVisita =
+        !query.onlySinVisita ||
+        !client.proximaVisita ||
+        client.proximaVisita.toISOString().slice(0, 10) < todayYmd;
+
+      return matchesPendingPayments && matchesSinServicios && matchesSinVisita;
+    });
+  }
+
+  private sortClientsInMemory(
+    clients: ClienteWithRelations[],
+    query: NormalizedDashboardQuery,
+  ): ClienteWithRelations[] {
+    if (!query.sort) {
+      return [...clients].sort(
+        (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+      );
+    }
+
+    return [...clients].sort((a, b) => {
+      let aVal: unknown = (a as unknown as Record<string, unknown>)[query.sort];
+      let bVal: unknown = (b as unknown as Record<string, unknown>)[query.sort];
+
+      if (query.sort === 'nombre') {
+        aVal =
+          a.tipoCliente === 'EMPRESA'
+            ? a.razonSocial
+            : `${a.nombre || ''} ${a.apellido || ''}`.trim();
+        bVal =
+          b.tipoCliente === 'EMPRESA'
+            ? b.razonSocial
+            : `${b.nombre || ''} ${b.apellido || ''}`.trim();
+      } else if (query.sort === 'riesgo') {
+        aVal = String(a.nivelRiesgo || '');
+        bVal = String(b.nivelRiesgo || '');
+      } else if (query.sort === 'proximaVisita') {
+        aVal = a.proximaVisita ? a.proximaVisita.getTime() : 0;
+        bVal = b.proximaVisita ? b.proximaVisita.getTime() : 0;
+      }
+
+      const nA = Number(aVal);
+      const nB = Number(bVal);
+      if (!Number.isNaN(nA) && !Number.isNaN(nB)) {
+        return query.dir === 'asc' ? nA - nB : nB - nA;
+      }
+
+      const sA =
+        typeof aVal === 'string' || typeof aVal === 'number'
+          ? String(aVal)
+          : '';
+      const sB =
+        typeof bVal === 'string' || typeof bVal === 'number'
+          ? String(bVal)
+          : '';
+      return query.dir === 'asc' ? sA.localeCompare(sB) : sB.localeCompare(sA);
+    });
+  }
+
+  private buildDashboardOverview(
+    clients: ClienteWithRelations[],
+  ): DashboardOverview {
+    const total = clients.length;
+    const empresas = clients.filter(
+      (client) => client.tipoCliente === 'EMPRESA',
+    ).length;
+    const oro = clients.filter(
+      (client) => client.clasificacion === ClasificacionCliente.ORO,
+    ).length;
+    const riesgoCritico = clients.filter((client) => {
+      const risk = String(client.nivelRiesgo || '').toUpperCase();
+      return risk === 'CRITICO' || risk === 'CRÍTICO' || risk === 'ALTO';
+    }).length;
+    const avgScore =
+      total > 0
+        ? Math.round(
+            clients.reduce(
+              (acc, client) => acc + Number(client.score || 0),
+              0,
+            ) / total,
+          )
+        : 0;
+
+    return { total, empresas, oro, riesgoCritico, avgScore };
+  }
+
+  private buildPaginationMeta(
+    total: number,
+    page: number,
+    limit: number,
+  ): DashboardPaginationMeta {
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+    const normalizedPage = Math.min(page, totalPages);
+
+    return {
+      page: normalizedPage,
+      limit,
+      total,
+      totalPages,
+      hasNextPage: normalizedPage < totalPages,
+      hasPrevPage: normalizedPage > 1,
+    };
+  }
+
+  private buildOrderScopeSql(accessFilter: PrismaAccessFilter): Prisma.Sql {
+    const clauses: Prisma.Sql[] = [Prisma.sql`os."deletedAt" IS NULL`];
+
+    if (accessFilter.tenantId) {
+      clauses.push(Prisma.sql`os."tenantId" = ${accessFilter.tenantId}::uuid`);
+    }
+
+    if (typeof accessFilter.empresaId === 'string') {
+      clauses.push(
+        Prisma.sql`os."empresaId" = ${accessFilter.empresaId}::uuid`,
+      );
+    } else if (
+      accessFilter.empresaId &&
+      'in' in accessFilter.empresaId &&
+      accessFilter.empresaId.in.length > 0
+    ) {
+      clauses.push(
+        Prisma.sql`os."empresaId" IN (${Prisma.join(
+          accessFilter.empresaId.in.map((id) => Prisma.sql`${id}::uuid`),
+        )})`,
+      );
+    }
+
+    if ((accessFilter.zonaIds || []).length > 0) {
+      clauses.push(
+        Prisma.sql`os."zonaId" IN (${Prisma.join(
+          (accessFilter.zonaIds || []).map((id) => Prisma.sql`${id}::uuid`),
+        )})`,
+      );
+    }
+
+    if ((accessFilter.municipalityIds || []).length > 0) {
+      clauses.push(
+        Prisma.sql`dir."municipioId" IN (${Prisma.join(
+          (accessFilter.municipalityIds || []).map(
+            (id) => Prisma.sql`${id}::uuid`,
+          ),
+        )})`,
+      );
+    }
+
+    if ((accessFilter.departmentIds || []).length > 0) {
+      clauses.push(
+        Prisma.sql`dir."departmentId" IN (${Prisma.join(
+          (accessFilter.departmentIds || []).map(
+            (id) => Prisma.sql`${id}::uuid`,
+          ),
+        )})`,
+      );
+    }
+
+    return Prisma.join(clauses, ' AND ');
+  }
+
+  private async getHybridClienteIds(
+    accessFilter: PrismaAccessFilter,
+    query: NormalizedDashboardQuery,
+  ): Promise<string[] | null> {
+    const requestedFilters: Array<'sinServicios' | 'pendingPayments'> = [];
+
+    if (query.onlySinServicios) {
+      requestedFilters.push('sinServicios');
+    }
+
+    if (query.onlyWithPendingPayments) {
+      requestedFilters.push('pendingPayments');
+    }
+
+    if (requestedFilters.length === 0) {
+      return null;
+    }
+
+    const clauses: Prisma.Sql[] = [Prisma.sql`c."deletedAt" IS NULL`];
+
+    if (accessFilter.tenantId) {
+      clauses.push(Prisma.sql`c."tenantId" = ${accessFilter.tenantId}::uuid`);
+    }
+
+    if (typeof accessFilter.empresaId === 'string') {
+      clauses.push(Prisma.sql`c."empresaId" = ${accessFilter.empresaId}::uuid`);
+    } else if (
+      accessFilter.empresaId &&
+      'in' in accessFilter.empresaId &&
+      accessFilter.empresaId.in.length > 0
+    ) {
+      clauses.push(
+        Prisma.sql`c."empresaId" IN (${Prisma.join(
+          accessFilter.empresaId.in.map((id) => Prisma.sql`${id}::uuid`),
+        )})`,
+      );
+    }
+
+    const orderScopeSql = this.buildOrderScopeSql(accessFilter);
+
+    if (query.onlySinServicios) {
+      clauses.push(Prisma.sql`
+        NOT EXISTS (
+          SELECT 1
+          FROM "ordenes_servicio" os
+          LEFT JOIN "direcciones" dir ON dir."id" = os."direccionId"
+          WHERE os."clienteId" = c."id"
+            AND ${orderScopeSql}
+        )
+      `);
+    }
+
+    if (query.onlyWithPendingPayments) {
+      clauses.push(Prisma.sql`
+        EXISTS (
+          SELECT 1
+          FROM "ordenes_servicio" os
+          LEFT JOIN "direcciones" dir ON dir."id" = os."direccionId"
+          WHERE os."clienteId" = c."id"
+            AND ${orderScopeSql}
+            AND os."estadoPago" NOT IN ('PAGADO', 'CORTESIA')
+            AND COALESCE(os."valorPagado", 0) < (
+              COALESCE(os."valorCotizado", 0) + COALESCE(os."valorRepuestos", 0)
+            )
+        )
+      `);
+    }
+
+    const rows = await this.prisma.$queryRaw<ClienteIdRow[]>(Prisma.sql`
+      SELECT c."id"
+      FROM "clientes" c
+      WHERE ${Prisma.join(clauses, ' AND ')}
+    `);
+
+    return rows.map((row) => row.id);
+  }
+
   private buildSegmentedFromClients(clients: ClienteWithRelations[]) {
     // ... rest of private method unchanged ...
     const tickets = clients
@@ -293,84 +884,15 @@ export class ClientesService {
 
   async findAll(user: JwtPayload, reqEmpresaId?: string): Promise<Cliente[]> {
     const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
-    const empresaWhere = this.buildEmpresaWhere(accessFilter.empresaId);
-    const clienteDireccionesInclude =
-      this.buildClienteDireccionesInclude(accessFilter);
-    const direccionGeoWhere = this.buildDireccionGeoWhere(accessFilter);
-
-    const include: Prisma.ClienteInclude = {
-      direcciones: clienteDireccionesInclude,
-      vehiculos: true,
-      tipoInteres: true,
-      tenant: user.isGlobalSuAdmin,
-      empresa: true,
-      configuracionesOperativas: {
-        where: {
-          ...(empresaWhere ? { empresaId: empresaWhere } : {}),
-        },
-      },
-      ordenesServicio: {
-        where: {
-          ...(empresaWhere ? { empresaId: empresaWhere } : {}),
-          ...(direccionGeoWhere
-            ? {
-                direccion: {
-                  is: direccionGeoWhere,
-                },
-              }
-            : {}),
-          estadoPago: { not: 'PAGADO' },
-        },
-        select: {
-          id: true,
-          estadoPago: true,
-          valorCotizado: true,
-          valorPagado: true,
-          valorRepuestos: true,
-        },
-      },
-    };
-
     const clients = await this.prisma.cliente.findMany({
       where: this.buildClienteWhere(accessFilter, { deletedAt: null }),
       orderBy: { createdAt: 'desc' },
-      include,
+      include: this.buildClienteInclude(accessFilter),
     });
 
-    // Apply "Riesgo Comercial" logic in response (more than 45 days since last visit or 1.5x frequency)
-    const now = startOfBogotaDayUtc(new Date());
-    const result: Cliente[] = clients.map(
-      (client: ClienteWithRelations): Cliente => {
-        // If already RIESGO from DB (e.g. Technical Risk), keep it
-        if (client.clasificacion === ClasificacionCliente.RIESGO) {
-          return client;
-        }
-
-        const lastVisit = client.ultimaVisita
-          ? new Date(client.ultimaVisita)
-          : null;
-
-        if (lastVisit) {
-          const diffDays =
-            (now.getTime() - lastVisit.getTime()) / (1000 * 3600 * 24);
-
-          // Frecuencia sugerida: prefer client's own frequency, then default 30
-          const frequency = client.frecuenciaServicio || 30;
-
-          const isCommercialRisk =
-            diffDays > (frequency === 30 ? 45 : frequency * 1.5);
-
-          if (isCommercialRisk) {
-            return {
-              ...client,
-              clasificacion: ClasificacionCliente.RIESGO,
-            } as Cliente;
-          }
-        }
-        return client;
-      },
-    );
-    return result;
+    return clients.map((client) =>
+      this.applyCommercialRisk(client as ClienteWithRelations),
+    ) as Cliente[];
   }
 
   async getSegmented(user: JwtPayload, reqEmpresaId?: string) {
@@ -418,15 +940,106 @@ export class ClientesService {
     return this.buildSegmentedFromClients(clients as ClienteWithRelations[]);
   }
 
-  async getDashboardData(user: JwtPayload, reqEmpresaId?: string) {
-    const clientes = await this.findAll(user, reqEmpresaId);
-    const segmentacion = this.buildSegmentedFromClients(
-      clientes as ClienteWithRelations[],
+  async getDashboardData(
+    user: JwtPayload,
+    reqEmpresaId?: string,
+    rawQuery?: QueryClientesDashboardDto,
+  ) {
+    const query = this.normalizeDashboardQuery(rawQuery);
+    const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
+    const include = this.buildClienteInclude(accessFilter);
+    const hybridIds = await this.getHybridClienteIds(accessFilter, query);
+    const extraWhere: Prisma.ClienteWhereInput =
+      hybridIds === null
+        ? {}
+        : hybridIds.length > 0
+          ? { id: { in: hybridIds } }
+          : { id: { in: ['00000000-0000-0000-0000-000000000000'] } };
+
+    const summaryClients = (await this.prisma.cliente.findMany({
+      where: this.buildClienteWhere(accessFilter, { deletedAt: null }),
+      select: {
+        id: true,
+        tipoCliente: true,
+        clasificacion: true,
+        nivelRiesgo: true,
+        score: true,
+        ticketPromedio: true,
+        frecuenciaServicio: true,
+        proximaVisita: true,
+        ultimaVisita: true,
+        createdAt: true,
+      },
+    })) as ClienteWithRelations[];
+
+    const segmentacionRaw = this.buildSegmentedFromClients(summaryClients);
+    const segmentIdSets = this.buildSegmentIdSets(segmentacionRaw);
+    const overview = this.buildDashboardOverview(summaryClients);
+    const segmentacion = {
+      riesgoFuga: { count: segmentacionRaw.riesgoFuga.count },
+      upsellPotencial: { count: segmentacionRaw.upsellPotencial.count },
+      dormidos: { count: segmentacionRaw.dormidos.count },
+      operacionEstable: { count: segmentacionRaw.operacionEstable.count },
+    };
+
+    const where = this.buildDashboardWhere(accessFilter, query, extraWhere);
+
+    if (this.requiresInMemoryDashboardProcessing(query)) {
+      const rawClients = (await this.prisma.cliente.findMany({
+        where,
+        include,
+        orderBy: { createdAt: 'desc' },
+      })) as ClienteWithRelations[];
+
+      const clients = this.attachDashboardSegments(
+        rawClients.map((client) => this.applyCommercialRisk(client)),
+        segmentIdSets,
+      );
+      const segmentFiltered = this.filterClientsBySegment(
+        clients,
+        query.segment,
+      );
+      const finalFiltered = this.sortClientsInMemory(
+        this.filterClientsInMemory(segmentFiltered, query),
+        query,
+      );
+
+      const pagination = this.buildPaginationMeta(
+        finalFiltered.length,
+        query.page,
+        query.limit,
+      );
+      const start = (pagination.page - 1) * pagination.limit;
+      const end = start + pagination.limit;
+
+      return {
+        clientes: finalFiltered.slice(start, end),
+        segmentacion,
+        overview,
+        pagination,
+      };
+    }
+
+    const total = await this.prisma.cliente.count({ where });
+    const pagination = this.buildPaginationMeta(total, query.page, query.limit);
+    const rawClients = (await this.prisma.cliente.findMany({
+      where,
+      include,
+      orderBy: this.buildDashboardOrderBy(query),
+      skip: (pagination.page - 1) * pagination.limit,
+      take: pagination.limit,
+    })) as ClienteWithRelations[];
+
+    const clientes = this.attachDashboardSegments(
+      rawClients.map((client) => this.applyCommercialRisk(client)),
+      segmentIdSets,
     );
 
     return {
       clientes,
       segmentacion,
+      overview,
+      pagination,
     };
   }
 

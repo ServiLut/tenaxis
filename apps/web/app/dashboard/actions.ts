@@ -276,10 +276,25 @@ export async function getPlansAction() {
 export interface ClientesDashboardDataResponse<T = unknown> {
   clientes: T[];
   segmentacion: {
-    riesgoFuga: { count: number; data: T[] };
-    upsellPotencial: { count: number; data: T[] };
-    dormidos: { count: number; data: T[] };
-    operacionEstable: { count: number; data: T[] };
+    riesgoFuga: { count: number };
+    upsellPotencial: { count: number };
+    dormidos: { count: number };
+    operacionEstable: { count: number };
+  } | null;
+  overview: {
+    total: number;
+    empresas: number;
+    oro: number;
+    riesgoCritico: number;
+    avgScore: number;
+  } | null;
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
   } | null;
 }
 
@@ -301,12 +316,21 @@ export async function getClienteByIdAction(id: string) {
   }
 }
 
-export async function getClientesDashboardAction<T = unknown>(): Promise<ClientesDashboardDataResponse<T>> {
+export async function getClientesDashboardAction<T = unknown>(
+  query?: Record<string, string | undefined>,
+): Promise<ClientesDashboardDataResponse<T>> {
   try {
     const profile = await authClient.getProfile();
     const scope = resolveAccessScope(profile);
+    const params = new URLSearchParams();
 
-    const data = await apiFetch<ClientesDashboardDataResponse<T>>("/clientes/dashboard-data", {
+    Object.entries(query || {}).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+    });
+
+    const endpoint = `/clientes/dashboard-data${params.toString() ? `?${params.toString()}` : ""}`;
+
+    const data = await apiFetch<ClientesDashboardDataResponse<T>>(endpoint, {
       cache: "no-store",
       includeEnterpriseId: scope.isEmpresaLocked,
     });
@@ -314,10 +338,12 @@ export async function getClientesDashboardAction<T = unknown>(): Promise<Cliente
     return {
       clientes: (data?.clientes || []) as T[],
       segmentacion: (data?.segmentacion || null) as ClientesDashboardDataResponse<T>["segmentacion"],
+      overview: (data?.overview || null) as ClientesDashboardDataResponse<T>["overview"],
+      pagination: (data?.pagination || null) as ClientesDashboardDataResponse<T>["pagination"],
     };
   } catch (error) {
     console.error("Error fetching clientes dashboard data:", error);
-    return { clientes: [], segmentacion: null };
+    return { clientes: [], segmentacion: null, overview: null, pagination: null };
   }
 }
 

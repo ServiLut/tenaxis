@@ -182,6 +182,7 @@ export interface Cliente {
   }[];
   configuracionesOperativas?: ConfiguracionOperativa[];
   ordenesServicio?: OrdenServicio[];
+  dashboardSegments?: Array<"riesgoFuga" | "upsellPotencial" | "dormidos" | "operacionEstable">;
 }
 
 interface Department {
@@ -241,10 +242,25 @@ export interface SugerenciaStats {
 interface ClienteListProps {
   initialClientes: Cliente[];
   segmentedData?: {
-    riesgoFuga: { count: number; data: Cliente[] };
-    upsellPotencial: { count: number; data: Cliente[] };
-    dormidos: { count: number; data: Cliente[] };
-    operacionEstable: { count: number; data: Cliente[] };
+    riesgoFuga: { count: number };
+    upsellPotencial: { count: number };
+    dormidos: { count: number };
+    operacionEstable: { count: number };
+  } | null;
+  initialOverview?: {
+    total: number;
+    empresas: number;
+    oro: number;
+    riesgoCritico: number;
+    avgScore: number;
+  } | null;
+  initialPagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
   } | null;
   initialSugerencias?: Sugerencia[];
   sugerenciasStats?: SugerenciaStats | null;
@@ -318,6 +334,8 @@ interface OrdenServicio {
 export function ClienteList({ 
   initialClientes, 
   segmentedData, 
+  initialOverview = null,
+  initialPagination = null,
   initialSugerencias = [],
   sugerenciasStats,
   initialDepartments = [], 
@@ -329,6 +347,10 @@ export function ClienteList({
   const { checkPermission, isLoading: isLoadingRole } = useUserRole();
 
   const [mounted, setMounted] = useState(false);
+  const [clientesData, setClientesData] = useState<Cliente[]>(initialClientes);
+  const [overview, setOverview] = useState(initialOverview);
+  const [pagination, setPagination] = useState(initialPagination);
+  const [isPageLoading, setIsPageLoading] = useState(false);
   
   // URL Persistence
   const [activeSegment, setActiveSegment] = useState<string>(searchParams.get("segment") || "all");
@@ -392,19 +414,7 @@ export function ClienteList({
   const [showSuggestionsQueue, setShowSuggestionsQueue] = useState(false);
   
   const [sugerencias, setSugerencias] = useState<Sugerencia[]>(initialSugerencias);
-  
-  const clientes = useMemo(() => {
-    if (activeSegment === "all") return initialClientes || [];
-    if (!segmentedData) return initialClientes || [];
-    
-    switch (activeSegment) {
-      case "riesgoFuga": return segmentedData.riesgoFuga.data;
-      case "upsellPotencial": return segmentedData.upsellPotencial.data;
-      case "dormidos": return segmentedData.dormidos.data;
-      case "operacionEstable": return segmentedData.operacionEstable.data;
-      default: return initialClientes || [];
-    }
-  }, [initialClientes, segmentedData, activeSegment]);
+  const clientes = clientesData;
 
   const [empresaSearch, setEmpresaSearch] = useState("");
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
@@ -467,7 +477,7 @@ export function ClienteList({
     }
 
     // 2. Reactivar cliente (si dormido)
-    const isDormido = segmentedData?.dormidos.data.some(c => c.id === client.id);
+    const isDormido = client.dashboardSegments?.includes("dormidos");
     if (isDormido) {
       list.push({
         id: "reactivar-cliente",
@@ -484,7 +494,7 @@ export function ClienteList({
     }
 
     // 3. Ofrecer upsell (si upsell potencial y consentimiento marketing activo)
-    const isUpsell = segmentedData?.upsellPotencial.data.some(c => c.id === client.id);
+    const isUpsell = client.dashboardSegments?.includes("upsellPotencial");
     if (isUpsell && client.aceptaMarketing) {
       list.push({
         id: "ofrecer-upsell",
@@ -519,7 +529,7 @@ export function ClienteList({
     }
 
     return list;
-  }, [selectedClienteForSuggestions, segmentedData, router, checkPermission]);
+  }, [selectedClienteForSuggestions, router, checkPermission]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [serviceHistory, setServiceHistory] = useState<OrdenServicio[]>([]);
   const [configLoading, setConfigLoading] = useState(false);
@@ -571,17 +581,19 @@ export function ClienteList({
   );
 
   const stats = useMemo(() => {
-    const total = initialClientes.length;
-    const empresas = initialClientes.filter(c => c.tipoCliente === "EMPRESA").length;
-    const oro = initialClientes.filter(c => c.clasificacion === "ORO").length;
-    const riesgoCritico = initialClientes.filter(c => {
-      const r = getRiesgoNombre(c).toUpperCase();
-      return r === "CRITICO" || r === "ALTO";
-    }).length;
-    const avgScore = total > 0 ? Math.round(initialClientes.reduce((acc, c) => acc + (c.score || 0), 0) / total) : 0;
-
-    return { total, empresas, oro, riesgoCritico, avgScore };
-  }, [initialClientes]);
+    return (
+      overview || {
+        total: clientes.length,
+        empresas: clientes.filter(c => c.tipoCliente === "EMPRESA").length,
+        oro: clientes.filter(c => c.clasificacion === "ORO").length,
+        riesgoCritico: clientes.filter(c => {
+          const r = getRiesgoNombre(c).toUpperCase();
+          return r === "CRITICO" || r === "ALTO";
+        }).length,
+        avgScore: clientes.length > 0 ? Math.round(clientes.reduce((acc, c) => acc + (c.score || 0), 0) / clientes.length) : 0,
+      }
+    );
+  }, [overview, clientes]);
 
   const handleDelete = (cliente: Cliente) => {
     setClienteToDelete(cliente);
@@ -602,6 +614,86 @@ export function ClienteList({
     setMounted(true);
     setAccessScope(getBrowserAccessScope());
   }, []);
+
+  useEffect(() => {
+    if (!mounted) {
+      return;
+    }
+
+    let isCancelled = false;
+    const params = new URLSearchParams();
+    params.set("page", String(currentPage));
+    params.set("limit", "10");
+
+    if (activeSegment !== "all") params.set("segment", activeSegment);
+    if (search) params.set("search", search);
+    if (sortConfig) {
+      params.set("sort", sortConfig.key);
+      params.set("dir", sortConfig.direction);
+    }
+    if (onlySinVisita) params.set("sinVisita", "true");
+    if (onlyWithPendingPayments) params.set("pendingPayments", "true");
+    if (onlySinServicios) params.set("sinServicios", "true");
+    if (filters.empresas.length > 0) params.set("empresas", filters.empresas.join(","));
+    if (filters.departamento !== "all") params.set("dept", filters.departamento);
+    if (filters.municipio !== "all") params.set("muni", filters.municipio);
+    if (filters.barrio) params.set("barrio", filters.barrio);
+    if (filters.clasificacion !== "all") params.set("class", filters.clasificacion);
+    if (filters.segmento !== "all") params.set("seg", filters.segmento);
+    if (filters.riesgo !== "all") params.set("risk", filters.riesgo);
+    if (filters.fechaDesde) params.set("from", filters.fechaDesde);
+    if (filters.fechaHasta) params.set("to", filters.fechaHasta);
+
+    async function loadClientesPage() {
+      try {
+        setIsPageLoading(true);
+        const response = await apiFetch<{
+          clientes: Cliente[];
+          segmentacion: ClienteListProps["segmentedData"];
+          overview: NonNullable<ClienteListProps["initialOverview"]>;
+          pagination: NonNullable<ClienteListProps["initialPagination"]>;
+        }>(`/clientes/dashboard-data?${params.toString()}`, {
+          cache: "no-store",
+          includeEnterpriseId: true,
+        });
+
+        if (isCancelled) return;
+
+        setClientesData(response.clientes || []);
+        setOverview(response.overview || null);
+        setPagination(response.pagination || null);
+
+        if (response.pagination && response.pagination.page !== currentPage) {
+          setCurrentPage(response.pagination.page);
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          console.error("Error loading paginated clientes:", error);
+          toast.error("No se pudieron cargar los clientes");
+        }
+      } finally {
+        if (!isCancelled) {
+          setIsPageLoading(false);
+        }
+      }
+    }
+
+    void loadClientesPage();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [
+    mounted,
+    currentPage,
+    activeSegment,
+    search,
+    sortConfig,
+    filters,
+    onlySinVisita,
+    onlyWithPendingPayments,
+    onlySinServicios,
+  ]);
 
   useEffect(() => {
     if (!accessScope) {
@@ -673,82 +765,6 @@ export function ClienteList({
     return { municipios, segmentos, clasificaciones, riesgos, empresas, departamentos };
   }, [clientes, mounted, filters.departamento, initialDepartments, initialMunicipalities]);
 
-  const filteredClientes = useMemo(() => {
-    if (!mounted) return [];
-    const result = clientes.filter(c => {
-      const searchLower = search.toLowerCase();
-      const matchesSearch = !search || (
-        c.nombre?.toLowerCase().includes(searchLower) ||
-        c.apellido?.toLowerCase().includes(searchLower) ||
-        c.razonSocial?.toLowerCase().includes(searchLower) ||
-        c.nit?.toLowerCase().includes(searchLower) ||
-        c.numeroDocumento?.toLowerCase().includes(searchLower)
-      );
-      const matchesEmpresas = filters.empresas.length === 0 || (c.empresa?.id && filters.empresas.includes(c.empresa.id));
-      const matchesDepartamento = filters.departamento === "all" || c.direcciones?.some((d) => d.departmentId === filters.departamento);
-      const matchesMunicipio = filters.municipio === "all" || c.direcciones?.some((d) => d.municipioId === filters.municipio || d.municipio === filters.municipio);
-      const matchesBarrio = !filters.barrio || c.direcciones?.some((d) => d.barrio?.toLowerCase().includes(filters.barrio.toLowerCase()));
-      const matchesClasificacion = filters.clasificacion === "all" || c.clasificacion === filters.clasificacion;
-      const matchesSegmento = filters.segmento === "all" || getSegmentoNombre(c) === filters.segmento;
-      const matchesRiesgo = filters.riesgo === "all" || getRiesgoNombre(c) === filters.riesgo;
-      const createdYmd = c.createdAt ? utcIsoToBogotaYmd(c.createdAt) : null;
-      const matchesFechaDesde = !filters.fechaDesde || (createdYmd && createdYmd >= filters.fechaDesde);
-      const matchesFechaHasta = !filters.fechaHasta || (createdYmd && createdYmd <= filters.fechaHasta);
-      
-      const todayYmd = toBogotaYmd();
-      const matchesSinVisita = !onlySinVisita || (
-        !c.proximaVisita || utcIsoToBogotaYmd(c.proximaVisita) < todayYmd
-      );
-
-      const matchesPendingPayments = !onlyWithPendingPayments || (
-        c.ordenesServicio && c.ordenesServicio.length > 0 && c.ordenesServicio.some(o => {
-          const total = Number(o.valorCotizado || 0) + Number(o.valorRepuestos || 0);
-          const pagado = Number(o.valorPagado || 0);
-          return pagado < total && o.estadoPago !== 'PAGADO' && o.estadoPago !== 'CORTESIA';
-        })
-      );
-
-      const matchesSinServicios = !onlySinServicios || (
-        !c.ordenesServicio || c.ordenesServicio.length === 0
-      );
-
-      return matchesSearch && matchesEmpresas && matchesDepartamento && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta && matchesSinVisita && matchesPendingPayments && matchesSinServicios;
-    });
-
-    if (sortConfig) {
-      result.sort((a, b) => {
-        let aVal: unknown = (a as unknown as Record<string, unknown>)[sortConfig.key];
-        let bVal: unknown = (b as unknown as Record<string, unknown>)[sortConfig.key];
-
-        if (sortConfig.key === "nombre") {
-          aVal = a.tipoCliente === "EMPRESA" ? a.razonSocial : `${a.nombre} ${a.apellido}`;
-          bVal = b.tipoCliente === "EMPRESA" ? b.razonSocial : `${b.nombre} ${b.apellido}`;
-        } else if (sortConfig.key === "riesgo") {
-          aVal = getRiesgoNombre(a);
-          bVal = getRiesgoNombre(b);
-        } else if (sortConfig.key === "proximaVisita") {
-          aVal = a.proximaVisita ? utcIsoToBogotaYmd(a.proximaVisita).replace(/-/g, "") : 0;
-          bVal = b.proximaVisita ? utcIsoToBogotaYmd(b.proximaVisita).replace(/-/g, "") : 0;
-        }
-
-        const nA = Number(aVal);
-        const nB = Number(bVal);
-        if (!isNaN(nA) && !isNaN(nB)) {
-          if (nA < nB) return sortConfig.direction === "asc" ? -1 : 1;
-          if (nA > nB) return sortConfig.direction === "asc" ? 1 : -1;
-        }
-        
-        const sA = String(aVal || "");
-        const sB = String(bVal || "");
-        if (sA < sB) return sortConfig.direction === "asc" ? -1 : 1;
-        if (sA > sB) return sortConfig.direction === "asc" ? 1 : -1;
-        return 0;
-      });
-    }
-
-    return result;
-  }, [clientes, search, filters, mounted, sortConfig, onlySinVisita, onlyWithPendingPayments, onlySinServicios]);
-
   const handleSort = (key: string) => {
     setSortConfig(prev => {
       if (prev?.key === key) {
@@ -758,12 +774,9 @@ export function ClienteList({
     });
   };
 
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(filteredClientes.length / itemsPerPage);
-  const paginatedClientes = filteredClientes.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const itemsPerPage = pagination?.limit || 10;
+  const totalPages = pagination?.totalPages || 0;
+  const paginatedClientes = clientes;
 
   const activeFiltersCount = Object.entries(filters).filter(([key, value]) => {
     if (key === "empresas") return (value as string[]).length > 0;
@@ -788,6 +801,7 @@ export function ClienteList({
     setSortConfig(null);
     setSearch("");
     setActiveSegment("all");
+    setCurrentPage(1);
     setOnlySinVisita(false);
     setOnlyWithPendingPayments(false);
     setOnlySinServicios(false);
@@ -1203,7 +1217,7 @@ export function ClienteList({
               {segmentedData && (
               <div className="px-8 py-2 border-b border-border bg-muted/20 flex items-center gap-2 overflow-x-auto scrollbar-hide">
                 {[
-                  { id: "all", label: "Todos", count: initialClientes.length, icon: Target },
+                  { id: "all", label: "Todos", count: overview?.total ?? pagination?.total ?? 0, icon: Target },
                   { id: "riesgoFuga", label: "Riesgo de Fuga", count: segmentedData.riesgoFuga.count, icon: AlertCircle, color: "text-red-600" },
                   { id: "upsellPotencial", label: "Upsell Potencial", count: segmentedData.upsellPotencial.count, icon: Trophy, color: "text-amber-600" },
                   { id: "dormidos", label: "Dormidos", count: segmentedData.dormidos.count, icon: Clock, color: "text-slate-600" },
@@ -1216,6 +1230,7 @@ export function ClienteList({
                         resetFilters();
                       } else {
                         setActiveSegment(seg.id);
+                        setCurrentPage(1);
                         setOnlySinVisita(false);
                       }
                     }}
@@ -1736,10 +1751,16 @@ export function ClienteList({
                     ))}
                   </tbody>
                 </table>
-                {filteredClientes.length === 0 && (
+                {paginatedClientes.length === 0 && !isPageLoading && (
                   <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
                     <Search className="h-12 w-12 mb-4 opacity-20" />
                     <p className="font-bold uppercase tracking-widest text-xs">No se encontraron clientes</p>
+                  </div>
+                )}
+                {isPageLoading && (
+                  <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
+                    <Search className="h-12 w-12 mb-4 opacity-20 animate-pulse" />
+                    <p className="font-bold uppercase tracking-widest text-xs">Cargando clientes...</p>
                   </div>
                 )}
               </div>
@@ -1749,7 +1770,7 @@ export function ClienteList({
             <div className="px-8 py-4 border-t border-border bg-card flex items-center justify-between shrink-0">
               <div className="flex items-center gap-4">
                 <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                  Mostrando {Math.min(filteredClientes.length, (currentPage - 1) * itemsPerPage + 1)}-{Math.min(filteredClientes.length, currentPage * itemsPerPage)} de {filteredClientes.length}
+                  Mostrando {pagination?.total ? ((pagination.page - 1) * itemsPerPage) + 1 : 0}-{pagination?.total ? Math.min(pagination.total, pagination.page * itemsPerPage) : 0} de {pagination?.total ?? 0}
                 </span>
               </div>
 

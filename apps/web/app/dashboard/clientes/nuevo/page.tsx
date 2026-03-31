@@ -302,6 +302,9 @@ function NuevoClienteContent() {
     try {
       const createdClient = await clientesClient.create(finalPayload);
       const createdClientId = (createdClient as { id?: string } | undefined)?.id;
+      const createdClientDirecciones = (
+        createdClient as { direcciones?: Array<{ id?: string }> } | undefined
+      )?.direcciones;
       if (
         hasActiveContract &&
         createdClientId &&
@@ -323,6 +326,24 @@ function NuevoClienteContent() {
         );
       }
       toast.success("Cliente registrado con éxito");
+
+      if (createdClientId) {
+        const params = new URLSearchParams();
+        params.set("cliente", createdClientId);
+
+        if (selectedEmpresaId) {
+          params.set("empresa", selectedEmpresaId);
+        }
+
+        const firstDireccionId = createdClientDirecciones?.[0]?.id;
+        if (firstDireccionId) {
+          params.set("direccion", firstDireccionId);
+        }
+
+        router.push(`/dashboard/servicios/nuevo?${params.toString()}`);
+        return;
+      }
+
       router.push("/dashboard/clientes");
     } catch (error: unknown) {
       let message = error instanceof Error ? error.message : "Error al crear cliente";

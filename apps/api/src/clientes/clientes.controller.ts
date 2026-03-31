@@ -6,11 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
 import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
+import { QueryClientesDashboardDto } from './dto/query-clientes-dashboard.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request as ExpressRequest } from 'express';
@@ -35,8 +37,11 @@ export class ClientesController {
   }
 
   @Get('dashboard-data')
-  async getDashboardData(@Request() req: RequestWithUser) {
-    return this.clientesService.getDashboardData(req.user);
+  async getDashboardData(
+    @Request() req: RequestWithUser,
+    @Query() query: QueryClientesDashboardDto,
+  ): Promise<unknown> {
+    return this.clientesService.getDashboardData(req.user, undefined, query);
   }
 
   @Get(':id')
