@@ -444,6 +444,15 @@ const ESTADO_PAGO_OPTIONS = [
   { id: "CORTESIA", nombre: "CORTESÍA" },
 ];
 
+const PAYMENT_METHOD_OPTIONS = [
+  { id: "EFECTIVO", nombre: "EFECTIVO" },
+  { id: "TRANSFERENCIA", nombre: "TRANSFERENCIA" },
+  { id: "CREDITO", nombre: "CRÉDITO" },
+  { id: "BONO", nombre: "BONO" },
+  { id: "CORTESIA", nombre: "CORTESÍA" },
+  { id: "PENDIENTE", nombre: "PENDIENTE" },
+];
+
 const PRESET_OPTIONS = [
   { key: "all", label: "TODOS" },
   { key: "HOY", label: "HOY" },
@@ -2886,7 +2895,7 @@ function ServiciosContent() {
                                       }}
                                       className="h-10 w-full rounded-xl border border-border bg-background px-3 text-xs font-bold uppercase outline-none focus:ring-2 focus:ring-emerald-500/20"
                                     >
-                                      {filterOptions.metodosPago.map((m) => (
+                                      {PAYMENT_METHOD_OPTIONS.map((m) => (
                                         <option key={m.id} value={m.nombre}>
                                           {m.nombre.toUpperCase()}
                                         </option>
@@ -2935,7 +2944,7 @@ function ServiciosContent() {
                             onClick={() => {
                               setLiquidarData(prev => ({
                                 ...prev,
-                                breakdown: [...prev.breakdown, { metodo: filterOptions.metodosPago[0]?.nombre || "EFECTIVO", monto: "" }]
+                                breakdown: [...prev.breakdown, { metodo: PAYMENT_METHOD_OPTIONS[0]?.nombre || "EFECTIVO", monto: "" }]
                               }));
                             }}
                             className="h-10 w-full rounded-xl border-2 border-dashed text-[10px] font-semibold uppercase tracking-widest gap-2 transition-all hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700"
