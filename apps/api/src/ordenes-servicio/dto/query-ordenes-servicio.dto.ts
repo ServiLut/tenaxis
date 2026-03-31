@@ -68,6 +68,10 @@ export class QueryOrdenesServicioDto {
   municipio?: string;
 
   @IsOptional()
+  @IsString()
+  departamento?: string;
+
+  @IsOptional()
   @IsUUID()
   metodoPagoId?: string;
 

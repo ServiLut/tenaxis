@@ -379,6 +379,17 @@ export interface TenantMembershipDTO {
   };
 }
 
+export interface DepartmentDTO {
+  id: string;
+  name: string;
+}
+
+export interface MunicipalityDTO {
+  id: string;
+  name: string;
+  departmentId: string;
+}
+
 export async function getTenantMemberships(tenantId: string) {
   return apiFetch<TenantMembershipDTO[]>(`/tenants/${tenantId}/memberships`);
 }
@@ -391,8 +402,16 @@ export async function getMetodosPago(empresaId?: string) {
   );
 }
 
-export async function getMunicipalities() {
-  return apiFetch<Array<{ id: string; name: string }>>("/geo/municipalities");
+export async function getDepartments() {
+  return apiFetch<DepartmentDTO[]>("/geo/departments");
+}
+
+export async function getMunicipalities(departmentId?: string) {
+  const params = new URLSearchParams();
+  if (departmentId) params.set("departmentId", departmentId);
+  return apiFetch<MunicipalityDTO[]>(
+    `/geo/municipalities${params.toString() ? `?${params.toString()}` : ""}`,
+  );
 }
 
 export async function updateOrdenServicio(id: string, body: Partial<OrdenServicioPayload>) {

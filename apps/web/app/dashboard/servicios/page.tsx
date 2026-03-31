@@ -75,6 +75,7 @@ import {
   confirmOrdenUpload,
   createSignedUploadUrl,
   deleteOrdenServicio,
+  getDepartments,
   getEstadoServicios,
   getMetodosPago,
   getMunicipalities,
@@ -87,6 +88,8 @@ import {
   triggerReinforcementsJob,
   type ClienteDTO,
   type GeolocalizacionItem,
+  type DepartmentDTO,
+  type MunicipalityDTO,
   type ServiciosKpis,
   updateOrdenServicio,
   uploadToSupabaseSignedUrl,
@@ -575,6 +578,7 @@ function ServiciosContent() {
   const [search, setSearch] = useState(searchParams.get("search") || "");
   const [servicios, setServicios] = useState<Servicio[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVisitaModalOpen, setIsVisitaModalOpen] = useState(false);
@@ -599,6 +603,7 @@ function ServiciosContent() {
   const [kpis, setKpis] = useState<ServiciosKpis | null>(null);
   const [kpisLoading, setKpisLoading] = useState(false);
   const [isProcessingJob, setIsProcessingJob] = useState(false);
+  const hasLoadedServiciosRef = useRef(false);
 
   const handleTriggerJob = async () => {
     setIsProcessingJob(true);
@@ -707,6 +712,7 @@ function ServiciosContent() {
     tecnico: searchParams.get("tecnico") || "all",
     urgencia: searchParams.get("urgencia") || "all",
     creador: searchParams.get("creador") || "all",
+    departamento: searchParams.get("departamento") || "all",
     municipio: searchParams.get("municipio") || "all",
     metodoPago: searchParams.get("metodoPago") || "all",
     empresa: searchParams.get("empresa") || "all",
@@ -719,7 +725,8 @@ function ServiciosContent() {
     tecnicos: { id: string; nombre: string }[];
     metodosPago: { id: string; nombre: string }[];
     creadores: { id: string; nombre: string }[];
-    municipios: string[];
+    departamentos: DepartmentDTO[];
+    municipios: MunicipalityDTO[];
     empresas: { id: string; nombre: string }[];
     tiposVisita: string[];
   }>({
@@ -727,6 +734,7 @@ function ServiciosContent() {
     tecnicos: [],
     metodosPago: [],
     creadores: [],
+    departamentos: [],
     municipios: [],
     empresas: [],
     tiposVisita: [],
@@ -749,10 +757,11 @@ function ServiciosContent() {
       const empresaId = getScopedEnterpriseId();
       const currentTenantId = tenantId;
 
-      const [estados, tecnicos, metodos, munis, memberships] = await Promise.all([
+      const [estados, tecnicos, metodos, departments, munis, memberships] = await Promise.all([
         getEstadoServicios(empresaId),
         getOperators(empresaId),
         getMetodosPago(empresaId),
+        getDepartments(),
         getMunicipalities(),
         currentTenantId ? getTenantMemberships(currentTenantId) : Promise.resolve([]),
       ]);
@@ -772,7 +781,7 @@ function ServiciosContent() {
       const administrativeMembers = (Array.isArray(memberships) ? memberships : [])
         .filter(m => ADMIN_ROLES.includes(m.role))
         .map(m => ({
-          id: m.user.id,
+          id: m.id,
           nombre: `${m.user.nombre || ""} ${m.user.apellido || ""}`.trim() || "Sin nombre"
         }));
 
@@ -788,10 +797,8 @@ function ServiciosContent() {
           id: m.id,
           nombre: m.nombre
         })),
-        municipios: Array.from(new Set([
-          ...prev.municipios,
-          ...(Array.isArray(munis) ? (munis as Array<{ name: string }>) : []).map(m => m.name.toUpperCase())
-        ])).sort(),
+        departamentos: Array.isArray(departments) ? departments as DepartmentDTO[] : [],
+        municipios: Array.isArray(munis) ? munis as MunicipalityDTO[] : [],
       }));
     } catch (error) {
       console.error("Error fetching filter options", error);
@@ -799,7 +806,12 @@ function ServiciosContent() {
   }, [getScopedEnterpriseId, tenantId]);
 
   const fetchServicios = useCallback(async (resetPage = false) => {
-    setLoading(true);
+    const isFirstLoad = !hasLoadedServiciosRef.current;
+    if (isFirstLoad) {
+      setLoading(true);
+    } else {
+      setIsRefreshing(true);
+    }
     const pageToFetch = resetPage ? 1 : currentPage;
     if (resetPage) setCurrentPage(1);
 
@@ -814,6 +826,7 @@ function ServiciosContent() {
         tecnicoId: filters.tecnico,
         urgencia: filters.urgencia,
         creadorId: filters.creador,
+        departamento: filters.departamento,
         municipio: filters.municipio,
         metodoPagoId: filters.metodoPago,
         tipoVisita: filters.tipo,
@@ -866,7 +879,11 @@ function ServiciosContent() {
       toast.error("Error al cargar las órdenes de servicio");
       return [];
     } finally {
-      setLoading(false);
+      if (isFirstLoad) {
+        hasLoadedServiciosRef.current = true;
+        setLoading(false);
+      }
+      setIsRefreshing(false);
     }
   }, [getScopedEnterpriseId, search, currentPage, filters, activePreset, viewMode]);
 
@@ -1134,6 +1151,7 @@ function ServiciosContent() {
         tecnicoId: filters.tecnico,
         urgencia: filters.urgencia,
         creadorId: filters.creador,
+        departamento: filters.departamento,
         municipio: filters.municipio,
         metodoPagoId: filters.metodoPago,
         tipoVisita: filters.tipo,
@@ -1179,6 +1197,7 @@ function ServiciosContent() {
       tecnico: "all",
       urgencia: "all",
       creador: "all",
+      departamento: "all",
       municipio: "all",
       metodoPago: "all",
       empresa: "all",
@@ -1276,6 +1295,7 @@ function ServiciosContent() {
     if (filters.tecnico !== "all") nextParams.set("tecnico", filters.tecnico);
     if (filters.urgencia !== "all") nextParams.set("urgencia", filters.urgencia);
     if (filters.creador !== "all") nextParams.set("creador", filters.creador);
+    if (filters.departamento !== "all") nextParams.set("departamento", filters.departamento);
     if (filters.municipio !== "all") nextParams.set("municipio", filters.municipio);
     if (filters.metodoPago !== "all") nextParams.set("metodoPago", filters.metodoPago);
     if (filters.empresa !== "all") nextParams.set("empresa", filters.empresa);
@@ -1286,9 +1306,10 @@ function ServiciosContent() {
     const nextQuery = nextParams.toString();
     const currentQuery = window.location.search.replace(/^\?/, "");
     if (nextQuery !== currentQuery) {
-      router.replace(`${pathname}?${nextQuery}`, { scroll: false });
+      const nextUrl = nextQuery ? `${pathname}?${nextQuery}` : pathname;
+      window.history.replaceState(window.history.state, "", nextUrl);
     }
-  }, [activePreset, filters, pathname, router, search, viewMode]);
+  }, [activePreset, filters, pathname, search, viewMode]);
 
   useEffect(() => {
     if (activeOperationalFilter) {
@@ -1298,8 +1319,11 @@ function ServiciosContent() {
 
   useEffect(() => {
     fetchServicios();
+  }, [fetchServicios]);
+
+  useEffect(() => {
     fetchOptions();
-  }, [fetchServicios, fetchOptions]);
+  }, [fetchOptions]);
 
   useEffect(() => {
     fetchKpis();
@@ -1309,11 +1333,25 @@ function ServiciosContent() {
     fetchCustomPresets();
   }, [fetchCustomPresets]);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [activePreset, filters, search]);
+  const updateFilters = useCallback(
+    (
+      updater: typeof filters | ((prev: typeof filters) => typeof filters),
+    ) => {
+      setCurrentPage(1);
+      setFilters(updater);
+    },
+    [],
+  );
+
+  const filteredMunicipalityOptions = useMemo(() => {
+    if (filters.departamento === "all") return [];
+    return filterOptions.municipios.filter(
+      (municipio) => municipio.departmentId === filters.departamento,
+    );
+  }, [filterOptions.municipios, filters.departamento]);
 
   const applyPreset = (preset: string) => {
+    setCurrentPage(1);
     setActivePreset(preset);
 
     const today = toBogotaYmd();
@@ -1323,6 +1361,7 @@ function ServiciosContent() {
       tecnico: "all",
       urgencia: "all",
       creador: "all",
+      departamento: "all",
       municipio: "all",
       metodoPago: "all",
       empresa: "all",
@@ -1332,19 +1371,19 @@ function ServiciosContent() {
     };
 
     if (preset === "HOY") {
-      setFilters({ ...baseFilters, fechaInicio: today, fechaFin: today });
+      updateFilters({ ...baseFilters, fechaInicio: today, fechaFin: today });
       return;
     }
 
     if (preset === "MANANA") {
-      setFilters({ ...baseFilters, fechaInicio: tomorrow, fechaFin: tomorrow });
+      updateFilters({ ...baseFilters, fechaInicio: tomorrow, fechaFin: tomorrow });
       return;
     }
 
     if (preset === "SEMANA") {
       const start = startOfBogotaWeekYmd(today);
       const end = addDaysToYmd(start, 6);
-      setFilters({
+      updateFilters({
         ...baseFilters,
         fechaInicio: start,
         fechaFin: end,
@@ -1353,32 +1392,33 @@ function ServiciosContent() {
     }
 
     if (preset === "SIN_TECNICO") {
-      setFilters(baseFilters);
+      updateFilters(baseFilters);
       return;
     }
 
     if (preset === "PENDIENTES_LIQUIDAR") {
-      setFilters({ ...baseFilters, estado: "TECNICO_FINALIZO" });
+      updateFilters({ ...baseFilters, estado: "TECNICO_FINALIZO" });
       return;
     }
 
     if (preset === "VENCIDOS") {
-      setFilters({ ...baseFilters, fechaFin: today });
+      updateFilters({ ...baseFilters, fechaFin: today });
       return;
     }
 
-    setFilters(baseFilters);
+    updateFilters(baseFilters);
   };
 
   const resetAllFilters = useCallback(() => {
     setSearch("");
     setActivePreset("all");
     setActiveOperationalFilter(null);
-    setFilters({
+    updateFilters({
       estado: "all",
       tecnico: "all",
       urgencia: "all",
       creador: "all",
+      departamento: "all",
       municipio: "all",
       metodoPago: "all",
       empresa: "all",
@@ -1386,9 +1426,8 @@ function ServiciosContent() {
       fechaInicio: "",
       fechaFin: "",
     });
-    setCurrentPage(1);
     toast.info("Filtros restablecidos");
-  }, []);
+  }, [updateFilters]);
 
   const hasActiveFilters = search !== "" ||
     activePreset !== "all" ||
@@ -1397,6 +1436,7 @@ function ServiciosContent() {
     filters.tecnico !== "all" ||
     filters.urgencia !== "all" ||
     filters.creador !== "all" ||
+    filters.departamento !== "all" ||
     filters.municipio !== "all" ||
     filters.metodoPago !== "all" ||
     filters.empresa !== "all" ||
@@ -1674,6 +1714,14 @@ function ServiciosContent() {
                   </div>
                 )}
 
+                {isRefreshing && (
+                  <div className="mb-4 flex items-center justify-end">
+                    <div className="rounded-full border border-border bg-card px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                      Actualizando resultados...
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex-1 min-h-0 flex flex-col bg-card rounded-3xl border border-border shadow-sm overflow-hidden">
                   <div className="px-8 py-6 border-b border-border flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-card shrink-0">
                     <div className="flex flex-1 flex-col gap-4 max-w-3xl">
@@ -1699,7 +1747,7 @@ function ServiciosContent() {
                       <div className="flex flex-1 items-center gap-3 max-w-2xl">
                         <div className="relative flex-1 group">
                           <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground group-focus-within:text-[#01ADFB] transition-colors" />
-                          <Input placeholder={viewMode === "seguimientos" ? "Buscar seguimientos..." : "Buscar servicios..."} className="h-12 pl-12 rounded-xl border-none bg-muted focus:ring-2 focus:ring-[#01ADFB]/20 transition-all font-bold text-sm text-foreground" value={search} onChange={(e) => setSearch(e.target.value)} />
+                          <Input placeholder={viewMode === "seguimientos" ? "Buscar seguimientos..." : "Buscar servicios..."} className="h-12 pl-12 rounded-xl border-none bg-muted focus:ring-2 focus:ring-[#01ADFB]/20 transition-all font-bold text-sm text-foreground" value={search} onChange={(e) => { setCurrentPage(1); setSearch(e.target.value); }} />
                         </div>
                         <button onClick={() => setShowFilters(!showFilters)} className={cn("h-12 px-5 rounded-xl bg-card border border-border text-muted-foreground font-bold text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all", showFilters && "bg-primary text-primary-foreground")}>
                           <Filter className="h-4 w-4" /> Filtros
@@ -1777,14 +1825,15 @@ function ServiciosContent() {
                       <div className="max-w-7xl mx-auto">
                         <div className="flex items-center justify-between mb-8">
                           <div><h3 className="text-sm font-bold uppercase text-foreground flex items-center gap-3"><Filter className="h-5 w-5 text-[#01ADFB]" /> Panel de Filtros</h3><p className="text-[10px] font-medium text-muted-foreground mt-1 uppercase tracking-wider">Refine los resultados de búsqueda</p></div>
-                          <button onClick={() => { setActivePreset("all"); setFilters({ estado: "all", tecnico: "all", urgencia: "all", creador: "all", municipio: "all", metodoPago: "all", empresa: "all", tipo: "all", fechaInicio: "", fechaFin: "" }); }} className="text-[10px] font-semibold uppercase text-muted-foreground hover:text-[#01ADFB] flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-card border border-border"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</button>
+                          <button onClick={() => { setActivePreset("all"); updateFilters({ estado: "all", tecnico: "all", urgencia: "all", creador: "all", departamento: "all", municipio: "all", metodoPago: "all", empresa: "all", tipo: "all", fechaInicio: "", fechaFin: "" }); }} className="text-[10px] font-semibold uppercase text-muted-foreground hover:text-[#01ADFB] flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-card border border-border"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</button>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Creador</Label><Combobox value={filters.creador} onChange={(v) => setFilters(f => ({ ...f, creador: v }))} options={[{ value: "all", label: "TODOS LOS CREADORES" }, ...filterOptions.creadores.map(c => ({ value: c.id, label: c.nombre.toUpperCase() }))]} /></div>
-                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Técnico</Label><Combobox value={filters.tecnico} onChange={(v) => setFilters(f => ({ ...f, tecnico: v }))} options={[{ value: "all", label: "TODOS LOS TECNICOS" }, ...filterOptions.tecnicos.map(t => ({ value: t.id, label: t.nombre.toUpperCase() }))]} /></div>
-                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Municipio</Label><Combobox value={filters.municipio} onChange={(v) => setFilters(f => ({ ...f, municipio: v }))} options={[{ value: "all", label: "TODOS LOS MUNICIPIOS" }, ...filterOptions.municipios.map(m => ({ value: m, label: m.toUpperCase() }))]} /></div>
-                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Estado</Label><Combobox value={filters.estado} onChange={(v) => setFilters(f => ({ ...f, estado: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS" }, ...filterOptions.estados.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
-                          <div className="lg:col-span-2 space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Rango de Fechas</Label><div className="flex gap-3"><DatePicker date={filters.fechaInicio ? ymdToPickerDate(filters.fechaInicio) : undefined} onChange={(d) => setFilters(f => ({ ...f, fechaInicio: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="INICIO" /><DatePicker date={filters.fechaFin ? ymdToPickerDate(filters.fechaFin) : undefined} onChange={(d) => setFilters(f => ({ ...f, fechaFin: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="FIN" /></div></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Creador</Label><Combobox value={filters.creador} onChange={(v) => updateFilters(f => ({ ...f, creador: v }))} options={[{ value: "all", label: "TODOS LOS CREADORES" }, ...filterOptions.creadores.map(c => ({ value: c.id, label: c.nombre.toUpperCase() }))]} /></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Técnico</Label><Combobox value={filters.tecnico} onChange={(v) => updateFilters(f => ({ ...f, tecnico: v }))} options={[{ value: "all", label: "TODOS LOS TECNICOS" }, ...filterOptions.tecnicos.map(t => ({ value: t.id, label: t.nombre.toUpperCase() }))]} /></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Departamento</Label><Combobox value={filters.departamento} onChange={(v) => updateFilters(f => ({ ...f, departamento: v, municipio: "all" }))} options={[{ value: "all", label: "TODOS LOS DEPARTAMENTOS" }, ...filterOptions.departamentos.map(d => ({ value: d.id, label: d.name.toUpperCase() }))]} /></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Municipio</Label><Combobox value={filters.municipio} onChange={(v) => updateFilters(f => ({ ...f, municipio: v }))} options={[{ value: "all", label: "TODOS LOS MUNICIPIOS" }, ...filteredMunicipalityOptions.map(m => ({ value: m.name.toUpperCase(), label: m.name.toUpperCase() }))]} disabled={filters.departamento === "all"} /></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Estado</Label><Combobox value={filters.estado} onChange={(v) => updateFilters(f => ({ ...f, estado: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS" }, ...filterOptions.estados.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
+                          <div className="lg:col-span-2 space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Rango de Fechas</Label><div className="flex gap-3"><DatePicker date={filters.fechaInicio ? ymdToPickerDate(filters.fechaInicio) : undefined} onChange={(d) => updateFilters(f => ({ ...f, fechaInicio: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="INICIO" /><DatePicker date={filters.fechaFin ? ymdToPickerDate(filters.fechaFin) : undefined} onChange={(d) => updateFilters(f => ({ ...f, fechaFin: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="FIN" /></div></div>
                         </div>
                         <div className="mt-8 pt-6 border-t border-border flex justify-end"><Button onClick={() => setShowFilters(false)} className="h-10 px-8 rounded-xl text-[10px] font-semibold uppercase tracking-widest bg-foreground text-background shadow-lg hover:opacity-90">Finalizar y Cerrar</Button></div>
                       </div>

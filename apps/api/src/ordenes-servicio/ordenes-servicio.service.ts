@@ -724,6 +724,13 @@ export class OrdenesServicioService {
       };
     }
 
+    if (filters.departamento) {
+      whereClause.departamento = {
+        equals: filters.departamento.trim(),
+        mode: 'insensitive',
+      };
+    }
+
     if (filters.tipoVisita) {
       whereClause.tipoVisita = filters.tipoVisita;
     }
