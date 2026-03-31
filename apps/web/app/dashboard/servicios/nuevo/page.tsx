@@ -881,10 +881,7 @@ function NuevoServicioContent() {
       !selectedCliente ||
       !selectedEmpresa ||
       serviciosSeleccionados.length === 0 ||
-      !diagnosticoTecnico.trim() ||
-      !intervencionRealizada.trim() ||
-      !huboSellamiento ||
-      !huboRecomendacionEstructural
+      !diagnosticoTecnico.trim()
     ) {
       toast.error("Por favor complete los campos obligatorios");
       setLoading(false);
@@ -905,9 +902,11 @@ function NuevoServicioContent() {
       hallazgosEstructurales: hallazgosEstructurales.trim() || undefined,
       recomendacionesObligatorias:
         recomendacionesObligatorias.trim() || undefined,
-      huboSellamiento: huboSellamiento === "true",
+      huboSellamiento: huboSellamiento ? huboSellamiento === "true" : undefined,
       huboRecomendacionEstructural:
-        huboRecomendacionEstructural === "true",
+        huboRecomendacionEstructural
+          ? huboRecomendacionEstructural === "true"
+          : undefined,
       nivelInfestacion: nivelInfestacion || undefined,
       tipoVisita: tipoVisita || undefined,
       frecuenciaSugerida: frecuenciaRecomendada ? Number(frecuenciaRecomendada) : undefined,
@@ -1302,7 +1301,7 @@ function NuevoServicioContent() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Nivel de Infestación <span className="text-red-500">*</span></Label>
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Nivel de Infestación</Label>
                   <Combobox
                     options={[
                       { value: "", label: "Seleccionar nivel..." },
@@ -1330,7 +1329,7 @@ function NuevoServicioContent() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Urgencia <span className="text-red-500">*</span></Label>
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Urgencia</Label>
                   <Combobox
                     options={[
                       { value: "", label: "Seleccionar urgencia..." },
@@ -1345,7 +1344,7 @@ function NuevoServicioContent() {
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                    Hubo Sellamiento <span className="text-red-500">*</span>
+                    Hubo Sellamiento
                   </Label>
                   <Combobox
                     options={[
@@ -1362,7 +1361,7 @@ function NuevoServicioContent() {
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                    Hubo Recomendación Estructural <span className="text-red-500">*</span>
+                    Hubo Recomendación Estructural
                   </Label>
                   <Combobox
                     options={[
@@ -1392,14 +1391,13 @@ function NuevoServicioContent() {
 
                 <div className="space-y-2 md:col-span-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                    Intervención Realizada <span className="text-red-500">*</span>
+                    Intervención Realizada
                   </Label>
                   <textarea
                     value={intervencionRealizada}
                     onChange={(e) => setIntervencionRealizada(e.target.value)}
                     className="w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800/50 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-0 focus:border-zinc-300 outline-none"
                     placeholder="Detalla el trabajo ejecutado por el técnico..."
-                    required
                   ></textarea>
                 </div>
 
@@ -1574,7 +1572,7 @@ function NuevoServicioContent() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Facturación <span className="text-red-500">*</span></Label>
+                    <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Facturación</Label>
                     {contratoActivo ? (
                       <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 space-y-4">
                         <p className="text-[10px] font-black uppercase tracking-[0.18em] text-emerald-700">

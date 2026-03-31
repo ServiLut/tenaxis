@@ -77,7 +77,6 @@ import {
   deleteOrdenServicio,
   getDepartments,
   getEstadoServicios,
-  getMetodosPago,
   getMunicipalities,
   getOperators,
   getTenantMemberships,
@@ -436,6 +435,15 @@ const ESTADO_PAGO_STYLING: Record<string, string> = {
   "DEFAULT": "bg-muted text-muted-foreground border-border",
 };
 
+const ESTADO_PAGO_OPTIONS = [
+  { id: "PENDIENTE", nombre: "PENDIENTE" },
+  { id: "PARCIAL", nombre: "PARCIAL" },
+  { id: "EFECTIVO_DECLARADO", nombre: "EFECTIVO DECLARADO" },
+  { id: "PAGADO", nombre: "PAGADO" },
+  { id: "CONCILIADO", nombre: "CONCILIADO" },
+  { id: "CORTESIA", nombre: "CORTESÍA" },
+];
+
 const PRESET_OPTIONS = [
   { key: "all", label: "TODOS" },
   { key: "HOY", label: "HOY" },
@@ -709,12 +717,12 @@ function ServiciosContent() {
 
   const [filters, setFilters] = useState({
     estado: searchParams.get("estado") || "all",
+    estadoPago: searchParams.get("estadoPago") || "all",
     tecnico: searchParams.get("tecnico") || "all",
     urgencia: searchParams.get("urgencia") || "all",
     creador: searchParams.get("creador") || "all",
     departamento: searchParams.get("departamento") || "all",
     municipio: searchParams.get("municipio") || "all",
-    metodoPago: searchParams.get("metodoPago") || "all",
     empresa: searchParams.get("empresa") || "all",
     tipo: searchParams.get("tipo") || "all",
     fechaInicio: searchParams.get("fechaInicio") || "",
@@ -722,8 +730,8 @@ function ServiciosContent() {
   });
   const [filterOptions, setOptions] = useState<{
     estados: { id: string; nombre: string }[];
+    estadosPago: { id: string; nombre: string }[];
     tecnicos: { id: string; nombre: string }[];
-    metodosPago: { id: string; nombre: string }[];
     creadores: { id: string; nombre: string }[];
     departamentos: DepartmentDTO[];
     municipios: MunicipalityDTO[];
@@ -731,8 +739,8 @@ function ServiciosContent() {
     tiposVisita: string[];
   }>({
     estados: [],
+    estadosPago: ESTADO_PAGO_OPTIONS,
     tecnicos: [],
-    metodosPago: [],
     creadores: [],
     departamentos: [],
     municipios: [],
@@ -757,10 +765,9 @@ function ServiciosContent() {
       const empresaId = getScopedEnterpriseId();
       const currentTenantId = tenantId;
 
-      const [estados, tecnicos, metodos, departments, munis, memberships] = await Promise.all([
+      const [estados, tecnicos, departments, munis, memberships] = await Promise.all([
         getEstadoServicios(empresaId),
         getOperators(empresaId),
-        getMetodosPago(empresaId),
         getDepartments(),
         getMunicipalities(),
         currentTenantId ? getTenantMemberships(currentTenantId) : Promise.resolve([]),
@@ -788,14 +795,11 @@ function ServiciosContent() {
       setOptions(prev => ({
         ...prev,
         estados: Array.isArray(estados) && estados.length > 0 ? (estados as Array<{id: string, nombre: string}>) : coreEstados,
+        estadosPago: ESTADO_PAGO_OPTIONS,
         creadores: administrativeMembers,
         tecnicos: (Array.isArray(tecnicos) ? (tecnicos as Array<{ id: string, nombre?: string, user?: { nombre?: string, apellido?: string } }>) : []).map(t => ({
           id: t.id,
           nombre: t.nombre || `${t.user?.nombre || ""} ${t.user?.apellido || ""}`.trim() || "Sin nombre"
-        })),
-        metodosPago: (Array.isArray(metodos) ? (metodos as Array<{ id: string, nombre: string }>) : []).map(m => ({
-          id: m.id,
-          nombre: m.nombre
         })),
         departamentos: Array.isArray(departments) ? departments as DepartmentDTO[] : [],
         municipios: Array.isArray(munis) ? munis as MunicipalityDTO[] : [],
@@ -823,12 +827,12 @@ function ServiciosContent() {
         page: pageToFetch,
         limit: itemsPerPage,
         estado: filters.estado,
+        estadoPago: filters.estadoPago,
         tecnicoId: filters.tecnico,
         urgencia: filters.urgencia,
         creadorId: filters.creador,
         departamento: filters.departamento,
         municipio: filters.municipio,
-        metodoPagoId: filters.metodoPago,
         tipoVisita: filters.tipo,
         fechaInicio: filters.fechaInicio,
         fechaFin: filters.fechaFin,
@@ -1148,12 +1152,12 @@ function ServiciosContent() {
         empresaId,
         search,
         estado: filters.estado,
+        estadoPago: filters.estadoPago,
         tecnicoId: filters.tecnico,
         urgencia: filters.urgencia,
         creadorId: filters.creador,
         departamento: filters.departamento,
         municipio: filters.municipio,
-        metodoPagoId: filters.metodoPago,
         tipoVisita: filters.tipo,
         fechaInicio: filters.fechaInicio,
         fechaFin: filters.fechaFin,
@@ -1194,12 +1198,12 @@ function ServiciosContent() {
     setSearch(payload.search || "");
     setFilters(payload.filters || {
       estado: "all",
+      estadoPago: "all",
       tecnico: "all",
       urgencia: "all",
       creador: "all",
       departamento: "all",
       municipio: "all",
-      metodoPago: "all",
       empresa: "all",
       tipo: "all",
       fechaInicio: "",
@@ -1292,12 +1296,12 @@ function ServiciosContent() {
     if (viewMode !== "servicios") nextParams.set("tab", viewMode);
     if (activePreset !== "all") nextParams.set("preset", activePreset);
     if (filters.estado !== "all") nextParams.set("estado", filters.estado);
+    if (filters.estadoPago !== "all") nextParams.set("estadoPago", filters.estadoPago);
     if (filters.tecnico !== "all") nextParams.set("tecnico", filters.tecnico);
     if (filters.urgencia !== "all") nextParams.set("urgencia", filters.urgencia);
     if (filters.creador !== "all") nextParams.set("creador", filters.creador);
     if (filters.departamento !== "all") nextParams.set("departamento", filters.departamento);
     if (filters.municipio !== "all") nextParams.set("municipio", filters.municipio);
-    if (filters.metodoPago !== "all") nextParams.set("metodoPago", filters.metodoPago);
     if (filters.empresa !== "all") nextParams.set("empresa", filters.empresa);
     if (filters.tipo !== "all") nextParams.set("tipo", filters.tipo);
     if (filters.fechaInicio) nextParams.set("fechaInicio", filters.fechaInicio);
@@ -1358,12 +1362,12 @@ function ServiciosContent() {
     const tomorrow = addDaysToYmd(today, 1);
     const baseFilters = {
       estado: "all",
+      estadoPago: "all",
       tecnico: "all",
       urgencia: "all",
       creador: "all",
       departamento: "all",
       municipio: "all",
-      metodoPago: "all",
       empresa: "all",
       tipo: "all",
       fechaInicio: "",
@@ -1415,12 +1419,12 @@ function ServiciosContent() {
     setActiveOperationalFilter(null);
     updateFilters({
       estado: "all",
+      estadoPago: "all",
       tecnico: "all",
       urgencia: "all",
       creador: "all",
       departamento: "all",
       municipio: "all",
-      metodoPago: "all",
       empresa: "all",
       tipo: "all",
       fechaInicio: "",
@@ -1433,12 +1437,12 @@ function ServiciosContent() {
     activePreset !== "all" ||
     activeOperationalFilter !== null ||
     filters.estado !== "all" ||
+    filters.estadoPago !== "all" ||
     filters.tecnico !== "all" ||
     filters.urgencia !== "all" ||
     filters.creador !== "all" ||
     filters.departamento !== "all" ||
     filters.municipio !== "all" ||
-    filters.metodoPago !== "all" ||
     filters.empresa !== "all" ||
     filters.tipo !== "all" ||
     filters.fechaInicio !== "" ||
@@ -1825,7 +1829,7 @@ function ServiciosContent() {
                       <div className="max-w-7xl mx-auto">
                         <div className="flex items-center justify-between mb-8">
                           <div><h3 className="text-sm font-bold uppercase text-foreground flex items-center gap-3"><Filter className="h-5 w-5 text-[#01ADFB]" /> Panel de Filtros</h3><p className="text-[10px] font-medium text-muted-foreground mt-1 uppercase tracking-wider">Refine los resultados de búsqueda</p></div>
-                          <button onClick={() => { setActivePreset("all"); updateFilters({ estado: "all", tecnico: "all", urgencia: "all", creador: "all", departamento: "all", municipio: "all", metodoPago: "all", empresa: "all", tipo: "all", fechaInicio: "", fechaFin: "" }); }} className="text-[10px] font-semibold uppercase text-muted-foreground hover:text-[#01ADFB] flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-card border border-border"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</button>
+                          <button onClick={() => { setActivePreset("all"); updateFilters({ estado: "all", estadoPago: "all", tecnico: "all", urgencia: "all", creador: "all", departamento: "all", municipio: "all", empresa: "all", tipo: "all", fechaInicio: "", fechaFin: "" }); }} className="text-[10px] font-semibold uppercase text-muted-foreground hover:text-[#01ADFB] flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-card border border-border"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</button>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Creador</Label><Combobox value={filters.creador} onChange={(v) => updateFilters(f => ({ ...f, creador: v }))} options={[{ value: "all", label: "TODOS LOS CREADORES" }, ...filterOptions.creadores.map(c => ({ value: c.id, label: c.nombre.toUpperCase() }))]} /></div>
@@ -1833,6 +1837,7 @@ function ServiciosContent() {
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Departamento</Label><Combobox value={filters.departamento} onChange={(v) => updateFilters(f => ({ ...f, departamento: v, municipio: "all" }))} options={[{ value: "all", label: "TODOS LOS DEPARTAMENTOS" }, ...filterOptions.departamentos.map(d => ({ value: d.id, label: d.name.toUpperCase() }))]} /></div>
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Municipio</Label><Combobox value={filters.municipio} onChange={(v) => updateFilters(f => ({ ...f, municipio: v }))} options={[{ value: "all", label: "TODOS LOS MUNICIPIOS" }, ...filteredMunicipalityOptions.map(m => ({ value: m.name.toUpperCase(), label: m.name.toUpperCase() }))]} disabled={filters.departamento === "all"} /></div>
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Estado</Label><Combobox value={filters.estado} onChange={(v) => updateFilters(f => ({ ...f, estado: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS" }, ...filterOptions.estados.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Estado de Pago</Label><Combobox value={filters.estadoPago} onChange={(v) => updateFilters(f => ({ ...f, estadoPago: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS DE PAGO" }, ...filterOptions.estadosPago.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
                           <div className="lg:col-span-2 space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Rango de Fechas</Label><div className="flex gap-3"><DatePicker date={filters.fechaInicio ? ymdToPickerDate(filters.fechaInicio) : undefined} onChange={(d) => updateFilters(f => ({ ...f, fechaInicio: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="INICIO" /><DatePicker date={filters.fechaFin ? ymdToPickerDate(filters.fechaFin) : undefined} onChange={(d) => updateFilters(f => ({ ...f, fechaFin: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="FIN" /></div></div>
                         </div>
                         <div className="mt-8 pt-6 border-t border-border flex justify-end"><Button onClick={() => setShowFilters(false)} className="h-10 px-8 rounded-xl text-[10px] font-semibold uppercase tracking-widest bg-foreground text-background shadow-lg hover:opacity-90">Finalizar y Cerrar</Button></div>

@@ -709,6 +709,36 @@ export class OrdenesServicioService {
       whereClause.metodoPagoId = filters.metodoPagoId;
     }
 
+    if (filters.metodoPagoBase) {
+      const metodoPagoClauses: Prisma.OrdenServicioWhereInput[] = [
+        {
+          desglosePago: {
+            string_contains: filters.metodoPagoBase,
+          },
+        },
+        {
+          metodoPago: {
+            is: {
+              nombre: {
+                contains: filters.metodoPagoBase,
+                mode: 'insensitive',
+              },
+            },
+          },
+        },
+      ];
+
+      const andClauses = Array.isArray(whereClause.AND)
+        ? [...whereClause.AND, { OR: metodoPagoClauses }]
+        : [{ OR: metodoPagoClauses }];
+
+      whereClause.AND = andClauses;
+    }
+
+    if (filters.estadoPago) {
+      whereClause.estadoPago = filters.estadoPago;
+    }
+
     if (filters.estado) {
       whereClause.estadoServicio = filters.estado;
     }

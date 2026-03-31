@@ -11,6 +11,8 @@ import {
 } from 'class-validator';
 import {
   EstadoOrden,
+  EstadoPagoOrden,
+  MetodoPagoBase,
   UrgenciaOrden,
   TipoVisita,
 } from '../../generated/client/client';
@@ -74,6 +76,14 @@ export class QueryOrdenesServicioDto {
   @IsOptional()
   @IsUUID()
   metodoPagoId?: string;
+
+  @IsOptional()
+  @IsEnum(MetodoPagoBase)
+  metodoPagoBase?: MetodoPagoBase;
+
+  @IsOptional()
+  @IsEnum(EstadoPagoOrden)
+  estadoPago?: EstadoPagoOrden;
 
   @IsOptional()
   @IsEnum(TipoVisita)
