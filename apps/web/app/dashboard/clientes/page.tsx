@@ -2,12 +2,8 @@ import React from "react";
 import { DashboardLayout } from "@/components/dashboard";
 import {
   getClientesDashboardAction,
-  getDepartmentsAction, 
-  getMunicipalitiesAction,
-  getSugerenciasAction,
-  getSugerenciasStatsAction
 } from "../actions";
-import { ClienteList, type Cliente, type Sugerencia, type SugerenciaStats } from "./cliente-list";
+import { ClienteList, type Cliente, type Sugerencia } from "./cliente-list";
 
 export const dynamic = "force-dynamic";
 
@@ -32,19 +28,7 @@ export default async function ClientesPage({
     ]),
   );
 
-  const [
-    dashboardData,
-    sugerencias,
-    sugerenciasStats,
-    departments, 
-    municipalities
-  ] = await Promise.all([
-    getClientesDashboardAction<Cliente>(dashboardQuery),
-    getSugerenciasAction(),
-    getSugerenciasStatsAction(),
-    getDepartmentsAction(),
-    getMunicipalitiesAction()
-  ]);
+  const dashboardData = await getClientesDashboardAction<Cliente>(dashboardQuery);
 
   return (
     <DashboardLayout overflowHidden>
@@ -53,10 +37,10 @@ export default async function ClientesPage({
         segmentedData={dashboardData.segmentacion}
         initialOverview={dashboardData.overview}
         initialPagination={dashboardData.pagination}
-        initialSugerencias={sugerencias as unknown as Sugerencia[]}
-        sugerenciasStats={sugerenciasStats as unknown as SugerenciaStats}
-        initialDepartments={departments}
-        initialMunicipalities={municipalities}
+        initialSugerencias={[] as Sugerencia[]}
+        sugerenciasStats={null}
+        initialDepartments={[]}
+        initialMunicipalities={[]}
       />
     </DashboardLayout>
   );

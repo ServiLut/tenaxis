@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useDeferredValue, useTransition } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
@@ -88,6 +88,7 @@ import {
   getBrowserScopedEnterpriseId,
 } from "@/lib/browser-access-scope";
 import type { AccessScope } from "@/lib/access-scope";
+import { geoClient } from "@/lib/api/geo-client";
 
 export interface Cliente {
   id: string;
@@ -345,6 +346,7 @@ export function ClienteList({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { checkPermission, isLoading: isLoadingRole } = useUserRole();
+  const [_isRoutingPending, startRoutingTransition] = useTransition();
 
   const [mounted, setMounted] = useState(false);
   const [clientesData, setClientesData] = useState<Cliente[]>(initialClientes);
@@ -355,6 +357,7 @@ export function ClienteList({
   // URL Persistence
   const [activeSegment, setActiveSegment] = useState<string>(searchParams.get("segment") || "all");
   const [search, setSearch] = useState(searchParams.get("search") || "");
+  const deferredSearch = useDeferredValue(search);
   const [currentPage, setCurrentPage] = useState(Number(searchParams.get("page")) || 1);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: "asc" | "desc" } | null>(
     searchParams.get("sort") 
@@ -382,7 +385,7 @@ export function ClienteList({
     if (!mounted) return;
     const params = new URLSearchParams();
     if (activeSegment !== "all") params.set("segment", activeSegment);
-    if (search) params.set("search", search);
+    if (deferredSearch) params.set("search", deferredSearch);
     if (currentPage > 1) params.set("page", currentPage.toString());
     if (sortConfig) {
       params.set("sort", sortConfig.key);
@@ -402,8 +405,10 @@ export function ClienteList({
     if (filters.fechaHasta) params.set("to", filters.fechaHasta);
 
     const query = params.toString();
-    router.replace(`${pathname}${query ? `?${query}` : ""}`, { scroll: false });
-  }, [activeSegment, search, currentPage, sortConfig, filters, pathname, router, mounted, onlySinVisita, onlyWithPendingPayments, onlySinServicios]);
+    startRoutingTransition(() => {
+      router.replace(`${pathname}${query ? `?${query}` : ""}`, { scroll: false });
+    });
+  }, [activeSegment, deferredSearch, currentPage, sortConfig, filters, pathname, router, mounted, onlySinVisita, onlyWithPendingPayments, onlySinServicios, startRoutingTransition]);
 
   useEffect(() => {
     if (!isLoadingRole && !checkPermission("CLIENT_VIEW")) {
@@ -414,6 +419,9 @@ export function ClienteList({
   const [showSuggestionsQueue, setShowSuggestionsQueue] = useState(false);
   
   const [sugerencias, setSugerencias] = useState<Sugerencia[]>(initialSugerencias);
+  const [localSugerenciasStats, setLocalSugerenciasStats] = useState<SugerenciaStats | null>(sugerenciasStats || null);
+  const [departments, setDepartments] = useState<Department[]>(initialDepartments);
+  const [municipalities, setMunicipalities] = useState<Municipality[]>(initialMunicipalities);
   const clientes = clientesData;
 
   const [empresaSearch, setEmpresaSearch] = useState("");
@@ -621,12 +629,77 @@ export function ClienteList({
     }
 
     let isCancelled = false;
+
+    async function loadSecondaryData() {
+      try {
+        const shouldLoadSuggestions = initialSugerencias.length === 0;
+        const shouldLoadStats = !sugerenciasStats;
+        const shouldLoadDepartments = initialDepartments.length === 0;
+        const shouldLoadMunicipalities = initialMunicipalities.length === 0;
+
+        if (
+          !shouldLoadSuggestions &&
+          !shouldLoadStats &&
+          !shouldLoadDepartments &&
+          !shouldLoadMunicipalities
+        ) {
+          return;
+        }
+
+        const [loadedSuggestions, loadedStats, loadedDepartments, loadedMunicipalities] =
+          await Promise.all([
+            shouldLoadSuggestions
+              ? apiFetch<Sugerencia[]>("/sugerencias-clientes", { cache: "no-store" })
+              : Promise.resolve(initialSugerencias),
+            shouldLoadStats
+              ? apiFetch<SugerenciaStats>("/sugerencias-clientes/stats", { cache: "no-store" })
+              : Promise.resolve(sugerenciasStats as SugerenciaStats | null),
+            shouldLoadDepartments
+              ? geoClient.getDepartments()
+              : Promise.resolve(initialDepartments),
+            shouldLoadMunicipalities
+              ? geoClient.getMunicipalities()
+              : Promise.resolve(initialMunicipalities),
+          ]);
+
+        if (isCancelled) return;
+
+        setSugerencias(loadedSuggestions || []);
+        setLocalSugerenciasStats(loadedStats || null);
+        setDepartments(loadedDepartments || []);
+        setMunicipalities(loadedMunicipalities || []);
+      } catch (error) {
+        if (!isCancelled) {
+          console.error("Error loading secondary clientes data:", error);
+        }
+      }
+    }
+
+    void loadSecondaryData();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [
+    mounted,
+    initialSugerencias,
+    sugerenciasStats,
+    initialDepartments,
+    initialMunicipalities,
+  ]);
+
+  useEffect(() => {
+    if (!mounted) {
+      return;
+    }
+
+    let isCancelled = false;
     const params = new URLSearchParams();
     params.set("page", String(currentPage));
     params.set("limit", "10");
 
     if (activeSegment !== "all") params.set("segment", activeSegment);
-    if (search) params.set("search", search);
+    if (deferredSearch) params.set("search", deferredSearch);
     if (sortConfig) {
       params.set("sort", sortConfig.key);
       params.set("dir", sortConfig.direction);
@@ -687,7 +760,7 @@ export function ClienteList({
     mounted,
     currentPage,
     activeSegment,
-    search,
+    deferredSearch,
     sortConfig,
     filters,
     onlySinVisita,
@@ -742,12 +815,12 @@ export function ClienteList({
 
   const filterOptions = useMemo(() => {
     if (!mounted) return { municipios: [], segmentos: [], clasificaciones: [], riesgos: [], empresas: [], departamentos: [] };
-    const departamentos = initialDepartments.length > 0
-      ? initialDepartments.sort((a, b) => a.name.localeCompare(b.name))
+    const departamentos = departments.length > 0
+      ? [...departments].sort((a, b) => a.name.localeCompare(b.name))
       : Array.from(new Set(clientes.flatMap((c: Cliente) => c.direcciones?.map((d) => d.departmentId).filter(Boolean) || [])))
           .map(id => ({ id: String(id), name: String(id), code: String(id) }));
-    const municipios = initialMunicipalities.length > 0
-      ? initialMunicipalities
+    const municipios = municipalities.length > 0
+      ? municipalities
           .filter(m => filters.departamento === "all" || m.departmentId === filters.departamento)
           .sort((a, b) => a.name.localeCompare(b.name))
       : Array.from(new Set(clientes.flatMap((c: Cliente) => c.direcciones?.map((d) => d.municipio).filter((m: string | undefined): m is string => !!m) || [])))
@@ -763,7 +836,7 @@ export function ClienteList({
       ).values()
     ).sort((a, b) => a.nombre.localeCompare(b.nombre));
     return { municipios, segmentos, clasificaciones, riesgos, empresas, departamentos };
-  }, [clientes, mounted, filters.departamento, initialDepartments, initialMunicipalities]);
+  }, [clientes, mounted, filters.departamento, departments, municipalities]);
 
   const handleSort = (key: string) => {
     setSortConfig(prev => {
@@ -2810,19 +2883,19 @@ export function ClienteList({
         </div>
 
         {/* Stats del Panel */}
-        {sugerenciasStats && (
+        {localSugerenciasStats && (
           <div className="p-6 grid grid-cols-3 gap-3 border-b border-border bg-muted/10">
             <div className="p-3 rounded-2xl bg-background border border-border text-center">
               <p className="text-[8px] font-black text-muted-foreground uppercase mb-1">Aceptación</p>
-              <p className="text-sm font-black text-[#01ADFB]">{sugerenciasStats.tasaAceptacion}%</p>
+              <p className="text-sm font-black text-[#01ADFB]">{localSugerenciasStats.tasaAceptacion}%</p>
             </div>
             <div className="p-3 rounded-2xl bg-background border border-border text-center">
               <p className="text-[8px] font-black text-muted-foreground uppercase mb-1">T. Ejecución</p>
-              <p className="text-sm font-black text-amber-600">{Math.round(sugerenciasStats.tiempoPromedioEjecucionMin)}m</p>
+              <p className="text-sm font-black text-amber-600">{Math.round(localSugerenciasStats.tiempoPromedioEjecucionMin)}m</p>
             </div>
             <div className="p-3 rounded-2xl bg-background border border-border text-center">
               <p className="text-[8px] font-black text-muted-foreground uppercase mb-1">Pendientes</p>
-              <p className="text-sm font-black text-red-600">{sugerenciasStats.pendientesPorPrioridad.CRITICA + sugerenciasStats.pendientesPorPrioridad.ALTA}</p>
+              <p className="text-sm font-black text-red-600">{localSugerenciasStats.pendientesPorPrioridad.CRITICA + localSugerenciasStats.pendientesPorPrioridad.ALTA}</p>
             </div>
           </div>
         )}
@@ -2835,9 +2908,9 @@ export function ClienteList({
                 <ClipboardCheck className="mx-auto h-12 w-12 text-emerald-500 mb-3" />
                 <p className="text-sm font-black uppercase tracking-widest text-emerald-700">Operación al día</p>
                 <p className="text-xs mt-1 text-muted-foreground">No hay pendientes activos en la cola operativa.</p>
-                {sugerenciasStats && (
+                {localSugerenciasStats && (
                   <p className="text-[10px] mt-2 font-bold uppercase tracking-widest text-muted-foreground">
-                    Creadas hoy: <span className="text-foreground">{sugerenciasStats.totalHoy}</span>
+                    Creadas hoy: <span className="text-foreground">{localSugerenciasStats.totalHoy}</span>
                   </p>
                 )}
               </div>
