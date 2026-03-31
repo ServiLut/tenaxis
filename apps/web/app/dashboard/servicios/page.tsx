@@ -23,6 +23,8 @@ import {
   RotateCcw,
   FileText,
   Plus,
+  Download,
+  Loader2,
   Calendar,
   Clock,
   User,
@@ -70,11 +72,14 @@ import { useUserRole } from "@/hooks/use-user-role";
 import { cn, getStorageUrl } from "@/lib/utils";
 import { toast } from "sonner";
 import Image from "next/image";
+import { enterpriseClient, type Enterprise } from "@/lib/api/enterprise-client";
+import { exportToExcel } from "@/lib/utils/export-helper";
 import {
   completeFollowUp,
   confirmOrdenUpload,
   createSignedUploadUrl,
   deleteOrdenServicio,
+  exportOrdenesServicio,
   getDepartments,
   getEstadoServicios,
   getMunicipalities,
@@ -89,6 +94,7 @@ import {
   type GeolocalizacionItem,
   type DepartmentDTO,
   type MunicipalityDTO,
+  type ServicioExportRow,
   type ServiciosKpis,
   updateOrdenServicio,
   uploadToSupabaseSignedUrl,
@@ -519,6 +525,17 @@ const CUSTOM_PRESET_COLORS: DashboardPresetColorToken[] = [
   "pink",
 ];
 
+const EXPORT_PRESET_OPTIONS = [
+  { value: "none", label: "SIN PRESET" },
+  { value: "HOY", label: "HOY" },
+  { value: "MANANA", label: "MAÑANA" },
+  { value: "SEMANA", label: "SEMANA" },
+  { value: "RECHAZADOS", label: "RECHAZADOS" },
+  { value: "VENCIDOS", label: "VENCIDOS" },
+  { value: "SIN_TECNICO", label: "SIN TÉCNICO" },
+  { value: "PENDIENTES_LIQUIDAR", label: "PEND. LIQUIDAR" },
+] as const;
+
 function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
   return (
     <div className="flex-1 min-h-0 flex flex-col">
@@ -585,6 +602,7 @@ function ServiciosContent() {
   const canCreateServices = checkPermission("SERVICE_CREATE");
   const canEditServices = checkPermission("SERVICE_EDIT");
   const canManageServices = checkPermission("SERVICE_MANAGE");
+  const canExportServices = checkPermission("SERVICE_EXPORT");
 
   useEffect(() => {
     if (!isLoadingRole && !canViewServices) {
@@ -669,6 +687,17 @@ function ServiciosContent() {
   };
   const [customPresets, setCustomPresets] = useState<DashboardPreset[]>([]);
   const [isPresetModalOpen, setIsPresetModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [isExportingExcel, setIsExportingExcel] = useState(false);
+  const [exportEnterpriseMode, setExportEnterpriseMode] = useState<"all" | "selected">("all");
+  const [exportEmpresaIds, setExportEmpresaIds] = useState<string[]>([]);
+  const [availableEnterprises, setAvailableEnterprises] = useState<Enterprise[]>([]);
+  const [exportEmpresaSearch, setExportEmpresaSearch] = useState("");
+  const [exportPreset, setExportPreset] = useState<string>("none");
+  const [exportDateRange, setExportDateRange] = useState({
+    fechaInicio: "",
+    fechaFin: "",
+  });
   const [editingPresetId, setEditingPresetId] = useState<string | null>(null);
   const [isFollowUpModalOpen, setIsFollowUpModalOpen] = useState(false);
   const [selectedFollowUp, setSelectedFollowUp] = useState<FollowUpRow | null>(null);
@@ -1287,6 +1316,16 @@ function ServiciosContent() {
     }
   };
 
+  const loadAvailableEnterprises = useCallback(async () => {
+    try {
+      const items = await enterpriseClient.getAll();
+      setAvailableEnterprises(items);
+    } catch (error) {
+      console.error("Error loading enterprises for export", error);
+      toast.error("No fue posible cargar las empresas");
+    }
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "d") {
@@ -1345,6 +1384,11 @@ function ServiciosContent() {
   useEffect(() => {
     fetchCustomPresets();
   }, [fetchCustomPresets]);
+
+  useEffect(() => {
+    if (!isExportModalOpen || availableEnterprises.length > 0) return;
+    void loadAvailableEnterprises();
+  }, [availableEnterprises.length, isExportModalOpen, loadAvailableEnterprises]);
 
   const updateFilters = useCallback(
     (
@@ -1600,6 +1644,122 @@ function ServiciosContent() {
     setIsDeleteModalOpen(true);
   };
 
+  const filteredExportEnterprises = useMemo(() => {
+    const searchToken = exportEmpresaSearch.trim().toLowerCase();
+    if (!searchToken) return availableEnterprises;
+    return availableEnterprises.filter((empresa) =>
+      empresa.nombre.toLowerCase().includes(searchToken),
+    );
+  }, [availableEnterprises, exportEmpresaSearch]);
+
+  const toggleExportEmpresa = (empresaId: string) => {
+    setExportEmpresaIds((prev) =>
+      prev.includes(empresaId)
+        ? prev.filter((id) => id !== empresaId)
+        : [...prev, empresaId],
+    );
+  };
+
+  const resetExportModal = useCallback(() => {
+    setExportEnterpriseMode("all");
+    setExportEmpresaIds([]);
+    setExportEmpresaSearch("");
+    setExportPreset("none");
+    setExportDateRange({
+      fechaInicio: "",
+      fechaFin: "",
+    });
+  }, []);
+
+  const handleExportExcel = async () => {
+    if (isExportingExcel || !canExportServices) return;
+
+    if (
+      exportDateRange.fechaInicio &&
+      exportDateRange.fechaFin &&
+      exportDateRange.fechaInicio > exportDateRange.fechaFin
+    ) {
+      toast.error("La fecha inicial no puede ser mayor a la fecha final");
+      return;
+    }
+
+    if (exportEnterpriseMode === "selected" && exportEmpresaIds.length === 0) {
+      toast.error("Selecciona al menos una empresa");
+      return;
+    }
+
+    setIsExportingExcel(true);
+    const toastId = toast.loading("Generando Excel...");
+
+    try {
+      const rows = await exportOrdenesServicio({
+        includeAllEmpresas: exportEnterpriseMode === "all",
+        empresaIds: exportEnterpriseMode === "selected" ? exportEmpresaIds : undefined,
+        fechaInicio: exportDateRange.fechaInicio,
+        fechaFin: exportDateRange.fechaFin,
+        preset: exportPreset === "none"
+          ? undefined
+          : exportPreset as NonNullable<Parameters<typeof exportOrdenesServicio>[0]["preset"]>,
+      });
+
+      await exportToExcel({
+        headers: [
+          "Orden",
+          "Empresa",
+          "Cliente",
+          "Servicio",
+          "Fecha visita",
+          "Hora inicio",
+          "Técnico",
+          "Tipo visita",
+          "Estado servicio",
+          "Estado pago",
+          "Urgencia",
+          "Valor cotizado",
+          "Valor pagado",
+          "Método pago",
+          "Municipio",
+          "Departamento",
+          "Dirección",
+          "Creador",
+          "Creada en",
+        ],
+        data: rows.map((row: ServicioExportRow) => [
+          row.numeroOrden,
+          row.empresa,
+          row.cliente,
+          row.servicio,
+          row.fechaVisita ? formatBogotaDate(row.fechaVisita) : "",
+          row.horaInicio ? formatBogotaTime(row.horaInicio) : "",
+          row.tecnico,
+          formatVisitTypeLabel(row.tipoVisita),
+          row.estadoServicio || "",
+          row.estadoPago || "",
+          row.urgencia || "",
+          row.valorCotizado,
+          row.valorPagado,
+          row.metodoPago,
+          row.municipio || "",
+          row.departamento || "",
+          row.direccion || "",
+          row.creador,
+          formatBogotaDateTime(row.creadaEn),
+        ]),
+        filename: `servicios_${exportDateRange.fechaInicio}_${exportDateRange.fechaFin}`,
+        title: "Reporte de órdenes de servicio",
+      });
+
+      toast.success(`Excel generado con ${rows.length} registro(s)`, { id: toastId });
+      setIsExportModalOpen(false);
+      resetExportModal();
+    } catch (error) {
+      console.error("Error exporting services", error);
+      toast.error("No fue posible generar el Excel", { id: toastId });
+    } finally {
+      setIsExportingExcel(false);
+    }
+  };
+
   const closeDeleteModal = (force = false) => {
     if (isDeletingServicio && !force) return;
     setIsDeleteModalOpen(false);
@@ -1775,9 +1935,22 @@ function ServiciosContent() {
                         )}
                       </div>
                     </div>
-                    {canCreateServices ? (
-                      <Link href="/dashboard/servicios/nuevo"><div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer"><Plus className="h-5 w-5" /><span className="font-bold uppercase tracking-widest text-[10px]">Nueva Orden</span></div></Link>
-                    ) : null}
+                    <div className="flex items-center gap-3">
+                      {canExportServices ? (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => setIsExportModalOpen(true)}
+                          className="h-12 px-6 rounded-xl border-border bg-background text-[10px] font-bold uppercase tracking-widest gap-3"
+                        >
+                          <Download className="h-4 w-4" />
+                          Descargar Excel
+                        </Button>
+                      ) : null}
+                      {canCreateServices ? (
+                        <Link href="/dashboard/servicios/nuevo"><div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer"><Plus className="h-5 w-5" /><span className="font-bold uppercase tracking-widest text-[10px]">Nueva Orden</span></div></Link>
+                      ) : null}
+                    </div>
                   </div>
                   <div className="px-8 py-4 border-b border-border bg-card">
                     <div className="flex flex-wrap gap-2 items-center">
@@ -2343,6 +2516,162 @@ function ServiciosContent() {
               </Button>
               <Button className="flex-1 bg-[#01ADFB] text-white" onClick={handleSavePreset}>
                 Guardar Preset
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={isExportModalOpen}
+        onOpenChange={(open) => {
+          setIsExportModalOpen(open);
+          if (!open && !isExportingExcel) {
+            resetExportModal();
+          }
+        }}
+      >
+        <DialogContent className="max-w-3xl bg-background border-border">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-bold uppercase text-foreground flex items-center gap-3">
+              <Download className="h-5 w-5 text-[#01ADFB]" />
+              Descargar Excel
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Selecciona empresa y preset. Si no defines fechas, se exportarán todos los registros del alcance elegido.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-6 mt-2">
+            <div className="space-y-3">
+              <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Empresas</Label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setExportEnterpriseMode("all")}
+                  className={cn(
+                    "h-10 rounded-xl border text-[10px] font-semibold uppercase tracking-widest",
+                    exportEnterpriseMode === "all"
+                      ? "border-[#01ADFB] bg-[#01ADFB] text-white"
+                      : "border-border bg-background text-muted-foreground",
+                  )}
+                >
+                  Todas
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setExportEnterpriseMode("selected")}
+                  className={cn(
+                    "h-10 rounded-xl border text-[10px] font-semibold uppercase tracking-widest",
+                    exportEnterpriseMode === "selected"
+                      ? "border-[#01ADFB] bg-[#01ADFB] text-white"
+                      : "border-border bg-background text-muted-foreground",
+                  )}
+                >
+                  Una o varias
+                </button>
+              </div>
+
+              {exportEnterpriseMode === "selected" ? (
+                <div className="space-y-3">
+                  <Input
+                    value={exportEmpresaSearch}
+                    onChange={(e) => setExportEmpresaSearch(e.target.value)}
+                    placeholder="Buscar empresa..."
+                    className="h-10"
+                  />
+                  <div className="max-h-56 overflow-y-auto rounded-2xl border border-border bg-muted/20 p-3 space-y-2 custom-scrollbar">
+                    {filteredExportEnterprises.length === 0 ? (
+                      <p className="px-3 py-6 text-center text-sm text-muted-foreground">
+                        No se encontraron empresas.
+                      </p>
+                    ) : (
+                      filteredExportEnterprises.map((empresa) => {
+                        const selected = exportEmpresaIds.includes(empresa.id);
+                        return (
+                          <button
+                            key={empresa.id}
+                            type="button"
+                            onClick={() => toggleExportEmpresa(empresa.id)}
+                            className={cn(
+                              "w-full flex items-center justify-between rounded-xl border px-4 py-3 text-left transition-colors",
+                              selected
+                                ? "border-[#01ADFB] bg-[#01ADFB]/10 text-foreground"
+                                : "border-border bg-background text-muted-foreground hover:bg-muted",
+                            )}
+                          >
+                            <span className="text-sm font-semibold uppercase">{empresa.nombre}</span>
+                            <span className={cn(
+                              "text-[10px] font-bold uppercase tracking-widest",
+                              selected ? "text-[#01ADFB]" : "text-muted-foreground",
+                            )}>
+                              {selected ? "Seleccionada" : "Seleccionar"}
+                            </span>
+                          </button>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Fecha inicial</Label>
+                <DatePicker
+                  date={exportDateRange.fechaInicio ? ymdToPickerDate(exportDateRange.fechaInicio) : undefined}
+                  onChange={(date) => setExportDateRange((prev) => ({ ...prev, fechaInicio: pickerDateToYmd(date) }))}
+                  placeholder="Inicio"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Fecha final</Label>
+                <DatePicker
+                  date={exportDateRange.fechaFin ? ymdToPickerDate(exportDateRange.fechaFin) : undefined}
+                  onChange={(date) => setExportDateRange((prev) => ({ ...prev, fechaFin: pickerDateToYmd(date) }))}
+                  placeholder="Fin"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Preset</Label>
+              <Combobox
+                value={exportPreset}
+                onChange={setExportPreset}
+                options={EXPORT_PRESET_OPTIONS.map((option) => ({
+                  value: option.value,
+                  label: option.label,
+                }))}
+                placeholder="Selecciona un preset..."
+              />
+            </div>
+
+            <div className="flex gap-2 pt-2">
+              <Button
+                variant="outline"
+                className="flex-1"
+                disabled={isExportingExcel}
+                onClick={() => {
+                  setIsExportModalOpen(false);
+                  resetExportModal();
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button className="flex-1 bg-[#01ADFB] text-white" disabled={isExportingExcel} onClick={handleExportExcel}>
+                {isExportingExcel ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Generando...
+                  </>
+                ) : (
+                  <>
+                    Generar Excel
+                    <Download className="ml-2 h-4 w-4" />
+                  </>
+                )}
               </Button>
             </div>
           </div>

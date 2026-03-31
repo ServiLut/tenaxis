@@ -287,6 +287,44 @@ export interface PaginatedResponse<T> {
   };
 }
 
+export interface ExportOrdenesServicioPayload {
+  empresaIds?: string[];
+  includeAllEmpresas?: boolean;
+  fechaInicio?: string;
+  fechaFin?: string;
+  preset?:
+    | "HOY"
+    | "MANANA"
+    | "SEMANA"
+    | "SEGUIMIENTOS"
+    | "VENCIDOS"
+    | "SIN_TECNICO"
+    | "PENDIENTES_LIQUIDAR"
+    | "RECHAZADOS";
+}
+
+export interface ServicioExportRow {
+  numeroOrden: string;
+  empresa: string;
+  cliente: string;
+  servicio: string;
+  fechaVisita: string | null;
+  horaInicio: string | null;
+  tecnico: string;
+  tipoVisita: string | null;
+  estadoServicio: string | null;
+  estadoPago: string | null;
+  urgencia: string | null;
+  valorCotizado: number;
+  valorPagado: number;
+  metodoPago: string;
+  municipio: string | null;
+  departamento: string | null;
+  direccion: string | null;
+  creador: string;
+  creadaEn: string;
+}
+
 export async function getOrdenesServicio(query: Record<string, string | number | undefined>) {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(query)) {
@@ -298,6 +336,16 @@ export async function getOrdenesServicio(query: Record<string, string | number |
   return apiFetch<PaginatedResponse<OrdenServicioRaw>>(
     `/ordenes-servicio${queryString ? `?${queryString}` : ""}`,
   );
+}
+
+export async function exportOrdenesServicio(body: ExportOrdenesServicioPayload) {
+  return apiFetch<ServicioExportRow[]>("/ordenes-servicio/export", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
 }
 
 export async function getOrdenServicio(id: string) {

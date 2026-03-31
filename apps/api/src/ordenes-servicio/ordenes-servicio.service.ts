@@ -12,6 +12,7 @@ import { ContratosClienteService } from '../contratos-cliente/contratos-cliente.
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
 import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
+import { ExportOrdenesServicioDto } from './dto/export-ordenes-servicio.dto';
 import { RemoveOrdenServicioDto } from './dto/remove-orden-servicio.dto';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import {
@@ -40,6 +41,7 @@ import sharp from 'sharp';
 import {
   PrismaAccessFilter,
   getPrismaAccessFilter,
+  hasTenantWideAccess,
 } from '../common/utils/access-control.util';
 import {
   OrdenServicio,
@@ -144,6 +146,28 @@ export interface ServiciosKpiPayload {
   recaudoHoy: number;
   ticketPromedio: number;
   sinEvidencia: number;
+}
+
+export interface ServicioExportPayload {
+  numeroOrden: string;
+  empresa: string;
+  cliente: string;
+  servicio: string;
+  fechaVisita: string | null;
+  horaInicio: string | null;
+  tecnico: string;
+  tipoVisita: string | null;
+  estadoServicio: string | null;
+  estadoPago: string | null;
+  urgencia: string | null;
+  valorCotizado: number;
+  valorPagado: number;
+  metodoPago: string;
+  municipio: string | null;
+  departamento: string | null;
+  direccion: string | null;
+  creador: string;
+  creadaEn: string;
 }
 
 @Injectable()
@@ -664,12 +688,10 @@ export class OrdenesServicioService {
     );
   }
 
-  private buildWhereClause(
-    user: JwtPayload,
-    reqEmpresaId: string | undefined,
+  private buildWhereClauseFromAccessFilter(
+    accessFilter: PrismaAccessFilter,
     filters?: QueryOrdenesServicioDto,
   ): Prisma.OrdenServicioWhereInput {
-    const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
     const geoWhere = this.buildOrdenGeoWhere(accessFilter);
 
     const whereClause: Prisma.OrdenServicioWhereInput = {
@@ -679,7 +701,6 @@ export class OrdenesServicioService {
       deletedAt: null,
     };
 
-    // By default only show root orders unless specifically asking for follow-ups
     if (filters?.preset === ServiciosPreset.SEGUIMIENTOS) {
       whereClause.ordenPadreId = { not: null };
       whereClause.seguimientos = {
@@ -844,6 +865,72 @@ export class OrdenesServicioService {
     }
 
     return whereClause;
+  }
+
+  private resolveExportAccessFilter(
+    user: JwtPayload,
+    dto: ExportOrdenesServicioDto,
+  ): PrismaAccessFilter {
+    const baseFilter = getPrismaAccessFilter(user);
+    const requestedIds = Array.from(
+      new Set((dto.empresaIds || []).filter((id) => this.isUUID(id))),
+    );
+
+    if (dto.includeAllEmpresas || requestedIds.length === 0) {
+      return baseFilter;
+    }
+
+    if (user.isGlobalSuAdmin || hasTenantWideAccess(user)) {
+      return {
+        ...baseFilter,
+        empresaId: { in: requestedIds },
+      };
+    }
+
+    const allowedIds = user.empresaIds || [];
+    const scopedIds = requestedIds.filter((id) => allowedIds.includes(id));
+
+    if (scopedIds.length !== requestedIds.length || scopedIds.length === 0) {
+      throw new ForbiddenException(
+        'No tienes acceso a una o más empresas solicitadas para la exportación',
+      );
+    }
+
+    return {
+      ...baseFilter,
+      empresaId: { in: scopedIds },
+    };
+  }
+
+  private getExportPaymentMethodLabel(orden: {
+    desglosePago?: Prisma.JsonValue | null;
+    metodoPago?: { nombre?: string | null } | null;
+  }): string {
+    const rawBreakdown = Array.isArray(orden.desglosePago)
+      ? (orden.desglosePago as Array<{ metodo?: string }>)
+      : [];
+    const breakdownMethods = Array.from(
+      new Set(
+        rawBreakdown
+          .map((item) => item?.metodo?.trim())
+          .filter((value): value is string => Boolean(value)),
+      ),
+    );
+
+    if (breakdownMethods.length > 0) {
+      return breakdownMethods.join(' + ');
+    }
+
+    return orden.metodoPago?.nombre?.trim() || 'NO DEFINIDO';
+  }
+
+  private buildWhereClause(
+    user: JwtPayload,
+    reqEmpresaId: string | undefined,
+    filters?: QueryOrdenesServicioDto,
+  ): Prisma.OrdenServicioWhereInput {
+    const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
+    return this.buildWhereClauseFromAccessFilter(accessFilter, filters);
   }
 
   async findAll(
@@ -1126,6 +1213,117 @@ export class OrdenesServicioService {
       ticketPromedio,
       sinEvidencia,
     };
+  }
+
+  async export(
+    user: JwtPayload,
+    dto: ExportOrdenesServicioDto,
+  ): Promise<ServicioExportPayload[]> {
+    const whereClause = this.buildWhereClauseFromAccessFilter(
+      this.resolveExportAccessFilter(user, dto),
+      {
+        fechaInicio: dto.fechaInicio,
+        fechaFin: dto.fechaFin,
+        ...(dto.preset ? { preset: dto.preset } : {}),
+      } as QueryOrdenesServicioDto,
+    );
+
+    const ordenes = await this.prisma.ordenServicio.findMany({
+      where: whereClause,
+      orderBy: [{ fechaVisita: 'desc' }, { createdAt: 'desc' }],
+      select: {
+        id: true,
+        numeroOrden: true,
+        empresa: { select: { nombre: true } },
+        cliente: {
+          select: {
+            tipoCliente: true,
+            nombre: true,
+            apellido: true,
+            razonSocial: true,
+          },
+        },
+        servicio: { select: { nombre: true } },
+        fechaVisita: true,
+        horaInicio: true,
+        tecnico: {
+          select: {
+            user: {
+              select: {
+                nombre: true,
+                apellido: true,
+              },
+            },
+          },
+        },
+        tipoVisita: true,
+        estadoServicio: true,
+        estadoPago: true,
+        urgencia: true,
+        valorCotizado: true,
+        valorPagado: true,
+        desglosePago: true,
+        metodoPago: { select: { nombre: true } },
+        municipio: true,
+        departamento: true,
+        direccionTexto: true,
+        creadoPor: {
+          select: {
+            user: {
+              select: {
+                nombre: true,
+                apellido: true,
+              },
+            },
+          },
+        },
+        createdAt: true,
+      },
+    });
+
+    return ordenes.map((orden) => {
+      const cliente =
+        orden.cliente.tipoCliente === 'EMPRESA'
+          ? orden.cliente.razonSocial || 'Empresa'
+          : [orden.cliente.nombre, orden.cliente.apellido]
+              .filter(Boolean)
+              .join(' ')
+              .trim() || 'Cliente';
+
+      const tecnico =
+        [orden.tecnico?.user?.nombre, orden.tecnico?.user?.apellido]
+          .filter(Boolean)
+          .join(' ')
+          .trim() || 'Sin asignar';
+
+      const creador =
+        [orden.creadoPor?.user?.nombre, orden.creadoPor?.user?.apellido]
+          .filter(Boolean)
+          .join(' ')
+          .trim() || 'Sin creador';
+
+      return {
+        numeroOrden: orden.numeroOrden || orden.id.slice(0, 8).toUpperCase(),
+        empresa: orden.empresa?.nombre || 'Sin empresa',
+        cliente,
+        servicio: orden.servicio?.nombre || 'Servicio General',
+        fechaVisita: orden.fechaVisita?.toISOString() || null,
+        horaInicio: orden.horaInicio?.toISOString() || null,
+        tecnico,
+        tipoVisita: orden.tipoVisita || null,
+        estadoServicio: orden.estadoServicio || null,
+        estadoPago: orden.estadoPago || null,
+        urgencia: orden.urgencia || null,
+        valorCotizado: Number(orden.valorCotizado || 0),
+        valorPagado: Number(orden.valorPagado || 0),
+        metodoPago: this.getExportPaymentMethodLabel(orden),
+        municipio: orden.municipio || null,
+        departamento: orden.departamento || null,
+        direccion: orden.direccionTexto || null,
+        creador,
+        creadaEn: orden.createdAt.toISOString(),
+      };
+    });
   }
 
   async findOne(user: JwtPayload, id: string) {

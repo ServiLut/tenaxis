@@ -24,6 +24,7 @@ import {
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
 import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
+import { ExportOrdenesServicioDto } from './dto/export-ordenes-servicio.dto';
 import { RemoveOrdenServicioDto } from './dto/remove-orden-servicio.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/jwt-payload.interface';
@@ -111,6 +112,14 @@ export class OrdenesServicioController {
       empresaId,
       query,
     );
+  }
+
+  @Post('export')
+  async export(
+    @Req() req: RequestWithUser,
+    @Body() dto: ExportOrdenesServicioDto,
+  ) {
+    return await this.ordenesServicioService.export(req.user, dto);
   }
 
   @Get('follow-ups/my-status')
