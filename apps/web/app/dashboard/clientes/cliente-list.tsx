@@ -1242,7 +1242,7 @@ export function ClienteList({
                 <div className="relative flex-1 group">
                   <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground group-focus-within:text-[#01ADFB] transition-colors" />
                   <Input
-                    placeholder="Buscar clientes..."
+                    placeholder="Buscar por nombre, apellido, número o documento..."
                     className="h-12 pl-12 rounded-xl border-none bg-muted focus:ring-2 focus:ring-[#01ADFB]/20 transition-all font-bold text-sm text-foreground"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}

@@ -307,16 +307,38 @@ export class ClientesService {
     const andConditions: Prisma.ClienteWhereInput[] = [{ deletedAt: null }];
 
     if (query.search) {
+      const searchTokens = query.search
+        .split(/\s+/)
+        .map((token) => token.trim())
+        .filter(Boolean);
+
+      const searchClauses: Prisma.ClienteWhereInput[] = [
+        { nombre: { contains: query.search, mode: 'insensitive' } },
+        { apellido: { contains: query.search, mode: 'insensitive' } },
+        { razonSocial: { contains: query.search, mode: 'insensitive' } },
+        { nit: { contains: query.search, mode: 'insensitive' } },
+        { numeroDocumento: { contains: query.search, mode: 'insensitive' } },
+        { correo: { contains: query.search, mode: 'insensitive' } },
+        { telefono: { contains: query.search, mode: 'insensitive' } },
+      ];
+
+      if (searchTokens.length > 1) {
+        searchClauses.push({
+          AND: searchTokens.map((token) => ({
+            OR: [
+              { nombre: { contains: token, mode: 'insensitive' } },
+              { apellido: { contains: token, mode: 'insensitive' } },
+              { razonSocial: { contains: token, mode: 'insensitive' } },
+              { nit: { contains: token, mode: 'insensitive' } },
+              { numeroDocumento: { contains: token, mode: 'insensitive' } },
+              { telefono: { contains: token, mode: 'insensitive' } },
+            ],
+          })),
+        });
+      }
+
       andConditions.push({
-        OR: [
-          { nombre: { contains: query.search, mode: 'insensitive' } },
-          { apellido: { contains: query.search, mode: 'insensitive' } },
-          { razonSocial: { contains: query.search, mode: 'insensitive' } },
-          { nit: { contains: query.search, mode: 'insensitive' } },
-          { numeroDocumento: { contains: query.search, mode: 'insensitive' } },
-          { correo: { contains: query.search, mode: 'insensitive' } },
-          { telefono: { contains: query.search, mode: 'insensitive' } },
-        ],
+        OR: searchClauses,
       });
     }
 
