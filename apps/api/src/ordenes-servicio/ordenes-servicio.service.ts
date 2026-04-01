@@ -709,7 +709,22 @@ export class OrdenesServicioService {
         },
       };
     } else {
-      whereClause.ordenPadreId = null;
+      whereClause.OR = [
+        {
+          ordenPadreId: null,
+        },
+        {
+          ordenPadreId: { not: null },
+          seguimientos: {
+            some: {
+              status: 'ACEPTADO',
+            },
+            none: {
+              status: { not: 'ACEPTADO' },
+            },
+          },
+        },
+      ];
     }
 
     if (!filters) return whereClause;
