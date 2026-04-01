@@ -216,6 +216,17 @@ const getGeoOperatorName = (geo: GeolocalizacionItem) => {
   return fullName || "SIN OPERADOR";
 };
 
+const getPersonFullName = (
+  person?: { user?: { nombre?: string | null; apellido?: string | null } } | null,
+  fallback = "SIN REGISTRO",
+) => {
+  const fullName = [person?.user?.nombre, person?.user?.apellido]
+    .filter((value): value is string => Boolean(value && value.trim()))
+    .join(" ");
+
+  return fullName || fallback;
+};
+
 const getGeoDurationLabel = (geo: GeolocalizacionItem) => {
   if (!geo.llegada) {
     return "Pendiente";
@@ -2948,6 +2959,12 @@ function ServiciosContent() {
                         <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">Técnico Asignado</span>
                         <span className="font-bold text-sm text-foreground uppercase leading-tight">{selectedServicio.tecnico}</span>
                       </div>
+                      <div className="col-span-2 space-y-1">
+                        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">Creado Por</span>
+                        <span className="font-bold text-sm text-foreground uppercase leading-tight">
+                          {getPersonFullName(selectedServicio.raw.creadoPor)}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -3949,13 +3966,22 @@ function ServiciosContent() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Liquidado Por</Label>
-                  <div className="p-4 rounded-xl bg-muted/30 border border-border">
-                    <p className="text-sm font-bold text-foreground uppercase">
-                      {selectedServicio.raw.liquidadoPor?.user ? `${selectedServicio.raw.liquidadoPor.user.nombre} ${selectedServicio.raw.liquidadoPor.user.apellido}` : "SISTEMA"}
-                    </p>
-                    <p className="text-[10px] font-medium text-muted-foreground mt-1">
-                      {selectedServicio.raw.liquidadoAt ? formatBogotaDateTime(selectedServicio.raw.liquidadoAt) : "Fecha no registrada"}
-                    </p>
+                  <div className="p-4 rounded-xl bg-muted/30 border border-border space-y-4">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Creado Por</p>
+                      <p className="text-sm font-bold text-foreground uppercase">
+                        {getPersonFullName(selectedServicio.raw.creadoPor)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Liquidado Por</p>
+                      <p className="text-sm font-bold text-foreground uppercase">
+                        {selectedServicio.raw.liquidadoPor ? getPersonFullName(selectedServicio.raw.liquidadoPor, "SISTEMA") : "SISTEMA"}
+                      </p>
+                      <p className="text-[10px] font-medium text-muted-foreground mt-1">
+                        {selectedServicio.raw.liquidadoAt ? formatBogotaDateTime(selectedServicio.raw.liquidadoAt) : "Fecha no registrada"}
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div className="space-y-2">
