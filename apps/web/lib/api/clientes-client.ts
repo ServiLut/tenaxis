@@ -141,8 +141,13 @@ function normalizeContratoCliente(
 }
 
 export const clientesClient = {
-  async getAll(): Promise<Cliente[]> {
-    return apiFetch<Cliente[]>("/clientes/list", { cache: "no-store" });
+  async getAll(options?: {
+    includeEnterpriseId?: boolean;
+  }): Promise<Cliente[]> {
+    return apiFetch<Cliente[]>("/clientes/list", {
+      cache: "no-store",
+      includeEnterpriseId: options?.includeEnterpriseId,
+    });
   },
 
   async getById(id: string): Promise<Cliente | null> {

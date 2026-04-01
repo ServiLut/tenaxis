@@ -550,7 +550,7 @@ function NuevoServicioContent() {
 
       try {
         const [cls, emps, deps, muns] = await Promise.all([
-          clientesClient.getAll(),
+          clientesClient.getAll({ includeEnterpriseId: false }),
           enterpriseClient.getAll(),
           geoClient.getDepartments(),
           geoClient.getMunicipalities(),
