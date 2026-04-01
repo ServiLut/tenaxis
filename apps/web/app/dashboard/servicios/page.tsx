@@ -282,6 +282,24 @@ const compareServiciosBySchedule = (a: Servicio, b: Servicio) => {
   return a.id.localeCompare(b.id);
 };
 
+const isServicioScheduledInFuture = (orden?: Partial<OrdenServicioRaw> | null) => {
+  if (!orden?.fechaVisita) return false;
+
+  const visitDate = new Date(orden.fechaVisita);
+  if (Number.isNaN(visitDate.getTime())) return false;
+
+  const scheduledDateTime = new Date(visitDate);
+
+  if (orden.horaInicio) {
+    const visitTime = new Date(orden.horaInicio);
+    if (!Number.isNaN(visitTime.getTime())) {
+      scheduledDateTime.setHours(visitTime.getHours(), visitTime.getMinutes(), 0, 0);
+    }
+  }
+
+  return scheduledDateTime > new Date();
+};
+
 const SERVICIOS_UI_CACHE_KEY = "tenaxis:dashboard:servicios:ui-state:v1";
 
 const SERVICIOS_FILTER_DEFAULTS = {
@@ -570,6 +588,7 @@ const PRESET_OPTIONS = [
   { key: "HOY", label: "HOY" },
   { key: "MANANA", label: "MAÑANA" },
   { key: "SEMANA", label: "SEMANA" },
+  { key: "PAGO_PENDIENTE", label: "PAGO PEND." },
   { key: "RECHAZADOS", label: "RECHAZADOS" },
   { key: "VENCIDOS", label: "VENCIDOS" },
   { key: "SIN_TECNICO", label: "SIN TÉCNICO" },
@@ -1025,22 +1044,34 @@ function ServiciosContent() {
 
     try {
       const empresaId = getScopedEnterpriseId();
+      const today = toBogotaYmd();
+      const effectiveFilters =
+        activePreset === "PAGO_PENDIENTE"
+          ? {
+              ...filters,
+              estadoPago: "PENDIENTE",
+              fechaFin:
+                filters.fechaFin && filters.fechaFin < today
+                  ? filters.fechaFin
+                  : today,
+            }
+          : filters;
       const response = await getOrdenesServicio({
         empresaId,
         search,
         page: pageToFetch,
         limit: itemsPerPage,
-        estado: filters.estado,
-        estadoPago: filters.estadoPago,
-        tecnicoId: filters.tecnico,
-        urgencia: filters.urgencia,
-        creadorId: filters.creador,
-        departamento: filters.departamento,
-        municipio: filters.municipio,
-        tipoVisita: filters.tipo,
-        fechaInicio: filters.fechaInicio,
-        fechaFin: filters.fechaFin,
-        preset: activePreset,
+        estado: effectiveFilters.estado,
+        estadoPago: effectiveFilters.estadoPago,
+        tecnicoId: effectiveFilters.tecnico,
+        urgencia: effectiveFilters.urgencia,
+        creadorId: effectiveFilters.creador,
+        departamento: effectiveFilters.departamento,
+        municipio: effectiveFilters.municipio,
+        tipoVisita: effectiveFilters.tipo,
+        fechaInicio: effectiveFilters.fechaInicio,
+        fechaFin: effectiveFilters.fechaFin,
+        preset: activePreset === "PAGO_PENDIENTE" ? undefined : activePreset,
         ...(viewMode === "seguimientos" ? { preset: "SEGUIMIENTOS" } : {}),
       });
 
@@ -1355,20 +1386,37 @@ function ServiciosContent() {
     setKpisLoading(true);
     try {
       const empresaId = getScopedEnterpriseId();
+      const today = toBogotaYmd();
+      const effectiveFilters =
+        activePreset === "PAGO_PENDIENTE"
+          ? {
+              ...filters,
+              estadoPago: "PENDIENTE",
+              fechaFin:
+                filters.fechaFin && filters.fechaFin < today
+                  ? filters.fechaFin
+                  : today,
+            }
+          : filters;
       const data = await getServiciosKpis({
         empresaId,
         search,
-        estado: filters.estado,
-        estadoPago: filters.estadoPago,
-        tecnicoId: filters.tecnico,
-        urgencia: filters.urgencia,
-        creadorId: filters.creador,
-        departamento: filters.departamento,
-        municipio: filters.municipio,
-        tipoVisita: filters.tipo,
-        fechaInicio: filters.fechaInicio,
-        fechaFin: filters.fechaFin,
-        preset: viewMode === "seguimientos" ? "SEGUIMIENTOS" : activePreset,
+        estado: effectiveFilters.estado,
+        estadoPago: effectiveFilters.estadoPago,
+        tecnicoId: effectiveFilters.tecnico,
+        urgencia: effectiveFilters.urgencia,
+        creadorId: effectiveFilters.creador,
+        departamento: effectiveFilters.departamento,
+        municipio: effectiveFilters.municipio,
+        tipoVisita: effectiveFilters.tipo,
+        fechaInicio: effectiveFilters.fechaInicio,
+        fechaFin: effectiveFilters.fechaFin,
+        preset:
+          viewMode === "seguimientos"
+            ? "SEGUIMIENTOS"
+            : activePreset === "PAGO_PENDIENTE"
+              ? undefined
+              : activePreset,
       });
       setKpis(data);
     } catch (error) {
@@ -1664,6 +1712,15 @@ function ServiciosContent() {
       return;
     }
 
+    if (preset === "PAGO_PENDIENTE") {
+      updateFilters({
+        ...baseFilters,
+        estadoPago: "PENDIENTE",
+        fechaFin: today,
+      });
+      return;
+    }
+
     if (preset === "SIN_TECNICO") {
       updateFilters(baseFilters);
       return;
@@ -1710,8 +1767,24 @@ function ServiciosContent() {
     filters.fechaFin !== "";
 
   const visibleServicios = useMemo(
-    () => [...servicios].sort(compareServiciosBySchedule),
-    [servicios],
+    () =>
+      [...servicios]
+        .filter((servicio) => {
+          if (activePreset !== "PAGO_PENDIENTE") {
+            return true;
+          }
+
+          const visitType = normalizeVisitType(servicio.raw.tipoVisita);
+          const paymentStatus = servicio.raw.estadoPago?.trim().toUpperCase();
+
+          return (
+            paymentStatus === "PENDIENTE" &&
+            visitType !== "NO_CONCRETADO" &&
+            !isServicioScheduledInFuture(servicio.raw)
+          );
+        })
+        .sort(compareServiciosBySchedule),
+    [activePreset, servicios],
   );
 
   const followUpRows: FollowUpRow[] = viewMode === "seguimientos"
