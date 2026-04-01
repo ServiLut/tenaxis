@@ -1179,6 +1179,15 @@ export class ClientesService {
         },
       })) as Cliente;
     } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new ConflictException(
+          'Ya existe un cliente con este número de documento, NIT o teléfono en el sistema.',
+        );
+      }
+
       console.error(
         'Error creating cliente. Data:',
         JSON.stringify(data, null, 2),

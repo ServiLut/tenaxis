@@ -552,7 +552,7 @@ export type ClienteOrderByWithRelationInput = {
 
 export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  telefono?: string
+  tenantId_telefono?: Prisma.ClienteTenantIdTelefonoCompoundUniqueInput
   AND?: Prisma.ClienteWhereInput | Prisma.ClienteWhereInput[]
   OR?: Prisma.ClienteWhereInput[]
   NOT?: Prisma.ClienteWhereInput | Prisma.ClienteWhereInput[]
@@ -560,6 +560,7 @@ export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   empresaId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
   nombre?: Prisma.StringNullableFilter<"Cliente"> | string | null
   apellido?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  telefono?: Prisma.StringFilter<"Cliente"> | string
   telefono2?: Prisma.StringNullableFilter<"Cliente"> | string | null
   correo?: Prisma.StringNullableFilter<"Cliente"> | string | null
   numeroDocumento?: Prisma.StringNullableFilter<"Cliente"> | string | null
@@ -603,7 +604,7 @@ export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
   sugerencias?: Prisma.SugerenciaSeguimientoListRelationFilter
   vehiculos?: Prisma.VehiculoListRelationFilter
-}, "id" | "telefono">
+}, "id" | "tenantId_telefono">
 
 export type ClienteOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -1009,6 +1010,11 @@ export type ClienteListRelationFilter = {
 
 export type ClienteOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ClienteTenantIdTelefonoCompoundUniqueInput = {
+  tenantId: string
+  telefono: string
 }
 
 export type ClienteCountOrderByAggregateInput = {
