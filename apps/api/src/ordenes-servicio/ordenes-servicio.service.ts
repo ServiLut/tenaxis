@@ -3257,6 +3257,7 @@ export class OrdenesServicioService {
       creadoPorId: string | null;
       direccionId: string | null;
       direccionTexto: string;
+      observacion?: string | null;
       tipoFacturacion: TipoFacturacion | null;
       nivelInfestacion: NivelInfestacion | null;
       urgencia: UrgenciaOrden | null;
@@ -3283,6 +3284,11 @@ export class OrdenesServicioService {
     }
 
     const baseDate = startOfBogotaDayUtc(fechaBase || new Date());
+    const originalObservacion = this.toOptionalString(orden.observacion);
+    const buildFollowUpObservacion = (baseMessage: string) =>
+      originalObservacion
+        ? `${baseMessage}\n\nObservaciones del servicio original: ${originalObservacion}`
+        : baseMessage;
 
     if (contratoActivo) {
       const frecuenciaContrato = contratoActivo.frecuenciaServicio;
@@ -3347,7 +3353,9 @@ export class OrdenesServicioService {
       followUpBlueprints.push({
         followUpType: 'INICIAL',
         dueAt: addBogotaDaysUtc(baseDate, servicio.primerSeguimientoDias),
-        observacion: `Seguimiento automático inicial programado a ${servicio.primerSeguimientoDias} días.`,
+        observacion: buildFollowUpObservacion(
+          `Seguimiento automático inicial programado a ${servicio.primerSeguimientoDias} días.`,
+        ),
       });
     }
 
@@ -3358,7 +3366,9 @@ export class OrdenesServicioService {
       followUpBlueprints.push({
         followUpType: 'TRES_MESES',
         dueAt: threeMonthsLater,
-        observacion: 'Seguimiento automático programado a 3 meses.',
+        observacion: buildFollowUpObservacion(
+          'Seguimiento automático programado a 3 meses.',
+        ),
       });
     }
 
