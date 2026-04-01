@@ -268,12 +268,7 @@ export class OrdenesServicioExportJobsService
     const lines = rows.map((row) =>
       headers
         .map((header) =>
-          this.escapeCsvValue(
-            row[header as keyof (typeof rows)[number]] as
-              | string
-              | number
-              | null,
-          ),
+          this.escapeCsvValue(row[header as keyof (typeof rows)[number]]),
         )
         .join(','),
     );
