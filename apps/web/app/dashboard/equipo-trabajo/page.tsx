@@ -73,6 +73,22 @@ const PERFORMANCE_VIEWS: Array<{
   },
 ];
 
+const ROLE_LABELS: Record<string, string> = {
+  SU_ADMIN: "Superadministrador",
+  ADMIN: "Administrador",
+  COORDINADOR: "Coordinador",
+  ASESOR: "Asesor",
+  OPERADOR: "Operador",
+};
+
+const MANAGEABLE_MEMBER_ROLES_BY_ACTOR: Record<string, string[]> = {
+  SU_ADMIN: ["ADMIN", "COORDINADOR", "ASESOR", "OPERADOR"],
+  ADMIN: ["ADMIN", "COORDINADOR", "ASESOR", "OPERADOR"],
+  COORDINADOR: ["ASESOR", "OPERADOR"],
+  ASESOR: [],
+  OPERADOR: [],
+};
+
 const getPerformanceViewForRole = (role: string): PerformanceView => {
   if (role === "ASESOR") return "comercial";
   if (role === "COORDINADOR") return "coordinacion";
@@ -688,20 +704,18 @@ function TeamPageContent() {
     });
   }, [departments, editForm?.departmentIds, municipalities]);
 
-  const editableRoles = useMemo(() => {
-    if (currentRole === "COORDINADOR") {
-      return allRoles.filter((role) => role === "ASESOR" || role === "OPERADOR");
-    }
+  const manageableRoles = useMemo(() => {
+    const baseRoles = MANAGEABLE_MEMBER_ROLES_BY_ACTOR[currentRole] || [];
+    return isGlobalSuAdmin ? ["SU_ADMIN", ...baseRoles] : baseRoles;
+  }, [currentRole, isGlobalSuAdmin]);
 
-    return allRoles.filter((role) => role !== "SU_ADMIN");
-  }, [allRoles, currentRole]);
+  const editableRoleOptions = useMemo(
+    () => manageableRoles.map((role) => ({ value: role, label: ROLE_LABELS[role] || role })),
+    [manageableRoles],
+  );
 
   const canManageMemberRole = (role: string) => {
-    if (currentRole !== "COORDINADOR") {
-      return role !== "SU_ADMIN";
-    }
-
-    return role === "ASESOR" || role === "OPERADOR";
+    return manageableRoles.includes(role);
   };
 
   const handleOpenEdit = () => {
@@ -1505,7 +1519,7 @@ function TeamPageContent() {
                             <div className="space-y-1.5">
                               <Label className="text-[9px] font-black uppercase text-muted-foreground ml-1">Rol</Label>
                               <Combobox 
-                                options={editableRoles.map(role => ({ value: role, label: role }))} 
+                                options={editableRoleOptions} 
                                 value={editForm?.role || ""} 
                                 onChange={(role) => setEditForm(prev => prev ? { ...prev, role } : null)} 
                                 hideSearch 
