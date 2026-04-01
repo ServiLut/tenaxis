@@ -688,6 +688,86 @@ export class OrdenesServicioService {
     );
   }
 
+  private buildSearchClauses(
+    searchToken: string,
+  ): Prisma.OrdenServicioWhereInput[] {
+    const baseClauses: Prisma.OrdenServicioWhereInput[] = [
+      { numeroOrden: { contains: searchToken, mode: 'insensitive' } },
+      { direccionTexto: { contains: searchToken, mode: 'insensitive' } },
+      { barrio: { contains: searchToken, mode: 'insensitive' } },
+      { cliente: { nombre: { contains: searchToken, mode: 'insensitive' } } },
+      {
+        cliente: {
+          apellido: { contains: searchToken, mode: 'insensitive' },
+        },
+      },
+      {
+        cliente: {
+          razonSocial: { contains: searchToken, mode: 'insensitive' },
+        },
+      },
+      {
+        cliente: {
+          telefono: { contains: searchToken, mode: 'insensitive' },
+        },
+      },
+      {
+        cliente: {
+          telefono2: { contains: searchToken, mode: 'insensitive' },
+        },
+      },
+      {
+        cliente: {
+          numeroDocumento: { contains: searchToken, mode: 'insensitive' },
+        },
+      },
+      {
+        cliente: {
+          registroDocumento: {
+            contains: searchToken,
+            mode: 'insensitive',
+          },
+        },
+      },
+      {
+        cliente: {
+          nit: { contains: searchToken, mode: 'insensitive' },
+        },
+      },
+      {
+        servicio: { nombre: { contains: searchToken, mode: 'insensitive' } },
+      },
+    ];
+
+    if (this.isUUID(searchToken)) {
+      baseClauses.unshift({ id: searchToken });
+    }
+
+    const fullNameTokens = searchToken.split(/\s+/).filter(Boolean);
+
+    if (fullNameTokens.length > 1) {
+      baseClauses.push({
+        AND: fullNameTokens.map((token) => ({
+          OR: [
+            { cliente: { nombre: { contains: token, mode: 'insensitive' } } },
+            {
+              cliente: {
+                apellido: { contains: token, mode: 'insensitive' },
+              },
+            },
+            {
+              cliente: {
+                razonSocial: { contains: token, mode: 'insensitive' },
+              },
+            },
+          ],
+        })),
+      });
+    }
+
+    return baseClauses;
+  }
+
   private buildWhereClauseFromAccessFilter(
     accessFilter: PrismaAccessFilter,
     filters?: QueryOrdenesServicioDto,
@@ -803,25 +883,7 @@ export class OrdenesServicioService {
 
     const searchToken = normalizeSearchToken(filters.search);
     if (searchToken) {
-      whereClause.OR = [
-        { numeroOrden: { contains: searchToken, mode: 'insensitive' } },
-        { direccionTexto: { contains: searchToken, mode: 'insensitive' } },
-        { barrio: { contains: searchToken, mode: 'insensitive' } },
-        { cliente: { nombre: { contains: searchToken, mode: 'insensitive' } } },
-        {
-          cliente: {
-            apellido: { contains: searchToken, mode: 'insensitive' },
-          },
-        },
-        {
-          cliente: {
-            razonSocial: { contains: searchToken, mode: 'insensitive' },
-          },
-        },
-        {
-          servicio: { nombre: { contains: searchToken, mode: 'insensitive' } },
-        },
-      ];
+      whereClause.OR = this.buildSearchClauses(searchToken);
     }
 
     const dateStart = toDayBoundsFromIso(filters.fechaInicio)?.start;

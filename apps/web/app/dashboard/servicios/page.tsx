@@ -149,10 +149,19 @@ interface FollowUpRow extends Servicio {
   parentServicio: string;
 }
 
-function resolveSoportePagoUrl(bucket: string, path?: string | null) {
-  if (!path) return "";
-  if (/^(https?:)?\/\//i.test(path)) return path;
-  return getStorageUrl(bucket, path.replace(/^\/+/, ""));
+function resolveSoportePagoUrl(bucket: string, path?: unknown) {
+  const normalizedPath =
+    typeof path === "string"
+      ? path
+      : typeof path === "object" && path !== null && "path" in path && typeof path.path === "string"
+        ? path.path
+        : typeof path === "object" && path !== null && "url" in path && typeof path.url === "string"
+          ? path.url
+          : "";
+
+  if (!normalizedPath) return "";
+  if (/^(https?:)?\/\//i.test(normalizedPath)) return normalizedPath;
+  return getStorageUrl(bucket, normalizedPath.replace(/^\/+/, ""));
 }
 
 
@@ -604,10 +613,26 @@ const formatVisitTypeLabel = (value?: string | null) => {
   return VISIT_TYPE_LABELS[normalized] || normalized;
 };
 
+const resolveServicioDisplayName = (orden: OrdenServicioRaw) => {
+  const multipleServicios = Array.isArray(orden.serviciosSeleccionados)
+    ? orden.serviciosSeleccionados
+        .map((item) => item?.trim())
+        .filter((item): item is string => Boolean(item))
+    : [];
+
+  if (multipleServicios.length > 0) {
+    return multipleServicios.join(", ");
+  }
+
+  return orden.servicio?.nombre || "Servicio General";
+};
+
 const VIEW_MODE_OPTIONS = [
   { key: "servicios", label: "Servicios" },
   { key: "seguimientos", label: "Seguimientos" },
 ] as const;
+
+type ViewMode = (typeof VIEW_MODE_OPTIONS)[number]["key"];
 
 const CUSTOM_PRESET_COLORS: DashboardPresetColorToken[] = [
   "slate",
@@ -720,7 +745,7 @@ function ServiciosContent() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
-  const [viewMode, setViewMode] = useState<"servicios" | "seguimientos">(
+  const [viewMode, setViewMode] = useState<ViewMode>(
     searchParams.get("tab") === "seguimientos" ? "seguimientos" : "servicios",
   );
   const [activePreset, setActivePreset] = useState(searchParams.get("preset") || "all");
@@ -1008,7 +1033,7 @@ function ServiciosContent() {
           id: os.numeroOrden || os.id.substring(0, 8).toUpperCase(),
           cliente: clienteLabel,
           clienteFull: os.cliente,
-          servicioEspecifico: os.servicio?.nombre || "Servicio General",
+          servicioEspecifico: resolveServicioDisplayName(os),
           fecha: os.fechaVisita ? formatBogotaDate(os.fechaVisita) : "Sin fecha",
           hora: os.horaInicio ? formatBogotaTime(os.horaInicio) : "Sin hora",
           tecnico: os.tecnico?.user ? `${os.tecnico.user.nombre} ${os.tecnico.user.apellido}` : "Sin asignar",
@@ -1339,7 +1364,7 @@ function ServiciosContent() {
       search?: string;
       filters?: typeof filters;
       activePreset?: string;
-      viewMode?: string;
+      viewMode?: ViewMode;
     };
 
     setSearch(payload.search || "");
@@ -2074,7 +2099,7 @@ function ServiciosContent() {
                       <div className="flex flex-1 items-center gap-3 max-w-2xl">
                         <div className="relative flex-1 group">
                           <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground group-focus-within:text-[#01ADFB] transition-colors" />
-                          <Input placeholder={viewMode === "seguimientos" ? "Buscar seguimientos..." : "Buscar servicios..."} className="h-12 pl-12 rounded-xl border-none bg-muted focus:ring-2 focus:ring-[#01ADFB]/20 transition-all font-bold text-sm text-foreground" value={search} onChange={(e) => { setCurrentPage(1); setSearch(e.target.value); }} />
+                          <Input placeholder={viewMode === "seguimientos" ? "Buscar seguimientos..." : "Buscar por orden, teléfono, documento o nombre..."} className="h-12 pl-12 rounded-xl border-none bg-muted focus:ring-2 focus:ring-[#01ADFB]/20 transition-all font-bold text-sm text-foreground" value={search} onChange={(e) => { setCurrentPage(1); setSearch(e.target.value); }} />
                         </div>
                         <button onClick={() => setShowFilters(!showFilters)} className={cn("h-12 px-5 rounded-xl bg-card border border-border text-muted-foreground font-bold text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all", showFilters && "bg-primary text-primary-foreground")}>
                           <Filter className="h-4 w-4" /> Filtros
