@@ -3041,27 +3041,51 @@ function ServiciosContent() {
                     <h3 className="text-xs font-black text-foreground uppercase tracking-[0.2em]">Observaciones Técnicas y Hallazgos</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="p-5 bg-muted/20 rounded-2xl border border-border italic text-sm text-foreground">
-                      <span className="not-italic text-[9px] font-black uppercase text-muted-foreground tracking-widest block mb-2">Instrucciones de Apertura</span>
-                      {selectedServicio.raw.observacion || "Sin instrucciones registradas."}
+                    <div className="p-5 bg-muted/20 rounded-2xl border border-border text-sm text-foreground">
+                      <span className="text-[9px] font-black uppercase text-muted-foreground tracking-widest block mb-2">Diagnóstico Técnico</span>
+                      <p className="whitespace-pre-wrap font-medium">
+                        {selectedServicio.raw.diagnosticoTecnico || "Sin diagnóstico técnico registrado."}
+                      </p>
                     </div>
-                    <div className="p-5 bg-[#01ADFB]/5 rounded-2xl border border-[#01ADFB]/10 italic text-sm text-foreground">
-                      <span className="not-italic text-[9px] font-black uppercase text-[#01ADFB] tracking-widest block mb-2">Reporte de Cierre Técnico</span>
-                      {selectedServicio.raw.observacionFinal || "Pendiente de reporte final por el técnico."}
+                    <div className="p-5 bg-[#01ADFB]/5 rounded-2xl border border-[#01ADFB]/10 text-sm text-foreground">
+                      <span className="text-[9px] font-black uppercase text-[#01ADFB] tracking-widest block mb-2">Intervención Realizada</span>
+                      <p className="whitespace-pre-wrap font-medium">
+                        {selectedServicio.raw.intervencionRealizada || "Sin intervención registrada."}
+                      </p>
                     </div>
-                    <div className="space-y-4">
-                       <div className="flex justify-between items-center px-2">
-                         <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Cond. Higiene</span>
-                         <span className="text-xs font-bold uppercase">{selectedServicio.raw.condicionesHigiene || "N/A"}</span>
-                       </div>
-                       <div className="flex justify-between items-center px-2">
-                         <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Cond. Local</span>
-                         <span className="text-xs font-bold uppercase">{selectedServicio.raw.condicionesLocal || "N/A"}</span>
-                       </div>
+                    <div className="p-5 bg-amber-50/50 dark:bg-amber-900/10 rounded-2xl border border-amber-100 dark:border-amber-900/20 text-sm text-foreground">
+                      <span className="text-[9px] font-black uppercase text-amber-700 tracking-widest block mb-2">Hallazgos Estructurales</span>
+                      <p className="whitespace-pre-wrap font-medium text-amber-900 dark:text-amber-200">
+                        {selectedServicio.raw.hallazgosEstructurales || "No se registraron hallazgos físicos relevantes."}
+                      </p>
                     </div>
-                    <div className="p-4 bg-amber-50/50 dark:bg-amber-900/10 rounded-2xl border border-amber-100 dark:border-amber-900/20">
-                       <span className="text-[9px] font-black uppercase text-amber-700 tracking-widest block mb-1">Hallazgos Estructurales</span>
-                       <p className="text-xs text-amber-900 dark:text-amber-200 font-medium">{selectedServicio.raw.hallazgosEstructurales || "No se registraron hallazgos físicos relevantes."}</p>
+                    <div className="p-5 bg-emerald-50/60 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-900/20 text-sm text-foreground">
+                      <span className="text-[9px] font-black uppercase text-emerald-700 tracking-widest block mb-2">Recomendaciones Obligatorias</span>
+                      <p className="whitespace-pre-wrap font-medium text-emerald-900 dark:text-emerald-200">
+                        {selectedServicio.raw.recomendacionesObligatorias || "No se registraron recomendaciones obligatorias."}
+                      </p>
+                    </div>
+                    <div className="p-5 bg-muted/20 rounded-2xl border border-border text-sm text-foreground">
+                      <span className="text-[9px] font-black uppercase text-muted-foreground tracking-widest block mb-2">Instrucciones de Apertura</span>
+                      <p className="whitespace-pre-wrap font-medium">
+                        {selectedServicio.raw.observacion || "Sin instrucciones registradas."}
+                      </p>
+                    </div>
+                    <div className="p-5 bg-violet-50/60 dark:bg-violet-900/10 rounded-2xl border border-violet-100 dark:border-violet-900/20 text-sm text-foreground">
+                      <span className="text-[9px] font-black uppercase text-violet-700 tracking-widest block mb-2">Reporte de Cierre Técnico</span>
+                      <p className="whitespace-pre-wrap font-medium text-violet-900 dark:text-violet-200">
+                        {selectedServicio.raw.observacionFinal || "Pendiente de reporte final por el técnico."}
+                      </p>
+                    </div>
+                    <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="rounded-2xl border border-border bg-muted/20 p-4">
+                        <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block mb-2">Condición de Higiene</span>
+                        <span className="text-sm font-bold uppercase text-foreground">{selectedServicio.raw.condicionesHigiene || "N/A"}</span>
+                      </div>
+                      <div className="rounded-2xl border border-border bg-muted/20 p-4">
+                        <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block mb-2">Condición del Local</span>
+                        <span className="text-sm font-bold uppercase text-foreground">{selectedServicio.raw.condicionesLocal || "N/A"}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
