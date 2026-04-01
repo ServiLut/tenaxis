@@ -109,7 +109,7 @@ export const StatCards = React.memo(function StatCards({ enterpriseId, isConfigu
       icon: CreditCard,
       color: "#64748B",
       progress: 100,
-      href: "/dashboard/servicios?estadoPago=PENDIENTE",
+      href: "/dashboard/servicios?preset=PAGO_PENDIENTE",
       description: "Monto cotizado con pago pendiente en órdenes finalizadas."
     },
   ];
