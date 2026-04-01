@@ -128,6 +128,7 @@ export interface OrdenServicioDetail extends Record<string, unknown> {
   empresaId: string;
   tecnicoId?: string | null;
   direccionId?: string | null;
+  serviciosSeleccionados?: string[] | null;
   fechaVisita?: string | null;
   horaInicio?: string | null;
   horaInicioReal?: string | null;
@@ -212,6 +213,7 @@ export interface OrdenServicioRaw {
   empresa?: { id: string; nombre: string };
   servicio?: { id: string; nombre: string };
   servicioId?: string;
+  serviciosSeleccionados?: string[] | null;
   tecnicoId?: string;
   fechaVisita?: string;
   horaInicio?: string;
