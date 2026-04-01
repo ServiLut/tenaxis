@@ -73,7 +73,9 @@ const PERFORMANCE_VIEWS: Array<{
   },
 ];
 
-const ROLE_LABELS: Record<string, string> = {
+type ManageableRole = "SU_ADMIN" | "ADMIN" | "COORDINADOR" | "ASESOR" | "OPERADOR";
+
+const ROLE_LABELS: Record<ManageableRole, string> = {
   SU_ADMIN: "Superadministrador",
   ADMIN: "Administrador",
   COORDINADOR: "Coordinador",
@@ -81,7 +83,7 @@ const ROLE_LABELS: Record<string, string> = {
   OPERADOR: "Operador",
 };
 
-const MANAGEABLE_MEMBER_ROLES_BY_ACTOR: Record<string, string[]> = {
+const MANAGEABLE_MEMBER_ROLES_BY_ACTOR: Record<ManageableRole, ManageableRole[]> = {
   SU_ADMIN: ["ADMIN", "COORDINADOR", "ASESOR", "OPERADOR"],
   ADMIN: ["ADMIN", "COORDINADOR", "ASESOR", "OPERADOR"],
   COORDINADOR: ["ASESOR", "OPERADOR"],
@@ -704,18 +706,25 @@ function TeamPageContent() {
     });
   }, [departments, editForm?.departmentIds, municipalities]);
 
-  const manageableRoles = useMemo(() => {
-    const baseRoles = MANAGEABLE_MEMBER_ROLES_BY_ACTOR[currentRole] || [];
+  const manageableRoles = useMemo<ManageableRole[]>(() => {
+    const actorRole = (currentRole && currentRole in MANAGEABLE_MEMBER_ROLES_BY_ACTOR)
+      ? (currentRole as ManageableRole)
+      : null;
+    const baseRoles = actorRole ? MANAGEABLE_MEMBER_ROLES_BY_ACTOR[actorRole] : [];
     return isGlobalSuAdmin ? ["SU_ADMIN", ...baseRoles] : baseRoles;
   }, [currentRole, isGlobalSuAdmin]);
 
   const editableRoleOptions = useMemo(
-    () => manageableRoles.map((role) => ({ value: role, label: ROLE_LABELS[role] || role })),
+    () => manageableRoles.map((role: ManageableRole) => ({ value: role, label: ROLE_LABELS[role] })),
     [manageableRoles],
   );
 
   const canManageMemberRole = (role: string) => {
-    return manageableRoles.includes(role);
+    if (!(role in ROLE_LABELS)) {
+      return false;
+    }
+
+    return manageableRoles.includes(role as ManageableRole);
   };
 
   const handleOpenEdit = () => {
