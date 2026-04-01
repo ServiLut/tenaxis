@@ -627,6 +627,41 @@ const resolveServicioDisplayName = (orden: OrdenServicioRaw) => {
   return orden.servicio?.nombre || "Servicio General";
 };
 
+const getLatestFollowUpStatus = (orden: OrdenServicioRaw) =>
+  orden.seguimientos?.[0]?.status || "";
+
+const hasPendingFollowUp = (orden: OrdenServicioRaw) =>
+  Array.isArray(orden.seguimientos)
+    ? orden.seguimientos.some((item) => item?.status === "PENDIENTE")
+    : false;
+
+const hasRegisteredFollowUpCall = (orden: OrdenServicioRaw) =>
+  Array.isArray(orden.seguimientos)
+    ? orden.seguimientos.some((item) => Boolean(item?.completedAt))
+    : false;
+
+const canEditOrdenTecnica = (orden: OrdenServicioRaw) =>
+  !orden.ordenPadreId || hasRegisteredFollowUpCall(orden);
+
+const getResolvedFollowUpStatus = (orden: OrdenServicioRaw) => {
+  const latestStatus = getLatestFollowUpStatus(orden);
+  if (hasPendingFollowUp(orden)) return "";
+  return latestStatus === "ACEPTADO" || latestStatus === "RECHAZADO"
+    ? latestStatus
+    : "";
+};
+
+const FOLLOW_UP_STATUS_STYLING: Record<string, string> = {
+  PENDIENTE:
+    "border-amber-200 bg-amber-50 text-amber-700",
+  ACEPTADO:
+    "border-emerald-200 bg-emerald-50 text-emerald-700",
+  RECHAZADO:
+    "border-rose-200 bg-rose-50 text-rose-700",
+  DEFAULT:
+    "border-zinc-200 bg-zinc-50 text-zinc-600",
+};
+
 const VIEW_MODE_OPTIONS = [
   { key: "servicios", label: "Servicios" },
   { key: "seguimientos", label: "Seguimientos" },
@@ -1015,7 +1050,7 @@ function ServiciosContent() {
 
       const mapOrdenToServicio = (
         os: OrdenServicioRaw,
-        isFollowUp = Boolean(os.ordenPadreId),
+        isFollowUp = Boolean(os.ordenPadreId) && Boolean(getResolvedFollowUpStatus(os)),
       ): Servicio => {
         const clienteLabel = os.cliente.tipoCliente === "EMPRESA"
           ? (os.cliente.razonSocial || "Empresa")
@@ -2275,14 +2310,16 @@ function ServiciosContent() {
                                     >
                                       Ver
                                     </button>
-                                    <Link 
-                                      href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios?tab=seguimientos`}
-                                      onClick={(e) => e.stopPropagation()}
-                                    >
-                                      <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest flex items-center">
-                                        Editar
-                                      </div>
-                                    </Link>
+                                    {canEditOrdenTecnica(s.raw) ? (
+                                      <Link 
+                                        href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios?tab=seguimientos`}
+                                        onClick={(e) => e.stopPropagation()}
+                                      >
+                                        <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest flex items-center">
+                                          Editar
+                                        </div>
+                                      </Link>
+                                    ) : null}
                                   </div>
                                 </td>
                               </tr>
@@ -2317,7 +2354,23 @@ function ServiciosContent() {
                     <p className="font-bold text-foreground tracking-tight uppercase">{s.cliente}</p>
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span>
-                      {s.isFollowUp ? <span className="px-2 py-0.5 rounded-md text-[8px] font-semibold uppercase bg-emerald-100 text-emerald-700 border border-emerald-200">seguimiento aceptado</span> : null}
+                      {(() => {
+                        const resolvedFollowUpStatus = getResolvedFollowUpStatus(s.raw);
+                        if (!resolvedFollowUpStatus) return null;
+
+                        const badgeClassName =
+                          resolvedFollowUpStatus === "ACEPTADO"
+                            ? "bg-emerald-100 text-emerald-700 border-emerald-200"
+                            : "bg-rose-100 text-rose-700 border-rose-200";
+
+                        return (
+                          <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-semibold uppercase border", badgeClassName)}>
+                            {resolvedFollowUpStatus === "ACEPTADO"
+                              ? "seguimiento aceptado"
+                              : "seguimiento rechazado"}
+                          </span>
+                        );
+                      })()}
                       <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-semibold uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>
                     </div>
                   </div>
@@ -2406,7 +2459,7 @@ function ServiciosContent() {
 
                 <td className="px-8 py-6 text-right">
                   <div className="flex justify-end gap-2">
-                    {s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length > 0 ? (
+                    {s.followUps.length > 0 ? (
                       <button
                         onClick={(e) => { e.stopPropagation(); toggleFollowUpsRow(s.raw.id); }}
                         className="h-10 px-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 hover:bg-amber-100 transition-all flex items-center gap-2"
@@ -2432,12 +2485,12 @@ function ServiciosContent() {
                             <Eye className="h-4 w-4 text-[#01ADFB]" /> VER DETALLES
                           </DropdownMenuItem>
 
-                          {canEditServices ? (
-                            <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`} onClick={(e) => e.stopPropagation()}>
-                              <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground">
-                                <Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN
-                              </DropdownMenuItem>
-                            </Link>
+            {canEditServices && canEditOrdenTecnica(s.raw) ? (
+              <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`} onClick={(e) => e.stopPropagation()}>
+                <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground">
+                  <Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN
+                </DropdownMenuItem>
+              </Link>
                           ) : null}
 
                           <DropdownMenuItem 
@@ -2549,60 +2602,63 @@ function ServiciosContent() {
                   </div>
                 </td>
               </tr>
-                              {expandedRows[s.raw.id] && s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length > 0 ? (
-                                <tr className="bg-amber-50/60">
-                                  <td colSpan={8} className="px-8 py-5">
-                                    <div className="rounded-2xl border border-amber-200 bg-white overflow-hidden">
-                                      <div className="px-5 py-4 border-b border-amber-100 flex items-center justify-between">
-                                        <div>
-                                          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700">Servicios automáticos</p>
-                                          <p className="text-xs font-medium text-muted-foreground mt-1">Estas visitas se generaron automáticamente y cuelgan del servicio madre.</p>
-                                        </div>
-                                        <span className="text-[10px] font-semibold uppercase tracking-widest text-amber-700">{s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length} seguimiento(s)</span>
-                                      </div>
-                                      <div className="divide-y divide-amber-100">
-                                        {s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").map((child) => (
-                                          <div key={child.raw.id} className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr_1fr_auto] gap-4 px-5 py-4">
-                                            <div>
-                                              <p className="font-bold text-foreground uppercase">{child.servicioEspecifico}</p>
-                                              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-1">
-                                                {formatVisitTypeLabel(child.raw.tipoVisita)} • #{child.id}
-                                              </p>
-                                              <p className="text-xs text-muted-foreground mt-2">{child.raw.observacion || "Servicio automático"}</p>
-                                            </div>
-                                            <div>
-                                              <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Programación</p>
-                                              <p className="text-sm font-bold text-foreground mt-1">{child.fecha}</p>
-                                              <p className="text-xs text-muted-foreground">{child.hora}</p>
-                                            </div>
-                                            <div>
-                                              <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Estado</p>
-                                              <span className={cn("inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase border shadow-sm mt-1", ESTADO_STYLING[child.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>
-                                                {child.estadoServicio}
-                                              </span>
-                                            </div>
-                                            <div className="flex items-start justify-end gap-2">
-                                              <button
-                                                onClick={() => { setSelectedServicio(child); setIsModalOpen(true); }}
-                                                className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest"
-                                              >
-                                                Ver
-                                              </button>
-                                              {canEditServices ? (
-                                                <Link href={`/dashboard/servicios/${child.raw.id}/editar?returnTo=/dashboard/servicios`}>
-                                                  <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest flex items-center">
-                                                    Editar
-                                                  </div>
-                                                </Link>
-                                              ) : null}
-                                            </div>
-                                          </div>
-                                        ))}
-                                      </div>
+              {expandedRows[s.raw.id] && s.followUps.length > 0 ? (
+                <tr className="bg-amber-50/60">
+                  <td colSpan={8} className="px-8 py-5">
+                    <div className="rounded-2xl border border-amber-200 bg-white overflow-hidden">
+                      <div className="px-5 py-4 border-b border-amber-100 flex items-center justify-between">
+                        <div>
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700">Seguimientos de la orden</p>
+                          <p className="text-xs font-medium text-muted-foreground mt-1">Visitas automáticas generadas para esta orden madre.</p>
+                        </div>
+                        <span className="text-[10px] font-semibold uppercase tracking-widest text-amber-700">{s.followUps.length} seguimiento(s)</span>
+                      </div>
+                      <div className="divide-y divide-amber-100">
+                        {s.followUps.map((child) => {
+                          const latestStatus = getLatestFollowUpStatus(child.raw) || "DEFAULT";
+                          return (
+                            <div key={child.raw.id} className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr_1fr_auto] gap-4 px-5 py-4">
+                              <div>
+                                <p className="font-bold text-foreground uppercase">{child.servicioEspecifico}</p>
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-1">
+                                  {formatVisitTypeLabel(child.raw.tipoVisita)} • #{child.id}
+                                </p>
+                                <p className="text-xs text-muted-foreground mt-2">{child.raw.observacion || "Seguimiento automático"}</p>
+                              </div>
+                              <div>
+                                <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Programación</p>
+                                <p className="text-sm font-bold text-foreground mt-1">{child.fecha}</p>
+                                <p className="text-xs text-muted-foreground">{child.hora}</p>
+                              </div>
+                              <div>
+                                <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Seguimiento</p>
+                                <span className={cn("inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase border shadow-sm mt-1", FOLLOW_UP_STATUS_STYLING[latestStatus] || FOLLOW_UP_STATUS_STYLING.DEFAULT)}>
+                                  {latestStatus === "DEFAULT" ? "SIN REGISTRO" : latestStatus}
+                                </span>
+                              </div>
+                              <div className="flex items-start justify-end gap-2">
+                                <button
+                                  onClick={() => { setSelectedServicio(child); setIsModalOpen(true); }}
+                                  className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest"
+                                >
+                                  Ver
+                                </button>
+                                {canEditServices && canEditOrdenTecnica(child.raw) ? (
+                                  <Link href={`/dashboard/servicios/${child.raw.id}/editar?returnTo=/dashboard/servicios`}>
+                                    <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest flex items-center">
+                                      Editar
                                     </div>
-                                  </td>
-                                </tr>
-                              ) : null}
+                                  </Link>
+                                ) : null}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ) : null}
                             </React.Fragment>
                           ))}
                         </tbody>
@@ -3253,11 +3309,11 @@ function ServiciosContent() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-72 p-3 rounded-2xl bg-card border-border shadow-2xl">
                   <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-3 py-2 border-b border-border mb-2">Opciones Avanzadas</p>
-                  {canEditServices ? (
-                    <DropdownMenuItem onClick={() => router.push(`/dashboard/servicios/${selectedServicio.raw.id}/editar`)} className="flex items-center gap-3 py-3 text-xs font-bold cursor-pointer text-foreground rounded-xl hover:bg-muted">
-                      <Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN TÉCNICA
-                    </DropdownMenuItem>
-                  ) : null}
+  {canEditServices && canEditOrdenTecnica(selectedServicio.raw) ? (
+    <DropdownMenuItem onClick={() => router.push(`/dashboard/servicios/${selectedServicio.raw.id}/editar`)} className="flex items-center gap-3 py-3 text-xs font-bold cursor-pointer text-foreground rounded-xl hover:bg-muted">
+      <Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN TÉCNICA
+    </DropdownMenuItem>
+  ) : null}
                   {canManageServices ? (
                     <>
                       <DropdownMenuItem onClick={() => { setSelectedServicio(selectedServicio); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-3 text-xs font-bold cursor-pointer text-foreground rounded-xl hover:bg-muted">
