@@ -273,6 +273,65 @@ const compareServiciosBySchedule = (a: Servicio, b: Servicio) => {
   return a.id.localeCompare(b.id);
 };
 
+const SERVICIOS_UI_CACHE_KEY = "tenaxis:dashboard:servicios:ui-state:v1";
+
+const SERVICIOS_FILTER_DEFAULTS = {
+  estado: "all",
+  estadoPago: "all",
+  tecnico: "all",
+  urgencia: "all",
+  creador: "all",
+  departamento: "all",
+  municipio: "all",
+  empresa: "all",
+  tipo: "all",
+  fechaInicio: "",
+  fechaFin: "",
+};
+
+type ServiciosFiltersState = typeof SERVICIOS_FILTER_DEFAULTS;
+
+interface ServiciosUiCacheState {
+  search: string;
+  viewMode: "servicios" | "seguimientos";
+  activePreset: string;
+  activeOperationalFilter: string | null;
+  currentPage: number;
+  filters: ServiciosFiltersState;
+}
+
+const readServiciosUiCache = (): ServiciosUiCacheState | null => {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const raw = window.localStorage.getItem(SERVICIOS_UI_CACHE_KEY);
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw) as Partial<ServiciosUiCacheState> | null;
+    if (!parsed || typeof parsed !== "object") return null;
+
+    return {
+      search: typeof parsed.search === "string" ? parsed.search : "",
+      viewMode: parsed.viewMode === "seguimientos" ? "seguimientos" : "servicios",
+      activePreset: typeof parsed.activePreset === "string" ? parsed.activePreset : "all",
+      activeOperationalFilter:
+        typeof parsed.activeOperationalFilter === "string"
+          ? parsed.activeOperationalFilter
+          : null,
+      currentPage:
+        typeof parsed.currentPage === "number" && parsed.currentPage > 0
+          ? Math.floor(parsed.currentPage)
+          : 1,
+      filters: {
+        ...SERVICIOS_FILTER_DEFAULTS,
+        ...(parsed.filters && typeof parsed.filters === "object" ? parsed.filters : {}),
+      },
+    };
+  } catch {
+    return null;
+  }
+};
+
 const createTransferenciaForm = (
   partial?: Partial<LiquidarTransferenciaForm>,
 ): LiquidarTransferenciaForm => ({
@@ -661,7 +720,9 @@ function ServiciosContent() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
-  const [viewMode, setViewMode] = useState(searchParams.get("tab") || "servicios");
+  const [viewMode, setViewMode] = useState<"servicios" | "seguimientos">(
+    searchParams.get("tab") === "seguimientos" ? "seguimientos" : "servicios",
+  );
   const [activePreset, setActivePreset] = useState(searchParams.get("preset") || "all");
   const [showOperationalQueue, setShowOperationalQueue] = useState(false);
   const [expandedOperationalSections, setExpandedOperationalSections] = useState<Record<string, boolean>>({
@@ -676,6 +737,7 @@ function ServiciosContent() {
   const [kpis, setKpis] = useState<ServiciosKpis | null>(null);
   const [kpisLoading, setKpisLoading] = useState(false);
   const [isProcessingJob, setIsProcessingJob] = useState(false);
+  const [hasRestoredUiState, setHasRestoredUiState] = useState(false);
   const hasLoadedServiciosRef = useRef(false);
 
   const handleTriggerJob = async () => {
@@ -791,18 +853,19 @@ function ServiciosContent() {
     }, 100);
   };
 
-  const [filters, setFilters] = useState({
-    estado: searchParams.get("estado") || "all",
-    estadoPago: searchParams.get("estadoPago") || "all",
-    tecnico: searchParams.get("tecnico") || "all",
-    urgencia: searchParams.get("urgencia") || "all",
-    creador: searchParams.get("creador") || "all",
-    departamento: searchParams.get("departamento") || "all",
-    municipio: searchParams.get("municipio") || "all",
-    empresa: searchParams.get("empresa") || "all",
-    tipo: searchParams.get("tipo") || "all",
-    fechaInicio: searchParams.get("fechaInicio") || "",
-    fechaFin: searchParams.get("fechaFin") || "",
+  const [filters, setFilters] = useState<ServiciosFiltersState>({
+    estado: searchParams.get("estado") || SERVICIOS_FILTER_DEFAULTS.estado,
+    estadoPago: searchParams.get("estadoPago") || SERVICIOS_FILTER_DEFAULTS.estadoPago,
+    tecnico: searchParams.get("tecnico") || SERVICIOS_FILTER_DEFAULTS.tecnico,
+    urgencia: searchParams.get("urgencia") || SERVICIOS_FILTER_DEFAULTS.urgencia,
+    creador: searchParams.get("creador") || SERVICIOS_FILTER_DEFAULTS.creador,
+    departamento:
+      searchParams.get("departamento") || SERVICIOS_FILTER_DEFAULTS.departamento,
+    municipio: searchParams.get("municipio") || SERVICIOS_FILTER_DEFAULTS.municipio,
+    empresa: searchParams.get("empresa") || SERVICIOS_FILTER_DEFAULTS.empresa,
+    tipo: searchParams.get("tipo") || SERVICIOS_FILTER_DEFAULTS.tipo,
+    fechaInicio: searchParams.get("fechaInicio") || SERVICIOS_FILTER_DEFAULTS.fechaInicio,
+    fechaFin: searchParams.get("fechaFin") || SERVICIOS_FILTER_DEFAULTS.fechaFin,
   });
   const [filterOptions, setOptions] = useState<{
     estados: { id: string; nombre: string }[];
@@ -834,6 +897,11 @@ function ServiciosContent() {
     const lockedId = getBrowserScopedEnterpriseId();
     if (lockedId) return lockedId;
     return localStorage.getItem("current-enterprise-id") || undefined;
+  }, []);
+
+  const clearServiciosUiCache = useCallback(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.removeItem(SERVICIOS_UI_CACHE_KEY);
   }, []);
 
   const fetchOptions = useCallback(async () => {
@@ -920,7 +988,10 @@ function ServiciosContent() {
       setTotalPages(meta.totalPages);
       setTotalCount(meta.total);
 
-      const mapOrdenToServicio = (os: OrdenServicioRaw, isFollowUp = false): Servicio => {
+      const mapOrdenToServicio = (
+        os: OrdenServicioRaw,
+        isFollowUp = Boolean(os.ordenPadreId),
+      ): Servicio => {
         const clienteLabel = os.cliente.tipoCliente === "EMPRESA"
           ? (os.cliente.razonSocial || "Empresa")
           : `${os.cliente.nombre || ""} ${os.cliente.apellido || ""}`.trim();
@@ -1377,6 +1448,25 @@ function ServiciosContent() {
   }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const hasQueryParams = window.location.search.replace(/^\?/, "").length > 0;
+    if (!hasQueryParams) {
+      const cachedState = readServiciosUiCache();
+      if (cachedState) {
+        setSearch(cachedState.search);
+        setViewMode(cachedState.viewMode);
+        setActivePreset(cachedState.activePreset);
+        setActiveOperationalFilter(cachedState.activeOperationalFilter);
+        setCurrentPage(cachedState.currentPage);
+        setFilters(cachedState.filters);
+      }
+    }
+
+    setHasRestoredUiState(true);
+  }, []);
+
+  useEffect(() => {
     const nextParams = new URLSearchParams();
     if (search) nextParams.set("search", search);
     if (viewMode !== "servicios") nextParams.set("tab", viewMode);
@@ -1402,22 +1492,62 @@ function ServiciosContent() {
   }, [activePreset, filters, pathname, search, viewMode]);
 
   useEffect(() => {
+    if (!hasRestoredUiState || typeof window === "undefined") return;
+
+    const nextState: ServiciosUiCacheState = {
+      search,
+      viewMode,
+      activePreset,
+      activeOperationalFilter,
+      currentPage,
+      filters,
+    };
+
+    const isDefaultState =
+      nextState.search === "" &&
+      nextState.viewMode === "servicios" &&
+      nextState.activePreset === "all" &&
+      nextState.activeOperationalFilter === null &&
+      nextState.currentPage === 1 &&
+      Object.entries(SERVICIOS_FILTER_DEFAULTS).every(
+        ([key, value]) => nextState.filters[key as keyof ServiciosFiltersState] === value,
+      );
+
+    if (isDefaultState) {
+      window.localStorage.removeItem(SERVICIOS_UI_CACHE_KEY);
+      return;
+    }
+
+    window.localStorage.setItem(SERVICIOS_UI_CACHE_KEY, JSON.stringify(nextState));
+  }, [
+    activeOperationalFilter,
+    activePreset,
+    currentPage,
+    filters,
+    hasRestoredUiState,
+    search,
+    viewMode,
+  ]);
+
+  useEffect(() => {
     if (activeOperationalFilter) {
       // Logic handled in filteredServicios
     }
   }, [activeOperationalFilter]);
 
   useEffect(() => {
+    if (!hasRestoredUiState) return;
     fetchServicios();
-  }, [fetchServicios]);
+  }, [fetchServicios, hasRestoredUiState]);
 
   useEffect(() => {
     fetchOptions();
   }, [fetchOptions]);
 
   useEffect(() => {
+    if (!hasRestoredUiState) return;
     fetchKpis();
-  }, [fetchKpis]);
+  }, [fetchKpis, hasRestoredUiState]);
 
   useEffect(() => {
     fetchCustomPresets();
@@ -1451,19 +1581,7 @@ function ServiciosContent() {
 
     const today = toBogotaYmd();
     const tomorrow = addDaysToYmd(today, 1);
-    const baseFilters = {
-      estado: "all",
-      estadoPago: "all",
-      tecnico: "all",
-      urgencia: "all",
-      creador: "all",
-      departamento: "all",
-      municipio: "all",
-      empresa: "all",
-      tipo: "all",
-      fechaInicio: "",
-      fechaFin: "",
-    };
+    const baseFilters = { ...SERVICIOS_FILTER_DEFAULTS };
 
     if (preset === "HOY") {
       updateFilters({ ...baseFilters, fechaInicio: today, fechaFin: today });
@@ -1505,24 +1623,16 @@ function ServiciosContent() {
   };
 
   const resetAllFilters = useCallback(() => {
+    clearServiciosUiCache();
     setSearch("");
     setActivePreset("all");
     setActiveOperationalFilter(null);
+    setCurrentPage(1);
     updateFilters({
-      estado: "all",
-      estadoPago: "all",
-      tecnico: "all",
-      urgencia: "all",
-      creador: "all",
-      departamento: "all",
-      municipio: "all",
-      empresa: "all",
-      tipo: "all",
-      fechaInicio: "",
-      fechaFin: "",
+      ...SERVICIOS_FILTER_DEFAULTS,
     });
     toast.info("Filtros restablecidos");
-  }, [updateFilters]);
+  }, [clearServiciosUiCache, updateFilters]);
 
   const hasActiveFilters = search !== "" ||
     activePreset !== "all" ||
@@ -2055,7 +2165,7 @@ function ServiciosContent() {
                       <div className="max-w-7xl mx-auto">
                         <div className="flex items-center justify-between mb-8">
                           <div><h3 className="text-sm font-bold uppercase text-foreground flex items-center gap-3"><Filter className="h-5 w-5 text-[#01ADFB]" /> Panel de Filtros</h3><p className="text-[10px] font-medium text-muted-foreground mt-1 uppercase tracking-wider">Refine los resultados de búsqueda</p></div>
-                          <button onClick={() => { setActivePreset("all"); updateFilters({ estado: "all", estadoPago: "all", tecnico: "all", urgencia: "all", creador: "all", departamento: "all", municipio: "all", empresa: "all", tipo: "all", fechaInicio: "", fechaFin: "" }); }} className="text-[10px] font-semibold uppercase text-muted-foreground hover:text-[#01ADFB] flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-card border border-border"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</button>
+            <button onClick={resetAllFilters} className="text-[10px] font-semibold uppercase text-muted-foreground hover:text-[#01ADFB] flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-card border border-border"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</button>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Creador</Label><Combobox value={filters.creador} onChange={(v) => updateFilters(f => ({ ...f, creador: v }))} options={[{ value: "all", label: "TODOS LOS CREADORES" }, ...filterOptions.creadores.map(c => ({ value: c.id, label: c.nombre.toUpperCase() }))]} /></div>
