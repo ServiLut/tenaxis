@@ -431,7 +431,7 @@ model Cliente {
   empresaId                 String?                         @db.Uuid
   nombre                    String?
   apellido                  String?
-  telefono                  String                          @unique
+  telefono                  String
   telefono2                 String?
   correo                    String?
   numeroDocumento           String?
@@ -479,6 +479,7 @@ model Cliente {
   @@index([tenantId])
   @@index([empresaId])
   @@index([tenantId, empresaId])
+  @@unique([tenantId, telefono])
   @@index([numeroDocumento])
   @@index([nombre, apellido])
   @@index([segmento])
