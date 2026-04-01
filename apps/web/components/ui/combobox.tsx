@@ -5,6 +5,7 @@ import { cn } from "./utils";
 export interface ComboboxOption {
   value: string;
   label: string;
+  searchText?: string;
 }
 
 interface ComboboxProps {
@@ -16,6 +17,7 @@ interface ComboboxProps {
   disabled?: boolean;
   className?: string;
   hideSearch?: boolean;
+  defaultVisibleLimit?: number;
 }
 
 export function Combobox({
@@ -27,6 +29,7 @@ export function Combobox({
   disabled,
   className,
   hideSearch = false,
+  defaultVisibleLimit,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
@@ -35,11 +38,19 @@ export function Combobox({
   const selectedOption = options.find((opt) => opt.value === value);
 
   const filteredOptions = React.useMemo(() => {
-    if (!search || hideSearch) return options;
+    if (hideSearch) {
+      return defaultVisibleLimit ? options.slice(0, defaultVisibleLimit) : options;
+    }
+
+    if (!search) {
+      return defaultVisibleLimit ? options.slice(0, defaultVisibleLimit) : options;
+    }
+
+    const normalizedSearch = search.toLowerCase().trim();
     return options.filter((opt) =>
-      opt.label.toLowerCase().includes(search.toLowerCase())
+      `${opt.label} ${opt.searchText ?? ""}`.toLowerCase().includes(normalizedSearch)
     );
-  }, [options, search, hideSearch]);
+  }, [options, search, hideSearch, defaultVisibleLimit]);
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense, useCallback } from "react";
+import { useState, useEffect, Suspense, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -194,6 +194,11 @@ interface Cliente {
   nombre?: string | null;
   apellido?: string | null;
   razonSocial?: string | null;
+  telefono?: string | null;
+  telefono2?: string | null;
+  numeroDocumento?: string | null;
+  nit?: string | null;
+  createdAt?: string;
   direcciones?: Direccion[];
 }
 
@@ -225,6 +230,24 @@ const formatContractDate = (value?: string | null) => {
     timeZone: "UTC",
   }).format(date);
 };
+
+const getClienteDisplayName = (cliente: Cliente) =>
+  cliente.tipoCliente === "EMPRESA"
+    ? cliente.razonSocial || "Empresa sin nombre"
+    : `${cliente.nombre || ""} ${cliente.apellido || ""}`.trim() || "Cliente sin nombre";
+
+const getClienteDocument = (cliente: Cliente) =>
+  cliente.numeroDocumento?.trim() || cliente.nit?.trim() || "";
+
+const getClienteSearchText = (cliente: Cliente) =>
+  [
+    getClienteDisplayName(cliente),
+    cliente.telefono?.trim(),
+    cliente.telefono2?.trim(),
+    getClienteDocument(cliente),
+  ]
+    .filter(Boolean)
+    .join(" ");
 
 function NuevoServicioContent() {
   const router = useRouter();
@@ -394,6 +417,22 @@ function NuevoServicioContent() {
         },
       ]
     : [];
+
+  const clienteOptions = useMemo(
+    () =>
+      [...(Array.isArray(clientes) ? clientes : [])]
+        .sort((a, b) => {
+          const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return bTime - aTime;
+        })
+        .map((cliente) => ({
+          value: cliente.id,
+          label: getClienteDisplayName(cliente),
+          searchText: getClienteSearchText(cliente),
+        })),
+    [clientes],
+  );
 
   const applyConfigToForm = useCallback((configs: ConfiguracionOperativa[], dirId?: string) => {
     // 1. Try to find config for specific address
@@ -1151,15 +1190,11 @@ function NuevoServicioContent() {
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Cliente Solicitante <span className="text-red-500">*</span></Label>
                   <Combobox
-                    options={(Array.isArray(clientes) ? clientes : []).map(c => ({
-                      value: c.id,
-                      label: c.tipoCliente === "EMPRESA"
-                        ? (c.razonSocial || "Empresa sin nombre")
-                        : `${c.nombre || ""} ${c.apellido || ""}`.trim() || "Cliente sin nombre"
-                    }))}
+                    options={clienteOptions}
                     value={selectedCliente}
                     onChange={handleClienteChange}
-                    placeholder="Buscar por nombre o razón social..."
+                    placeholder="Buscar por teléfono o documento..."
+                    defaultVisibleLimit={10}
                   />
                   <div className="flex justify-start px-1">
                     <Button variant="link" className="text-[10px] font-black p-0 h-auto text-zinc-900 dark:text-zinc-100 uppercase tracking-widest hover:no-underline" onClick={() => router.push('/dashboard/clientes/nuevo')}>
