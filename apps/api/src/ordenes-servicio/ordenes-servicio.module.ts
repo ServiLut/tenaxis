@@ -1,13 +1,22 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { OrdenesServicioController } from './ordenes-servicio.controller';
 import { OrdenesServicioService } from './ordenes-servicio.service';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AuthModule } from '../auth/auth.module';
 import { ContratosClienteModule } from '../contratos-cliente/contratos-cliente.module';
+import { SupabaseModule } from '../supabase/supabase.module';
+import { OrdenesServicioExportJobsService } from './export-jobs.service';
 
 @Module({
-  imports: [PrismaModule, AuthModule, ContratosClienteModule],
+  imports: [
+    ConfigModule,
+    PrismaModule,
+    AuthModule,
+    ContratosClienteModule,
+    SupabaseModule,
+  ],
   controllers: [OrdenesServicioController],
-  providers: [OrdenesServicioService],
+  providers: [OrdenesServicioService, OrdenesServicioExportJobsService],
 })
 export class OrdenesServicioModule {}

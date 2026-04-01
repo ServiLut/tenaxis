@@ -39,6 +39,7 @@ import {
 } from './dto/notify-webhook.dto';
 import { SupabaseService } from '../supabase/supabase.service';
 import { resolveScopedEmpresaId } from '../common/utils/access-control.util';
+import { OrdenesServicioExportJobsService } from './export-jobs.service';
 
 interface RequestWithUser extends Request {
   user: JwtPayload;
@@ -50,6 +51,7 @@ export class OrdenesServicioController {
   constructor(
     private readonly ordenesServicioService: OrdenesServicioService,
     private readonly supabaseService: SupabaseService,
+    private readonly ordenesServicioExportJobsService: OrdenesServicioExportJobsService,
   ) {}
 
   @Post()
@@ -120,6 +122,28 @@ export class OrdenesServicioController {
     @Body() dto: ExportOrdenesServicioDto,
   ) {
     return await this.ordenesServicioService.export(req.user, dto);
+  }
+
+  @Post('export/jobs')
+  async queueExport(
+    @Req() req: RequestWithUser,
+    @Body() dto: ExportOrdenesServicioDto,
+  ) {
+    return await this.ordenesServicioExportJobsService.enqueueExport(
+      req.user,
+      dto,
+    );
+  }
+
+  @Get('export/jobs/:jobId')
+  async getQueuedExportStatus(
+    @Req() req: RequestWithUser,
+    @Param('jobId') jobId: string,
+  ) {
+    return await this.ordenesServicioExportJobsService.getExportStatus(
+      req.user,
+      jobId,
+    );
   }
 
   @Get('follow-ups/my-status')
