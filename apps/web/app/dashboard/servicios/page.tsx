@@ -246,6 +246,33 @@ const getGeoDurationLabel = (geo: GeolocalizacionItem) => {
   return `${Math.max(0, Math.floor((end.getTime() - start.getTime()) / (1000 * 60)))} minutos`;
 };
 
+const getServicioScheduleSortValue = (servicio: Servicio) => {
+  const datePart = servicio.raw.fechaVisita
+    ? utcIsoToBogotaYmd(servicio.raw.fechaVisita)
+    : "9999-12-31";
+  const timePart = servicio.raw.horaInicio
+    ? new Intl.DateTimeFormat("en-GB", {
+        timeZone: "America/Bogota",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }).format(new Date(servicio.raw.horaInicio))
+    : "23:59";
+
+  return `${datePart}T${timePart}`;
+};
+
+const compareServiciosBySchedule = (a: Servicio, b: Servicio) => {
+  const scheduleA = getServicioScheduleSortValue(a);
+  const scheduleB = getServicioScheduleSortValue(b);
+
+  if (scheduleA !== scheduleB) {
+    return scheduleA.localeCompare(scheduleB);
+  }
+
+  return a.id.localeCompare(b.id);
+};
+
 const createTransferenciaForm = (
   partial?: Partial<LiquidarTransferenciaForm>,
 ): LiquidarTransferenciaForm => ({
@@ -1512,15 +1539,21 @@ function ServiciosContent() {
     filters.fechaInicio !== "" ||
     filters.fechaFin !== "";
 
-  const followUpRows: FollowUpRow[] = viewMode === "seguimientos" ? servicios.map((os) => ({
-    ...os,
-    parentId: os.raw.ordenPadreId || "",
-    parentNumero: os.raw.ordenPadreId?.substring(0, 8).toUpperCase() || "",
-    parentCliente: os.cliente,
-    parentServicio: os.servicioEspecifico,
-  })) : [];
+  const visibleServicios = useMemo(
+    () => [...servicios].sort(compareServiciosBySchedule),
+    [servicios],
+  );
 
-  const visibleServicios: Servicio[] = servicios;
+  const followUpRows: FollowUpRow[] = viewMode === "seguimientos"
+    ? visibleServicios.map((os) => ({
+        ...os,
+        parentId: os.raw.ordenPadreId || "",
+        parentNumero: os.raw.ordenPadreId?.substring(0, 8).toUpperCase() || "",
+        parentCliente: os.cliente,
+        parentServicio: os.servicioEspecifico,
+      }))
+    : [];
+
   const activeRows = viewMode === "seguimientos" ? followUpRows : visibleServicios;
 
   // Since we use server-side pagination, we don't need to filter or slice locally for the main list
