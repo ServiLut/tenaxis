@@ -785,7 +785,7 @@ export class OrdenesServicioService {
       whereClause.ordenPadreId = { not: null };
       whereClause.seguimientos = {
         some: {
-          status: { not: 'ACEPTADO' },
+          status: 'PENDIENTE',
         },
       };
     } else {
@@ -797,10 +797,10 @@ export class OrdenesServicioService {
           ordenPadreId: { not: null },
           seguimientos: {
             some: {
-              status: 'ACEPTADO',
+              status: { in: ['ACEPTADO', 'RECHAZADO'] },
             },
             none: {
-              status: { not: 'ACEPTADO' },
+              status: 'PENDIENTE',
             },
           },
         },
