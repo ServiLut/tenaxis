@@ -1653,7 +1653,7 @@ function TeamPageContent() {
                             <button 
                               onClick={handleSave} 
                               disabled={savingProfile}
-                              className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-accent text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-lg shadow-accent/20 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+                              className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-[#01ADFB] text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-lg shadow-[#01ADFB]/25 transition-all hover:scale-[1.02] hover:bg-[#0197dd] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
                             >
                               <Save className="h-4 w-4" /> Guardar
                             </button>
