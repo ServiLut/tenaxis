@@ -279,12 +279,14 @@ export class MonitoringService {
   }
 
   async endSession(sesionId: string) {
-    return this.prisma.sesionActividad.update({
+    const result = await this.prisma.sesionActividad.updateMany({
       where: { id: sesionId },
       data: {
         fechaFin: new Date(),
       },
     });
+
+    return result.count > 0;
   }
 
   async recordEvent(
@@ -312,7 +314,7 @@ export class MonitoringService {
   }
 
   async updateInactivityTime(sesionId: string, minutes: number) {
-    return this.prisma.sesionActividad.update({
+    const result = await this.prisma.sesionActividad.updateMany({
       where: { id: sesionId },
       data: {
         tiempoInactivo: {
@@ -321,15 +323,19 @@ export class MonitoringService {
         updatedAt: new Date(),
       },
     });
+
+    return result.count > 0;
   }
 
   async refreshSession(sesionId: string) {
-    return this.prisma.sesionActividad.update({
+    const result = await this.prisma.sesionActividad.updateMany({
       where: { id: sesionId },
       data: {
         updatedAt: new Date(),
       },
     });
+
+    return result.count > 0;
   }
 
   async getPayrollPreview(
