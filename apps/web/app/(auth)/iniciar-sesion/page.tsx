@@ -1,255 +1,186 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, Suspense } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { toast } from "sonner";
-import { Button, Input, Label } from "@/components/ui";
-import { LogIn, Mail, Lock, Sparkles, Loader2, AlertCircle } from "lucide-react";
-import { ModeToggle } from "@/components/dashboard/ModeToggle";
-import { authClient } from "@/lib/api/auth-client";
+import * as React from 'react';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { ShieldCheck, Mail, Lock, LogIn, Radio, Orbit, Sparkles } from 'lucide-react';
+import { toast } from 'sonner';
+import { Button, Input } from '@/components/ui';
+import { authClient } from '@/lib/api/auth-client';
+import { AuthShell } from '../_components/auth-shell';
+import { getAuthErrorMessage } from '../_components/auth-error';
+import { AuthAlert, AuthField, AuthSurface } from '../_components/auth-ui';
 
 function LoginForm() {
   const searchParams = useSearchParams();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = React.useState({ email: '', password: '' });
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
-  useEffect(() => {
-    const expired = searchParams.get("expired");
-    if (expired === "true") {
-      toast.error("Tu sesión ha expirado", {
-        description: "Por seguridad, debes volver a iniciar sesión.",
+  React.useEffect(() => {
+    const expired = searchParams.get('expired');
+    if (expired === 'true') {
+      toast.error('Tu sesión expiró', {
+        description: 'Por seguridad, vuelve a iniciar sesión para seguir trabajando.',
         duration: 5000,
-        position: "top-center",
-        icon: <AlertCircle className="h-4 w-4" />,
       });
-      // Limpiar la URL para evitar que el toast vuelva a aparecer al recargar
-      window.history.replaceState({}, "", "/auth/iniciar-sesion");
+      window.history.replaceState({}, '', '/iniciar-sesion');
     }
   }, [searchParams]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const canSubmit = formData.email.trim() !== '' && formData.password.trim() !== '';
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (error) setError(null);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!canSubmit) return;
+
     setLoading(true);
     setError(null);
 
     try {
       const data = await authClient.login(formData);
-      
+
       if (data?.access_token) {
-        const secureFlag = window.location.protocol === "https:" ? "; Secure" : "";
+        const secureFlag = window.location.protocol === 'https:' ? '; Secure' : '';
         document.cookie = `access_token=${data.access_token}; path=/; max-age=604800; SameSite=Lax${secureFlag}`;
       }
-      
+
       if (data?.user?.sesionId) {
         document.cookie = `sesion_id=${data.user.sesionId}; path=/; max-age=86400; SameSite=Lax`;
       }
-      
+
       if (data?.user?.tenantId) {
         document.cookie = `tenant-id=${data.user.tenantId}; path=/; max-age=86400; SameSite=Lax`;
       }
-      
+
       if (data?.user) {
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem('user', JSON.stringify(data.user));
       }
 
-      window.location.href = "/dashboard";
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Ocurrió un error inesperado");
-      }
+      window.location.href = '/dashboard';
+    } catch (submitError) {
+      setError(getAuthErrorMessage(submitError, 'No pudimos iniciar tu sesión.'));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen overflow-hidden bg-[#F5F1EB] dark:bg-zinc-950">
-      {/* Floating Theme Toggle */}
-      <div className="fixed top-8 right-8 z-50">
-        <ModeToggle />
-      </div>
-
-      {/* Left side: Brand/Marketing - Secondary Color (30%) */}
-      <div className="relative hidden w-1/2 flex-col justify-between bg-azul-1 dark:bg-gradient-to-br dark:from-azul-1 dark:via-[#1e3a8a] dark:to-[#0f172a] p-16 text-white lg:flex overflow-hidden">
-        {/* Background Decorative Element */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-claro-azul-4/10 blur-3xl" />
-        
-        <div className="relative z-10">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white dark:bg-zinc-900 text-azul-1 dark:text-claro-azul-4 shadow-2xl transition-transform group-hover:scale-110 duration-500 border border-transparent dark:border-zinc-800">
-              <Sparkles className="h-8 w-8" />
-            </div>
-            <span className="text-4xl font-black tracking-tighter text-white dark:text-zinc-50">
-              Tenaxis
-            </span>
+    <AuthShell
+      hideHeroOnMobile
+      eyebrow="Acceso seguro"
+      title="Entra a tu operación sin fricción."
+      description="Acceso centralizado para operadores, coordinadores y administradores. Menos ruido visual, mejor lectura de errores y una entrada más rápida a la operación."
+      heroTitle="Gestión segura de identidades."
+      heroDescription="Autenticación centralizada para una operación multitenant. Estado claro, recuperación directa y señales de confianza visibles desde el primer paso."
+      metrics={[
+        { icon: ShieldCheck, label: 'Disponibilidad', value: '99.98%' },
+        { icon: Radio, label: 'Sesión', value: 'Monitoreada' },
+        { icon: Orbit, label: 'Acceso', value: 'Centralizado' },
+      ]}
+      highlights={[
+        {
+          icon: Sparkles,
+          title: 'Mensajes operativos',
+          description: 'Expiración, credenciales inválidas y fallos de red se presentan con lenguaje más directo.',
+        },
+        {
+          icon: ShieldCheck,
+          title: 'Control de acceso',
+          description: 'Diseñado para una herramienta de trabajo: jerarquía clara, menos distracciones y CTA explícitos.',
+        },
+      ]}
+      footer={
+        <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-slate-500 dark:text-slate-400">
+          <span>¿Primera vez en Tenaxis?</span>
+          <Link href="/registro" className="font-bold text-sky-700 transition hover:text-sky-500 dark:text-sky-300">
+            Crea tu cuenta
           </Link>
         </div>
-
-        <div className="relative z-10 space-y-8">
-          <h2 className="text-7xl font-black leading-[1.1] tracking-tighter italic text-white dark:text-zinc-50">
-            El futuro <br />
-            <span className="text-claro-azul-4 not-italic bg-clip-text text-transparent bg-gradient-to-r from-claro-azul-4 to-white dark:from-claro-azul-4 dark:to-zinc-200">es ahora.</span>
-          </h2>
-          <p className="max-w-md text-2xl leading-relaxed text-white/90 dark:text-zinc-200 font-medium border-l-4 border-claro-azul-4/30 pl-6">
-            Gestiona servicios, equipos y clientes con la plataforma más
-            avanzada del mercado.
-          </p>
-        </div>
-
-        <div className="relative z-10 flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.3em] text-white/70 dark:text-zinc-400">
-          <span>© 2026 TENAXIS CORP.</span>
-          <div className="flex gap-6">
-            <Link
-              href="/privacidad"
-              className="hover:text-white dark:hover:text-zinc-100 transition-colors"
-            >
-              Privacidad
-            </Link>
-            <Link
-              href="/terminos"
-              className="hover:text-white dark:hover:text-zinc-100 transition-colors"
-            >
-              Términos
+      }
+      contentClassName="py-2 lg:py-0"
+    >
+      <AuthSurface>
+        <div className="space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-[1.4rem] border border-slate-200/80 bg-slate-50/75 px-4 py-3 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300">
+            <span>Usa el correo corporativo con el que administras tu tenant.</span>
+            <Link href="/olvide-mi-contraseña" className="font-bold text-sky-700 transition hover:text-sky-500 dark:text-sky-300">
+              Recuperar acceso
             </Link>
           </div>
-        </div>
-      </div>
 
-      {/* Right side: Login Form - Dominant Color (60%) */}
-      <div className="flex w-full flex-col justify-center p-8 lg:w-1/2 xl:p-24 bg-transparent relative">
-        {/* Subtle Decorative elements for form side in dark mode */}
-        <div className="absolute top-1/4 right-0 w-64 h-64 bg-azul-1/5 rounded-full blur-[100px] pointer-events-none hidden dark:block" />
-        
-        <div className="mx-auto w-full max-w-md space-y-12 relative z-10">
-          <div className="space-y-4">
-            <h1 className="text-5xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50 lg:text-left text-center">
-              Hola de nuevo
-            </h1>
-            <p className="text-xl text-zinc-500 dark:text-zinc-400 font-medium italic lg:text-left text-center">
-              Entra y sigue construyendo tu imperio.
-            </p>
-          </div>
+          {error ? (
+            <AuthAlert
+              tone="error"
+              title="No pudimos autenticarte"
+              description={error}
+            />
+          ) : null}
 
-          {error && (
-            <div className="rounded-2xl border-2 border-red-100 dark:border-red-900/30 bg-white dark:bg-red-950/10 p-6 text-sm text-red-700 dark:text-red-400 shadow-sm animate-in zoom-in-95">
-              <div className="flex items-center gap-3">
-                <div className="h-2 w-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
-                <span className="font-bold">{error}</span>
-              </div>
-            </div>
-          )}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <AuthField label="Correo corporativo" hint="Tu acceso principal" icon={Mail}>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="equipo@empresa.com"
+                className="h-14 rounded-[1.25rem] border-slate-300 bg-white pl-11 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),inset_0_-1px_0_rgba(2,19,89,0.03)] focus-visible:border-[#021359] focus-visible:bg-white focus-visible:ring-0 focus-visible:shadow-[inset_0_0_0_1px_rgba(2,19,89,0.28),0_0_0_4px_rgba(1,173,251,0.10)] dark:border-slate-700 dark:bg-[#060d18] dark:focus-visible:border-sky-400 dark:focus-visible:bg-[#060d18] dark:focus-visible:shadow-[inset_0_0_0_1px_rgba(56,189,248,0.34),0_0_0_4px_rgba(56,189,248,0.10)]"
+                required
+              />
+            </AuthField>
 
-          <form onSubmit={handleSubmit} className="space-y-10">
-            <div className="space-y-6">
-              <div className="space-y-3">
-                <Label
-                  htmlFor="email"
-                  className="ml-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400"
-                >
-                  Email corporativo
-                </Label>
-                <div className="relative group">
-                  <Mail className="absolute top-1/2 left-5 h-5 w-5 -translate-y-1/2 text-zinc-300 group-focus-within:text-azul-1 transition-colors" />
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="tu@correo.com"
-                    className="pl-14 h-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 focus:ring-4 focus:ring-azul-1/5 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-white transition-all backdrop-blur-sm"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    autoComplete="email"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center justify-between px-2">
-                  <Label
-                    htmlFor="password"
-                    className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400"
-                  >
-                    Password
-                  </Label>
-                  <Link
-                    href="/olvide-mi-contraseña"
-                    title="Recuperar contraseña"
-                    className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-azul-1 transition-colors"
-                  >
-                    ¿Lo olvidaste?
-                  </Link>
-                </div>
-                <div className="relative group">
-                  <Lock className="absolute top-1/2 left-5 h-5 w-5 -translate-y-1/2 text-zinc-300 group-focus-within:text-azul-1 transition-colors" />
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="••••••••"
-                    className="pl-14 h-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 focus:ring-4 focus:ring-azul-1/5 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-white transition-all backdrop-blur-sm"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    autoComplete="current-password"
-                  />
-                </div>
-              </div>
-            </div>
+            <AuthField label="Contraseña" hint="Mínimo 6 caracteres" icon={Lock}>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className="h-14 rounded-[1.25rem] border-slate-300 bg-white pl-11 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),inset_0_-1px_0_rgba(2,19,89,0.03)] focus-visible:border-[#021359] focus-visible:bg-white focus-visible:ring-0 focus-visible:shadow-[inset_0_0_0_1px_rgba(2,19,89,0.28),0_0_0_4px_rgba(1,173,251,0.10)] dark:border-slate-700 dark:bg-[#060d18] dark:focus-visible:border-sky-400 dark:focus-visible:bg-[#060d18] dark:focus-visible:shadow-[inset_0_0_0_1px_rgba(56,189,248,0.34),0_0_0_4px_rgba(56,189,248,0.10)]"
+                required
+              />
+            </AuthField>
 
             <Button
               type="submit"
-              disabled={loading}
               size="lg"
-              className="w-full h-16 rounded-2xl bg-vivido-purpura-2 text-white hover:opacity-90 shadow-2xl shadow-vivido-purpura-2/30 border-none transition-all active:scale-[0.98]"
+              disabled={!canSubmit || loading}
+              className="h-14 w-full rounded-[1.25rem] bg-[linear-gradient(135deg,#021359,#0f5bd7)] text-white shadow-[0_18px_50px_rgba(2,19,89,0.35)] hover:opacity-95 dark:text-white"
             >
               {loading ? (
-                <div className="flex items-center gap-3">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  <span className="text-xs font-black uppercase tracking-widest">Verificando...</span>
-                </div>
+                <span className="flex items-center justify-center gap-3">
+                  <span className="flex items-center gap-1.5" aria-hidden="true">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white/95 animate-pulse" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-white/80 animate-pulse [animation-delay:160ms]" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-white/60 animate-pulse [animation-delay:320ms]" />
+                  </span>
+                  Verificando credenciales
+                </span>
               ) : (
-                <div className="flex items-center gap-3">
-                  <LogIn className="h-5 w-5" />
-                  <span className="text-sm font-black uppercase tracking-widest">Entrar ahora</span>
-                </div>
+                <span className="flex items-center gap-3">
+                  <LogIn className="h-4 w-4" />
+                  Entrar al dashboard
+                </span>
               )}
             </Button>
           </form>
-
-          <div className="pt-6 text-center border-t border-zinc-100 dark:border-zinc-800/50">
-            <p className="text-zinc-400 font-bold text-lg">
-              ¿No tienes cuenta?{" "}
-              <Link href="/registro" className="text-azul-1 dark:text-claro-azul-4 font-black hover:underline underline-offset-8 decoration-2 transition-all ml-2">Regístrate aquí</Link>
-            </p>
-          </div>
         </div>
-      </div>
-    </div>
+      </AuthSurface>
+    </AuthShell>
   );
 }
 
 export default function LoginPage() {
-  return (
-    <Suspense fallback={
-      <div className="flex min-h-screen items-center justify-center bg-[#F5F1EB] dark:bg-zinc-950">
-        <Loader2 className="h-12 w-12 animate-spin text-azul-1" />
-      </div>
-    }>
-      <LoginForm />
-    </Suspense>
-  );
+  return <LoginForm />;
 }

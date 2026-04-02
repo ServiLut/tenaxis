@@ -1,153 +1,138 @@
 'use client';
 
-import React, { useState } from 'react';
+import * as React from 'react';
 import Link from 'next/link';
-import { Mail, Loader2, AlertCircle, ArrowLeft, CheckCircle2 } from 'lucide-react';
-import Image from 'next/image';
-
-import { forgotPasswordAction } from '../actions';
+import { ArrowLeft, CheckCircle2, Loader2, Mail, Orbit, Radio, ShieldCheck, Sparkles } from 'lucide-react';
+import { Button, Input } from '@/components/ui';
+import { authClient } from '@/lib/api/auth-client';
+import { AuthShell } from '../_components/auth-shell';
+import { getAuthErrorMessage } from '../_components/auth-error';
+import { AuthAlert, AuthField, AuthSurface } from '../_components/auth-ui';
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [email, setEmail] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!email.trim()) return;
+
     setIsLoading(true);
     setError(null);
 
     try {
-      const res = await forgotPasswordAction(email);
-
-      if (!res.success) {
-        throw new Error(res.error);
-      }
-
+      await authClient.forgotPassword(email);
       setIsSubmitted(true);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Error al procesar la solicitud';
-      setError(message);
+    } catch (submitError) {
+      setError(getAuthErrorMessage(submitError, 'No fue posible enviar el enlace.'));
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen w-full bg-surface">
-      {/* Left: Decorative Image */}
-      <div className="hidden lg:block w-1/2 bg-secondary/10 relative overflow-hidden">
-        <Image
-          src="/tote_bag_lifestyle.png"
-          alt="Tote Bag Lifestyle"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/5 z-10" />
-        <div className="absolute bottom-12 left-12 right-12 z-20 text-[#111111]">
-          <h2 className="text-4xl font-serif font-bold mb-4">No te preocupes.</h2>
-          <p className="text-lg opacity-80 font-medium">Recupera el acceso a tu cuenta en unos simples pasos y sigue disfrutando de tus beneficios.</p>
-        </div>
-      </div>
+    <AuthShell
+      eyebrow="Recuperación"
+      title="Recupera el acceso sin perder el ritmo."
+      description="Envía un enlace seguro a tu correo y vuelve a operar con instrucciones claras, feedback directo y un flujo pensado para situaciones reales." 
+      heroTitle="Cuando el acceso falla, la experiencia no debería hacerlo."
+      heroDescription="Este flujo prioriza claridad: qué pasó, qué sigue y cómo retomar el control sin ruido ni ambigüedad."
+      metrics={[
+        { icon: ShieldCheck, label: 'Enlace', value: 'Temporal' },
+        { icon: Radio, label: 'Entrega', value: 'Guiada' },
+        { icon: Orbit, label: 'Soporte', value: 'Auto-servicio' },
+      ]}
+      highlights={[
+        {
+          icon: Sparkles,
+          title: 'Mensajería más precisa',
+          description: 'Explicamos qué revisar, dónde buscar el correo y cuándo volver a intentarlo.',
+        },
+        {
+          icon: Mail,
+          title: 'Flujo simple',
+          description: 'Un solo campo, una acción clara y estado de éxito inequívoco para evitar dudas.',
+        },
+      ]}
+      footer={
+        <Link href="/iniciar-sesion" className="inline-flex items-center gap-2 text-sm font-bold text-slate-600 transition hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-300">
+          <ArrowLeft className="h-4 w-4" />
+          Volver al inicio de sesión
+        </Link>
+      }
+    >
+      <AuthSurface>
+        {isSubmitted ? (
+          <AuthAlert
+            tone="success"
+            title="Correo enviado"
+            description={`Si ${email} existe en Tenaxis, te llegará un enlace para restablecer tu contraseña.`}
+            className="mb-6"
+          />
+        ) : null}
 
-      {/* Right: Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
-        <div className="absolute top-8 left-8">
-          <Link href="/iniciar-sesion" className="flex items-center gap-2 text-sm text-muted hover:text-primary transition-colors font-medium">
-            <ArrowLeft className="w-4 h-4" />
-            Volver al inicio de sesión
-          </Link>
-        </div>
-
-        <div className="w-full max-w-md space-y-10">
-          <div className="text-center lg:text-left">
-            <h1 className="text-4xl font-serif font-bold text-body tracking-tight">
-              ¿Olvidaste tu contraseña?
-            </h1>
-            <p className="mt-3 text-muted text-lg">
-              Ingresa tu correo electrónico y te enviaremos un enlace para restablecerla.
-            </p>
-          </div>
-
-          {isSubmitted ? (
-            <div className="rounded-xl bg-secondary/10 p-8 border border-secondary/20 text-center space-y-4">
-              <div className="flex justify-center">
-                <CheckCircle2 className="h-12 w-12 text-secondary" />
-              </div>
-              <h2 className="text-xl font-bold text-body">¡Correo enviado!</h2>
-              <p className="text-muted">
-                Hemos enviado un enlace de recuperación a <strong>{email}</strong>. 
-                Por favor revisa tu bandeja de entrada y sigue las instrucciones.
-              </p>
-              <div className="pt-4">
-                <Link
-                  href="/iniciar-sesion"
-                  className="inline-block font-bold text-primary hover:underline"
-                >
-                  Regresar al inicio de sesión
-                </Link>
-              </div>
-            </div>
-          ) : (
+        <div className="space-y-6">
+          {!isSubmitted ? (
             <>
-              {error && (
-                <div className="flex items-center gap-3 rounded-lg bg-red-50 p-4 text-sm text-red-700 border border-red-100 dark:bg-red-950/30 dark:text-red-400 dark:border-red-900/50">
-                  <AlertCircle className="h-5 w-5 shrink-0" />
-                  <p>{error}</p>
-                </div>
-              )}
+              <div className="rounded-[1.4rem] border border-slate-200/80 bg-slate-50/75 px-4 py-3 text-sm leading-6 text-slate-600 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300">
+                Ingresa el correo asociado a tu cuenta. Si existe, recibirás instrucciones para continuar.
+              </div>
 
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-body">Correo electrónico</label>
-                  <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-muted">
-                      <Mail className="h-5 w-5" />
-                    </div>
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="block w-full rounded-xl border border-theme bg-base py-3.5 pl-11 pr-4 text-body placeholder:text-muted/70 focus:border-primary focus:bg-surface focus:outline-none focus:ring-1 focus:ring-primary transition-all"
-                      placeholder="nombre@ejemplo.com"
-                    />
-                  </div>
-                </div>
+              {error ? (
+                <AuthAlert tone="error" title="No pudimos procesar tu solicitud" description={error} />
+              ) : null}
 
-                <button
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <AuthField label="Correo electrónico" hint="Revisa spam si no llega" icon={Mail}>
+                  <Input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    className="h-14 rounded-[1.25rem] border-slate-200 bg-white pl-11 dark:border-slate-800 dark:bg-slate-950/80"
+                    placeholder="operaciones@empresa.com"
+                  />
+                </AuthField>
+
+                <Button
                   type="submit"
-                  disabled={isLoading}
-                  className="flex w-full items-center justify-center rounded-xl bg-primary px-4 py-4 text-sm font-bold text-base-color uppercase tracking-widest hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 duration-200"
+                  size="lg"
+                  disabled={isLoading || !email.trim()}
+                  className="h-14 w-full rounded-[1.25rem] bg-[linear-gradient(135deg,#021359,#0f5bd7)] text-white shadow-[0_18px_50px_rgba(2,19,89,0.35)] hover:opacity-95 dark:text-white"
                 >
                   {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Enviando...
-                    </>
+                    <span className="flex items-center gap-3">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Enviando enlace...
+                    </span>
                   ) : (
-                    'Enviar enlace'
+                    'Enviar enlace seguro'
                   )}
-                </button>
+                </Button>
               </form>
             </>
+          ) : (
+            <div className="space-y-5 text-sm text-slate-600 dark:text-slate-300">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                <CheckCircle2 className="h-7 w-7" />
+              </div>
+              <p className="text-base leading-7">
+                Revisa tu bandeja de entrada y también spam/promociones. Si no lo ves en unos minutos, vuelve a intentar o confirma que escribiste bien tu correo.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg" className="h-14 rounded-[1.1rem] bg-[linear-gradient(135deg,#021359,#0f5bd7)] text-white dark:text-white">
+                  <Link href="/iniciar-sesion">Volver a iniciar sesión</Link>
+                </Button>
+                <Button type="button" variant="outline" size="lg" className="h-14 rounded-[1.1rem] border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-200" onClick={() => { setIsSubmitted(false); setError(null); }}>
+                  Intentar con otro correo
+                </Button>
+              </div>
+            </div>
           )}
-
-          <div className="text-center pt-4">
-            <p className="text-muted">
-              ¿Recordaste tu contraseña?{' '}
-              <Link
-                href="/iniciar-sesion"
-                className="font-bold text-primary hover:underline"
-              >
-                Inicia sesión
-              </Link>
-            </p>
-          </div>
         </div>
-      </div>
-    </div>
+      </AuthSurface>
+    </AuthShell>
   );
 }

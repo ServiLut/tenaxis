@@ -209,3 +209,24 @@
   border: 1px solid transparent;
   background-clip: content-box;
 }
+
+.auth-grid {
+  background-image:
+    linear-gradient(rgba(2, 19, 89, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(2, 19, 89, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at center, black 38%, transparent 86%);
+}
+
+.dark .auth-grid {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+}
+
+.auth-noise {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.08) 0, transparent 26%),
+    radial-gradient(circle at 80% 0%, rgba(99, 102, 241, 0.08) 0, transparent 28%),
+    radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.08) 0, transparent 32%);
+}
