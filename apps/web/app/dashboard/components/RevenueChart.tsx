@@ -50,16 +50,19 @@ export const RevenueChart = React.memo(function RevenueChart({ enterpriseId, isC
 
           <div className="flex h-48 items-end justify-between gap-4 px-2">
             {(stats?.ingresosSemanales || [0, 0, 0, 0, 0, 0, 0]).map((amount, i) => (
-              <div key={i} className="group relative flex flex-1 flex-col items-center gap-2">
-                <div
-                  className={cn(
-                    "w-full rounded-2xl transition-all duration-700 ease-out group-hover:brightness-110",
-                    amount === maxWeeklyRevenue && amount > 0 ? "bg-[#01ADFB] shadow-[0_0_20px_rgba(1,173,251,0.3)]" : "bg-muted"
-                  )}
-                  style={{ height: `${(amount / maxWeeklyRevenue) * 100}%`, minHeight: amount > 0 ? '4px' : '2px' }}
-                />
+              <div key={i} className="group relative flex h-full flex-1 flex-col items-center justify-end gap-2">
+                <div className="flex h-full w-full items-end">
+                  <div
+                    className={cn(
+                      "w-full rounded-2xl transition-all duration-700 ease-out group-hover:brightness-110",
+                      amount === maxWeeklyRevenue && amount > 0 ? "bg-[#01ADFB] shadow-[0_0_20px_rgba(1,173,251,0.3)]" : "bg-muted"
+                    )}
+                    style={{ height: `${(amount / maxWeeklyRevenue) * 100}%`, minHeight: amount > 0 ? '4px' : '2px' }}
+                    title={`${["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"][i]}: $${amount.toLocaleString("es-CO")}`}
+                  />
+                </div>
                 <span className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">
-                  {["L", "M", "X", "J", "V", "S", "D"][i]}
+                  {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"][i]}
                 </span>
               </div>
             ))}
@@ -81,11 +84,11 @@ export const RevenueChart = React.memo(function RevenueChart({ enterpriseId, isC
                   <span className="text-foreground">${item.value.toLocaleString()}</span>
                 </div>
                 <div className="h-4 w-full bg-muted rounded-full overflow-hidden">
-                  <div 
+                  <div
                     className={cn(
                       "h-full transition-all duration-1000",
                       i === 0 ? "bg-slate-400" : "bg-[#01ADFB]"
-                    )} 
+                    )}
                     style={{ width: `${(item.value / maxMonthly) * 100}%` }}
                   />
                 </div>
