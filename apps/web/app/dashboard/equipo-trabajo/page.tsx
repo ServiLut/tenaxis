@@ -811,6 +811,20 @@ function TeamPageContent() {
     });
   };
 
+  const handleClearGeoScope = () => {
+    setEditForm((prev) => {
+      if (!prev) return prev;
+
+      return {
+        ...prev,
+        municipioId: undefined,
+        municipioNombre: "",
+        departmentIds: [],
+        municipalityIds: [],
+      };
+    });
+  };
+
   const handleSave = async () => {
     if (!editForm) return;
     const parts = editForm.name.trim().split(" ");
@@ -1586,9 +1600,29 @@ function TeamPageContent() {
                                   Elegí departamentos y municipios explícitos. Si seleccionás departamentos, la lista de municipios se ajusta a esos departamentos.
                                 </p>
                               </div>
-                              <div className="rounded-full border border-border bg-background px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#01ADFB]">
-                                {editGeoScope.summary}
+                              <div className="flex flex-wrap items-center justify-end gap-2">
+                                {!editGeoScope.hasExplicitScope && (
+                                  <div className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-600">
+                                    Sin restricciones
+                                  </div>
+                                )}
+                                <div className="rounded-full border border-border bg-background px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#01ADFB]">
+                                  {editGeoScope.summary}
+                                </div>
                               </div>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={handleClearGeoScope}
+                                className="rounded-full border border-border bg-background px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-600"
+                              >
+                                Quitar restricciones
+                              </button>
+                              <p className="text-[11px] text-muted-foreground">
+                                Deja departamentos y municipios vacíos para permitir operación sin restricción geográfica.
+                              </p>
                             </div>
 
                             <div className="grid grid-cols-1 gap-3">
@@ -1618,6 +1652,15 @@ function TeamPageContent() {
                             </div>
 
                             <div className="flex flex-wrap gap-2">
+                              {!editGeoScope.hasExplicitScope && (
+                                <Badge
+                                  variant="outline"
+                                  className="rounded-full border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-600"
+                                >
+                                  Sin restricciones geográficas
+                                </Badge>
+                              )}
+
                               {editGeoScope.departmentNames.length > 0 ? (
                                 editGeoScope.departmentNames.map((departmentName) => (
                                   <Badge

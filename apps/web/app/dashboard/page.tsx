@@ -8,6 +8,7 @@ import { DashboardProviders } from "./components/DashboardProviders";
 import { DashboardContent } from "./components/DashboardContent";
 
 const TENANT_COOKIE_KEY = "tenant-id";
+const ENTERPRISE_COOKIE_KEY = "x-enterprise-id";
 const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24;
 const COOKIE_PATH = "/";
 const COOKIE_SAME_SITE = "Lax";
@@ -34,6 +35,20 @@ export default function DashboardPage() {
     }
 
     const currentEnterpriseId = getBrowserScopedEnterpriseId(scope);
+
+    if (currentEnterpriseId) {
+      const cookieEntries = document.cookie.split("; ");
+      const currentEnterpriseCookie = cookieEntries.find((row) =>
+        row.startsWith(`${ENTERPRISE_COOKIE_KEY}=`),
+      );
+      const decodedCookieValue = currentEnterpriseCookie
+        ? decodeURIComponent(currentEnterpriseCookie.split("=")[1] || "")
+        : undefined;
+
+      if (decodedCookieValue !== currentEnterpriseId) {
+        setCookie(ENTERPRISE_COOKIE_KEY, currentEnterpriseId);
+      }
+    }
 
     // Defer state updates to the next tick to avoid cascading renders warning
     const timer = setTimeout(() => {

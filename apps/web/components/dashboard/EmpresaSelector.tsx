@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Building2, ChevronsUpDown, Check } from "lucide-react";
 import {
+  getScopedRole,
   isEmpresaSelectionLocked,
   resolveAvailableEmpresaIds,
   type ScopeAwareUser,
@@ -49,9 +50,13 @@ export function EmpresaSelector() {
           allowedEmpresaIds.length > 0
             ? items.filter((empresa) => allowedEmpresaIds.includes(empresa.id))
             : items;
+        const scopedRole = getScopedRole(profile?.role);
+        const shouldLockSelection =
+          isEmpresaSelectionLocked(profile) ||
+          ((scopedRole === "COORDINADOR" || scopedRole === "ASESOR") && scopedItems.length <= 1);
 
         setEmpresas(scopedItems);
-        setIsReadOnly(isEmpresaSelectionLocked(profile));
+        setIsReadOnly(shouldLockSelection);
 
         const cookieId = getBrowserCookie("x-enterprise-id");
 

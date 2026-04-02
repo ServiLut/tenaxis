@@ -35,7 +35,12 @@ type EmpresaScopedAccess = Pick<
   "isEmpresaLocked" | "empresaId" | "empresaIds"
 >;
 
-const SINGLE_EMPRESA_ROLES = new Set<ScopedRole>(["ASESOR", "OPERADOR"]);
+const EMPRESA_SCOPED_ROLES = new Set<ScopedRole>([
+  "COORDINADOR",
+  "ASESOR",
+  "OPERADOR",
+]);
+const EMPRESA_SELECTION_LOCKED_ROLES = new Set<ScopedRole>(["OPERADOR"]);
 
 export function getScopedRole(role?: string | null): ScopedRole | null {
   if (
@@ -92,7 +97,12 @@ export function buildEffectiveScopeAwareUser(
 
 export function isEmpresaSelectionLocked(user?: ScopeAwareUser | null): boolean {
   const role = getScopedRole(user?.role);
-  return role ? SINGLE_EMPRESA_ROLES.has(role) : false;
+  return role ? EMPRESA_SELECTION_LOCKED_ROLES.has(role) : false;
+}
+
+export function requiresEmpresaScope(user?: ScopeAwareUser | null): boolean {
+  const role = getScopedRole(user?.role);
+  return role ? EMPRESA_SCOPED_ROLES.has(role) : false;
 }
 
 export function resolveAvailableEmpresaIds(user?: ScopeAwareUser | null): string[] {
@@ -107,9 +117,9 @@ export function resolveAvailableEmpresaIds(user?: ScopeAwareUser | null): string
 export function resolveAccessScope(user?: ScopeAwareUser | null): AccessScope {
   const role = getScopedRole(user?.role);
   const isGlobalSuAdmin = role === "SU_ADMIN" && !!user?.isGlobalSuAdmin;
-  const canSeeTenantWide = !!role && (role === "SU_ADMIN" || role === "ADMIN" || role === "COORDINADOR");
+  const canSeeTenantWide = !!role && (role === "SU_ADMIN" || role === "ADMIN");
   const empresaIds = resolveAvailableEmpresaIds(user);
-  const isEmpresaLocked = isEmpresaSelectionLocked(user);
+  const isEmpresaLocked = requiresEmpresaScope(user);
 
   return {
     role,

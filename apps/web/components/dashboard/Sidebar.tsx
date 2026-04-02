@@ -115,6 +115,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
   const [canViewTenants, setCanViewTenants] = useState(false);
   const [userRole, setUserRole] = useState<ScopedRole | null>(null);
+  const [assignedEmpresaCount, setAssignedEmpresaCount] = useState<number>(0);
 
   useEffect(() => {
     let isMounted = true;
@@ -126,6 +127,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         setCanViewTenants(canAccessTenantsView(profile));
         setUserRole(getScopedRole(profile.role));
+        setAssignedEmpresaCount(profile.empresaIds?.filter(Boolean).length || (profile.empresaId ? 1 : 0));
         return;
       } catch {
         // Fallback to localStorage if the profile request fails.
@@ -140,6 +142,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         const user = JSON.parse(userData);
         setCanViewTenants(canAccessTenantsView(user));
         setUserRole(getScopedRole(user.role));
+        setAssignedEmpresaCount(user.empresaIds?.filter(Boolean).length || (user.empresaId ? 1 : 0));
       } catch {
         // ignore malformed cached user data
       }
@@ -173,6 +176,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const visibleSecondaryItems = secondaryItems.filter(
     (item) => !item.isAdmin || canViewTenants,
   );
+  const showEmpresaSelector = userRole !== "ASESOR" || assignedEmpresaCount > 1;
 
   return (
     <>
@@ -212,9 +216,11 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
 
             {/* Empresa Selector */}
-            <div className="sidebar-empresa-selector-container">
-               <EmpresaSelector />
-            </div>
+            {showEmpresaSelector && (
+              <div className="sidebar-empresa-selector-container">
+                <EmpresaSelector />
+              </div>
+            )}
           </div>
 
           {/* Navigation - Flexible area with scroll */}
