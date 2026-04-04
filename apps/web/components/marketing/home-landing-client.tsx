@@ -205,23 +205,25 @@ export function HomeLandingClient() {
   return (
     <main
       ref={rootRef}
-      className="relative isolate overflow-hidden bg-[#f5f7fb] text-slate-950 dark:bg-[#020617] dark:text-white"
+      className="relative isolate overflow-hidden bg-background text-foreground selection:bg-sky-300 selection:text-slate-950 dark:selection:bg-sky-400 dark:selection:text-slate-950"
     >
-      <div className="js-glow-a pointer-events-none absolute left-[-10rem] top-8 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,_rgba(1,173,251,0.24),_transparent_65%)] blur-3xl" />
-      <div className="js-glow-b pointer-events-none absolute right-[-8rem] top-[26rem] h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,_rgba(2,19,89,0.18),_transparent_68%)] blur-3xl dark:bg-[radial-gradient(circle,_rgba(1,173,251,0.14),_transparent_68%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(1,173,251,0.12),transparent_28%),radial-gradient(circle_at_85%_18%,rgba(2,19,89,0.08),transparent_26%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(1,173,251,0.18),transparent_24%),radial-gradient(circle_at_82%_12%,rgba(56,189,248,0.10),transparent_22%),linear-gradient(180deg,rgba(2,6,23,0.98),rgba(3,11,27,0.98))]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.045] [background-image:linear-gradient(rgba(2,19,89,0.22)_1px,transparent_1px),linear-gradient(90deg,rgba(2,19,89,0.22)_1px,transparent_1px)] [background-size:40px_40px] dark:opacity-[0.08] dark:[background-image:linear-gradient(rgba(148,163,184,0.14)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.14)_1px,transparent_1px)]" />
+      <div className="js-glow-a pointer-events-none absolute left-[-10rem] top-8 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,_rgba(1,173,251,0.24),_transparent_65%)] blur-3xl dark:bg-[radial-gradient(circle,_rgba(56,189,248,0.24),_transparent_62%)]" />
+      <div className="js-glow-b pointer-events-none absolute right-[-8rem] top-[26rem] h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,_rgba(2,19,89,0.18),_transparent_68%)] blur-3xl dark:bg-[radial-gradient(circle,_rgba(14,165,233,0.16),_transparent_68%)]" />
 
       <section className="relative flex min-h-[100svh] items-center px-6 pb-20 pt-28 sm:px-8 lg:px-12">
         <div className="mx-auto grid w-full max-w-[92rem] gap-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(28rem,0.9fr)] lg:items-end">
           <div className="max-w-4xl">
-            <div className="js-hero-kicker inline-flex items-center gap-3 rounded-full border border-slate-200/80 bg-white/80 px-5 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
+            <div className="js-hero-kicker inline-flex items-center gap-3 rounded-full border border-slate-200/80 bg-white/80 px-5 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-slate-700 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.18)] backdrop-blur dark:border-sky-400/20 dark:bg-slate-950/70 dark:text-sky-100 dark:shadow-[0_24px_90px_-46px_rgba(14,165,233,0.32)]">
               <span className="h-2 w-2 rounded-full bg-sky-500" />
               Plataforma operativa para servicios en campo
             </div>
 
-            <h1 className="mt-8 max-w-5xl text-5xl font-semibold tracking-[-0.07em] text-balance sm:text-6xl lg:text-[6.6rem] lg:leading-[0.94] dark:text-white">
+            <h1 className="mt-8 max-w-5xl text-5xl font-semibold tracking-[-0.07em] text-balance sm:text-6xl lg:text-[6.6rem] lg:leading-[0.94] dark:text-slate-50">
               <span className="js-hero-line block">La operación puede</span>
               <span className="js-hero-line block">verse más clara,</span>
-              <span className="js-hero-line block text-slate-400 dark:text-slate-500">más serena y más precisa.</span>
+              <span className="js-hero-line block text-slate-400 dark:text-sky-200/70">más serena y más precisa.</span>
             </h1>
 
             <p className="js-hero-copy mt-8 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl dark:text-slate-300">
@@ -234,7 +236,7 @@ export function HomeLandingClient() {
               <Button
                 asChild
                 size="lg"
-                className="h-14 rounded-full bg-slate-950 px-8 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+                className="h-14 rounded-full bg-slate-950 px-8 text-white hover:bg-slate-800 dark:bg-sky-400 dark:text-slate-950 dark:shadow-[0_22px_60px_-28px_rgba(56,189,248,0.65)] dark:hover:bg-sky-300"
               >
                 <Link href="/iniciar-sesion">
                   Iniciar sesión
@@ -245,7 +247,7 @@ export function HomeLandingClient() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="h-14 rounded-full border-slate-300 bg-white/80 px-8 text-slate-900 hover:bg-white dark:border-white/15 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
+                className="h-14 rounded-full border-slate-300 bg-white/80 px-8 text-slate-900 hover:bg-white dark:border-slate-700/80 dark:bg-slate-950/70 dark:text-slate-100 dark:hover:bg-slate-900/90"
               >
                 <Link href="/registro">Registrarse</Link>
               </Button>
@@ -260,12 +262,12 @@ export function HomeLandingClient() {
             {metrics.map((metric) => (
               <div
                 key={metric.label}
-                className="js-metric-card rounded-[2rem] border border-white/80 bg-white/90 p-7 shadow-[0_30px_80px_-48px_rgba(15,23,42,0.28)] backdrop-blur will-change-transform dark:border-white/10 dark:bg-white/[0.04]"
+                className="js-metric-card rounded-[2rem] border border-white/80 bg-white/90 p-7 shadow-[0_30px_80px_-48px_rgba(15,23,42,0.28)] backdrop-blur will-change-transform dark:border-slate-800/80 dark:bg-slate-900/70 dark:shadow-[0_36px_100px_-54px_rgba(2,12,27,0.95)]"
               >
-                <div className="text-2xl font-semibold tracking-[-0.05em] text-slate-950 dark:text-white">
+                <div className="text-2xl font-semibold tracking-[-0.05em] text-slate-950 dark:text-slate-50">
                   {metric.value}
                 </div>
-                <p className="mt-2 max-w-[14rem] text-sm leading-6 text-slate-600 dark:text-slate-300">
+                <p className="mt-2 max-w-[14rem] text-sm leading-6 text-slate-600 dark:text-slate-400">
                   {metric.label}
                 </p>
               </div>
@@ -275,11 +277,11 @@ export function HomeLandingClient() {
       </section>
 
       <section className="js-reveal px-6 pb-10 sm:px-8 lg:px-12 lg:pb-24">
-        <div className="mx-auto max-w-[92rem] rounded-[2.75rem] border border-white/80 bg-white/85 px-8 py-8 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.3)] backdrop-blur dark:border-white/10 dark:bg-white/[0.04] lg:px-10 lg:py-10">
+        <div className="mx-auto max-w-[92rem] rounded-[2.75rem] border border-white/80 bg-white/85 px-8 py-8 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.3)] backdrop-blur dark:border-slate-800/80 dark:bg-slate-900/65 dark:shadow-[0_42px_140px_-72px_rgba(2,12,27,0.95)] lg:px-10 lg:py-10">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
-              <p className="text-sm uppercase tracking-[0.26em] text-slate-400">Tenaxis</p>
-              <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-[-0.05em] text-balance sm:text-4xl lg:text-5xl">
+              <p className="text-sm uppercase tracking-[0.26em] text-slate-400 dark:text-sky-200/60">Tenaxis</p>
+              <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-[-0.05em] text-balance sm:text-4xl lg:text-5xl dark:text-slate-50">
                 Un dashboard que se siente como una sala de control, no como una pantalla saturada.
               </h2>
             </div>
@@ -295,15 +297,15 @@ export function HomeLandingClient() {
         <div className="mx-auto max-w-[92rem]">
           <div className="grid min-h-[78vh] gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
             <div className="js-showcase-copy max-w-xl will-change-transform">
-              <p className="text-sm uppercase tracking-[0.26em] text-slate-400">Control hub</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-6xl">
+              <p className="text-sm uppercase tracking-[0.26em] text-slate-400 dark:text-sky-200/60">Control hub</p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-6xl dark:text-slate-50">
                 Menos ruido visual. Más foco en lo que sí mueve la operación.
               </h2>
               <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-300">
                 Usamos GSAP para acompañar la narrativa: la plataforma entra con calma, se abre con scroll y da
                 protagonismo a la futura experiencia móvil sin meter todo en un solo bloque comprimido.
               </p>
-              <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white/85 px-4 py-2 text-sm text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
+              <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white/85 px-4 py-2 text-sm text-slate-700 dark:border-slate-700/80 dark:bg-slate-900/70 dark:text-slate-200">
                 Operación web hoy
                 <ChevronRight className="h-4 w-4" />
                 movilidad conectada después
@@ -311,15 +313,15 @@ export function HomeLandingClient() {
             </div>
 
             <div className="relative min-h-[34rem] lg:min-h-[40rem]">
-              <div className="js-showcase-dashboard absolute left-0 top-6 w-full max-w-[46rem] rounded-[2.8rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,255,255,0.82))] p-5 shadow-[0_50px_140px_-70px_rgba(15,23,42,0.42)] backdrop-blur will-change-transform dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.95),rgba(15,23,42,0.88))] lg:p-7">
+              <div className="js-showcase-dashboard absolute left-0 top-6 w-full max-w-[46rem] rounded-[2.8rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,255,255,0.82))] p-5 shadow-[0_50px_140px_-70px_rgba(15,23,42,0.42)] backdrop-blur will-change-transform dark:border-slate-800/80 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.92),rgba(15,23,42,0.90))] dark:shadow-[0_56px_140px_-72px_rgba(0,0,0,0.92)] lg:p-7">
                 <div className="flex items-center justify-between border-b border-slate-200/70 pb-4 dark:border-white/10">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">
                       Centro de mando
                     </p>
-                    <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em]">Tenaxis Control Hub</h3>
+                    <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] dark:text-slate-50">Tenaxis Control Hub</h3>
                   </div>
-                  <div className="rounded-full bg-emerald-500/10 px-4 py-2 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                  <div className="rounded-full bg-emerald-500/10 px-4 py-2 text-xs font-medium text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300">
                     Operación estable
                   </div>
                 </div>
@@ -327,7 +329,9 @@ export function HomeLandingClient() {
                 <div className="mt-6 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
                   <div className="rounded-[2rem] bg-slate-950 p-6 text-white">
                     <p className="text-xs uppercase tracking-[0.24em] text-sky-300">Visión operativa</p>
-                    <h4 className="mt-3 text-3xl font-semibold tracking-[-0.05em]">Servicios listos para ejecutarse</h4>
+                    <h4 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-white">
+                      Servicios listos para ejecutarse
+                    </h4>
                     <div className="mt-6 grid gap-3">
                       {[
                         "12 servicios programados para hoy",
@@ -354,16 +358,20 @@ export function HomeLandingClient() {
                   </div>
 
                   <div className="grid gap-4">
-                    <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50/90 p-5 dark:border-white/10 dark:bg-white/[0.04]">
-                      <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Estado</p>
-                      <div className="mt-3 text-3xl font-semibold tracking-[-0.05em]">24/7</div>
+                    <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50/90 p-5 dark:border-slate-800/80 dark:bg-slate-900/80">
+                      <p className="text-xs uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Estado</p>
+                      <div className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-slate-950 dark:text-slate-50">
+                        24/7
+                      </div>
                       <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Visibilidad transversal para coordinación y control administrativo.
                       </p>
                     </div>
-                    <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50/90 p-5 dark:border-white/10 dark:bg-white/[0.04]">
-                      <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Escala</p>
-                      <div className="mt-3 text-3xl font-semibold tracking-[-0.05em]">Multiempresa</div>
+                    <div className="rounded-[2rem] border border-slate-200/70 bg-slate-50/90 p-5 dark:border-slate-800/80 dark:bg-slate-900/80">
+                      <p className="text-xs uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Escala</p>
+                      <div className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-slate-950 dark:text-slate-50">
+                        Multiempresa
+                      </div>
                       <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Una base sobria para operar varias estructuras sin perder claridad.
                       </p>
@@ -376,13 +384,13 @@ export function HomeLandingClient() {
                 <div className="mx-auto h-1.5 w-16 rounded-full bg-white/15" />
                 <div className="mt-3 rounded-[2.2rem] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(1,173,251,0.16))] p-4 text-white">
                   <div className="rounded-[1.4rem] bg-white/10 p-4">
-                    <p className="text-[0.65rem] uppercase tracking-[0.24em] text-cyan-100/80">Operador</p>
-                    <p className="mt-2 text-xl font-semibold tracking-[-0.04em]">En ruta</p>
+                    <p className="text-[0.65rem] uppercase tracking-[0.24em] text-cyan-100">Operador</p>
+                    <p className="mt-2 text-xl font-semibold tracking-[-0.04em] text-white">En ruta</p>
                   </div>
                   <div className="mt-4 space-y-3">
                     <div className="h-14 rounded-[1.2rem] bg-white/10" />
                     <div className="h-28 rounded-[1.4rem] bg-cyan-300/18" />
-                    <div className="rounded-[1.2rem] bg-white/10 px-3 py-3 text-xs uppercase tracking-[0.22em] text-cyan-100">
+                    <div className="rounded-[1.2rem] bg-white/10 px-3 py-3 text-xs uppercase tracking-[0.22em] text-cyan-50">
                       Evidencia y estado sincronizados
                     </div>
                   </div>
@@ -396,8 +404,8 @@ export function HomeLandingClient() {
       <section className="js-reveal px-6 py-14 sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto max-w-[92rem]">
           <div className="max-w-3xl">
-            <p className="text-sm uppercase tracking-[0.26em] text-slate-400">Capacidades</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-6xl">
+            <p className="text-sm uppercase tracking-[0.26em] text-slate-400 dark:text-sky-200/60">Capacidades</p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-6xl dark:text-slate-50">
               Una presentación más amplia para un producto que no debería sentirse apretado.
             </h2>
           </div>
@@ -408,13 +416,13 @@ export function HomeLandingClient() {
               return (
                 <article
                   key={pillar.title}
-                  className="js-pillar-card rounded-[2.4rem] border border-white/80 bg-white/90 p-8 shadow-[0_35px_100px_-60px_rgba(15,23,42,0.24)] backdrop-blur will-change-transform dark:border-white/10 dark:bg-white/[0.04]"
+                  className="js-pillar-card rounded-[2.4rem] border border-white/80 bg-white/90 p-8 shadow-[0_35px_100px_-60px_rgba(15,23,42,0.24)] backdrop-blur will-change-transform dark:border-slate-800/80 dark:bg-slate-900/70 dark:shadow-[0_38px_120px_-70px_rgba(2,12,27,0.95)]"
                 >
-                  <div className="inline-flex rounded-[1.2rem] bg-slate-950 p-3 text-white dark:bg-white dark:text-slate-950">
+                  <div className="inline-flex rounded-[1.2rem] bg-slate-950 p-3 text-white dark:bg-sky-400 dark:text-slate-950">
                     <Icon className="h-5 w-5" />
                   </div>
-                  <p className="mt-6 text-xs uppercase tracking-[0.24em] text-slate-400">{pillar.label}</p>
-                  <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-balance">
+                  <p className="mt-6 text-xs uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">{pillar.label}</p>
+                  <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-balance dark:text-slate-50">
                     {pillar.title}
                   </h3>
                   <p className="mt-4 text-base leading-8 text-slate-600 dark:text-slate-300">
@@ -428,10 +436,10 @@ export function HomeLandingClient() {
       </section>
 
       <section className="js-reveal px-6 pb-20 pt-6 sm:px-8 lg:px-12 lg:pb-28">
-        <div className="mx-auto grid max-w-[92rem] gap-8 rounded-[3rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(244,247,252,0.9))] px-8 py-10 shadow-[0_45px_120px_-70px_rgba(15,23,42,0.28)] backdrop-blur dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(8,15,30,0.96),rgba(8,20,45,0.92))] lg:grid-cols-[0.95fr_1.05fr] lg:px-12 lg:py-14">
+        <div className="mx-auto grid max-w-[92rem] gap-8 rounded-[3rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(244,247,252,0.9))] px-8 py-10 shadow-[0_45px_120px_-70px_rgba(15,23,42,0.28)] backdrop-blur dark:border-slate-800/80 dark:bg-[linear-gradient(180deg,rgba(3,10,24,0.96),rgba(7,23,48,0.92))] dark:shadow-[0_50px_130px_-72px_rgba(0,0,0,0.92)] lg:grid-cols-[0.95fr_1.05fr] lg:px-12 lg:py-14">
           <div className="js-operator-copy max-w-2xl">
-            <p className="text-sm uppercase tracking-[0.26em] text-slate-400">Futuro móvil</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-[3.7rem] lg:leading-[1.02]">
+            <p className="text-sm uppercase tracking-[0.26em] text-slate-400 dark:text-sky-200/60">Futuro móvil</p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-[3.7rem] lg:leading-[1.02] dark:text-slate-50">
               La próxima fase es llevar esta claridad a la mano del operador.
             </h2>
             <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-300">
@@ -444,9 +452,9 @@ export function HomeLandingClient() {
             {operatorSteps.map((step, index) => (
               <div
                 key={step}
-                className="js-operator-step flex items-start gap-4 rounded-[2rem] border border-slate-200/70 bg-white/90 px-5 py-5 will-change-transform dark:border-white/10 dark:bg-white/[0.05]"
+                className="js-operator-step flex items-start gap-4 rounded-[2rem] border border-slate-200/70 bg-white/90 px-5 py-5 will-change-transform dark:border-slate-800/80 dark:bg-slate-950/65"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white dark:bg-white dark:text-slate-950">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white dark:bg-sky-400 dark:text-slate-950">
                   0{index + 1}
                 </div>
                 <div>
@@ -459,10 +467,10 @@ export function HomeLandingClient() {
       </section>
 
       <section className="js-reveal px-6 pb-16 sm:px-8 lg:px-12 lg:pb-24">
-        <div className="mx-auto flex max-w-[92rem] flex-col gap-8 rounded-[3rem] bg-slate-950 px-8 py-10 text-white shadow-[0_60px_140px_-80px_rgba(2,19,89,0.8)] lg:flex-row lg:items-end lg:justify-between lg:px-12 lg:py-14 dark:bg-[linear-gradient(135deg,#07101f,#041d49)]">
+        <div className="mx-auto flex max-w-[92rem] flex-col gap-8 rounded-[3rem] bg-slate-950 px-8 py-10 text-white shadow-[0_60px_140px_-80px_rgba(2,19,89,0.8)] lg:flex-row lg:items-end lg:justify-between lg:px-12 lg:py-14 dark:border dark:border-sky-400/15 dark:bg-[linear-gradient(135deg,#07101f,#041d49)] dark:shadow-[0_60px_160px_-85px_rgba(2,132,199,0.38)]">
           <div className="max-w-3xl">
             <p className="text-sm uppercase tracking-[0.26em] text-sky-300/75">Entrar a Tenaxis</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-6xl">
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-6xl text-white">
               Una homepage más silenciosa, más abierta y mucho más alineada con una marca premium.
             </h2>
           </div>
@@ -479,7 +487,7 @@ export function HomeLandingClient() {
               asChild
               size="lg"
               variant="outline"
-              className="h-14 rounded-full border-white/20 bg-white/8 px-8 text-white hover:bg-white/12"
+              className="h-14 rounded-full border-white/25 bg-white/10 px-8 text-white hover:bg-white/16 dark:border-sky-200/30 dark:text-sky-50"
             >
               <Link href="/registro">
                 Crear cuenta

@@ -14,7 +14,7 @@
   --color-secondary: var(--color-secondary);
   --color-accent: var(--color-accent);
   --color-theme: var(--color-border);
-  --color-surface: var(--color-white);
+  --color-surface: var(--color-app-surface);
 
   /* Nueva Paleta de Colores */
   --color-azul-1: var(--color-azul-1);
@@ -33,7 +33,7 @@
   --color-text-main: #000000; /* Negro */
   --color-text-secondary: #706F71;
   --color-border: #E2E8F0;
-  --color-white: #FFFFFF;
+  --color-app-surface: #FFFFFF;
 
   /* Nueva Paleta de Colores (Mapeo) */
   --color-azul-1: #01ADFB;
@@ -81,7 +81,7 @@
   --color-text-main: #F8FAFC;
   --color-text-secondary: #94A3B8;
   --color-border: #1E293B;    /* Slate 800 */
-  --color-white: #0F172A;     /* Slate 900 */
+  --color-app-surface: #0F172A;     /* Slate 900 */
 
   /* Shadcn Variables - Dark Mode */
   --background: #020617;
@@ -164,7 +164,7 @@
 
 /* Custom utilities based on palette */
 .bg-base { background-color: var(--color-base); }
-.bg-surface { background-color: var(--color-white); }
+.bg-surface { background-color: var(--color-app-surface); }
 
 .text-primary { color: var(--color-primary); }
 .text-secondary { color: var(--color-secondary); }
