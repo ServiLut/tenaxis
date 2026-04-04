@@ -715,6 +715,42 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       expect(updateCall.data.estadoServicio).toBe(EstadoOrden.PROCESO);
       expect(updateCall.data.observacion).toBe('Reasignación operativa');
     });
+
+    it('permite liquidar operativamente una orden ya pagada sin reabrir finanzas', async () => {
+      await arrangeUpdate({
+        orderOverrides: {
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          estadoPago: EstadoPagoOrden.PAGADO,
+          valorPagado: 100000,
+          desglosePago: [
+            { metodo: MetodoPagoBase.TRANSFERENCIA, monto: 100000 },
+          ],
+          comprobantePago: [
+            {
+              path: 'ordenes/comp-1.png',
+              monto: 100000,
+              referenciaPago: 'TRX-PAID-1',
+              fechaPago: '2026-03-25',
+            },
+          ],
+        },
+        updateDto: {
+          estadoServicio: EstadoOrden.LIQUIDADO,
+          observacion: 'Cierre operativo final',
+        },
+        updatedOverrides: {
+          estadoServicio: EstadoOrden.LIQUIDADO,
+          estadoPago: EstadoPagoOrden.PAGADO,
+          liquidadoAt: new Date('2026-03-26T10:00:00.000Z'),
+        },
+      });
+
+      const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
+
+      expect(updateCall.data.estadoServicio).toBe(EstadoOrden.LIQUIDADO);
+      expect(updateCall.data.estadoPago).toBe(EstadoPagoOrden.PAGADO);
+      expect(updateCall.data.liquidadoAt).toBeInstanceOf(Date);
+    });
   });
 
   describe('lectura con freeze financiero para UI', () => {

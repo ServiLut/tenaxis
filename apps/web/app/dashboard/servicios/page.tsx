@@ -520,14 +520,37 @@ const CLOSED_FINANCIAL_STATES = new Set([
   "CORTESIA",
 ]);
 
+const OPERATIONALLY_LIQUIDATABLE_PAYMENT_STATES = new Set([
+  "PAGADO",
+  "CONCILIADO",
+  "CORTESIA",
+]);
+
+const canCompleteOperationalLiquidation = (
+  orden?: Partial<OrdenServicioRaw> | null,
+) => {
+  if (!orden) return false;
+  if (orden.liquidadoAt || orden.estadoServicio === "LIQUIDADO") return false;
+
+  return Boolean(
+    orden.estadoPago &&
+      OPERATIONALLY_LIQUIDATABLE_PAYMENT_STATES.has(orden.estadoPago),
+  );
+};
+
 const getFinancialLockMeta = (orden?: Partial<OrdenServicioRaw> | null) => {
   if (!orden) {
-    return { locked: false, reason: "" };
+    return { locked: false, reason: "", allowsOperationalLiquidation: false };
+  }
+
+  if (canCompleteOperationalLiquidation(orden)) {
+    return { locked: false, reason: "", allowsOperationalLiquidation: true };
   }
 
   if (orden.financialLock) {
     return {
       locked: true,
+      allowsOperationalLiquidation: false,
       reason:
         "Freeze financiero activo desde backend. Esta orden ya no admite recaudo ni liquidación manual desde el listado.",
     };
@@ -536,6 +559,7 @@ const getFinancialLockMeta = (orden?: Partial<OrdenServicioRaw> | null) => {
   if (orden.liquidadoAt || orden.estadoServicio === "LIQUIDADO") {
     return {
       locked: true,
+      allowsOperationalLiquidation: false,
       reason:
         "La orden ya fue liquidada. Cualquier ajuste financiero debe pasar por contabilidad.",
     };
@@ -544,6 +568,7 @@ const getFinancialLockMeta = (orden?: Partial<OrdenServicioRaw> | null) => {
   if (orden.estadoPago && CLOSED_FINANCIAL_STATES.has(orden.estadoPago)) {
     return {
       locked: true,
+      allowsOperationalLiquidation: false,
       reason:
         orden.estadoPago === "EFECTIVO_DECLARADO"
           ? "La orden ya tiene recaudo declarado pendiente de conciliación. No se puede volver a registrar desde acá."
@@ -551,7 +576,7 @@ const getFinancialLockMeta = (orden?: Partial<OrdenServicioRaw> | null) => {
     };
   }
 
-  return { locked: false, reason: "" };
+  return { locked: false, reason: "", allowsOperationalLiquidation: false };
 };
 
 const getSettlementFlowMeta = (orden?: Partial<OrdenServicioRaw> | null) => {
@@ -1325,6 +1350,31 @@ function ServiciosContent() {
 
     let toastId: string | number | undefined;
     try {
+      const canCloseLockedOrder = canCompleteOperationalLiquidation(
+        selectedServicio.raw,
+      );
+
+      if (canCloseLockedOrder) {
+        setIsUploading(true);
+        toastId = toast.loading("Liquidando servicio...");
+
+        await updateOrdenServicio(selectedServicio.raw.id, {
+          estadoServicio: "LIQUIDADO",
+          observacionFinal: liquidarData.observacionFinal || undefined,
+        });
+
+        toast.success("Servicio liquidado exitosamente.", { id: toastId });
+        const updatedList = await fetchServicios();
+        if (updatedList.length > 0) {
+          const refreshed = updatedList.find(
+            (s) => s.raw.id === selectedServicio.raw.id,
+          );
+          if (refreshed) setSelectedServicio(refreshed);
+        }
+        setIsLiquidarModalOpen(false);
+        return;
+      }
+
       const processedBreakdown = liquidarData.breakdown.map(line => ({
         ...line,
         monto: parseCurrencyInput(line.monto),

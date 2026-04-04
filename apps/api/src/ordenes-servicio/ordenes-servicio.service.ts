@@ -2049,6 +2049,43 @@ export class OrdenesServicioService {
     );
   }
 
+  private isPaymentStateClosed(estadoPago?: EstadoPagoOrden | null): boolean {
+    return (
+      estadoPago === EstadoPagoOrden.PAGADO ||
+      estadoPago === EstadoPagoOrden.CONCILIADO ||
+      estadoPago === EstadoPagoOrden.CORTESIA
+    );
+  }
+
+  private canLiquidateOperationallyWhileFinanciallyLocked(
+    orden: OrdenFinancialLockState,
+    updateDto: Partial<CreateOrdenServicioDto>,
+  ): boolean {
+    const onlyOperationalLiquidationChange =
+      updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) &&
+      updateDto.valorCotizado === undefined &&
+      updateDto.desglosePago === undefined &&
+      updateDto.transferencias === undefined &&
+      updateDto.metodoPagoId === undefined &&
+      updateDto.entidadFinancieraNombre === undefined &&
+      updateDto.estadoPago === undefined &&
+      updateDto.facturaPath === undefined &&
+      updateDto.facturaElectronica === undefined &&
+      updateDto.comprobantePago === undefined &&
+      updateDto.valorPagado === undefined &&
+      updateDto.referenciaPago === undefined &&
+      updateDto.fechaPago === undefined;
+
+    return (
+      onlyOperationalLiquidationChange &&
+      !orden.liquidadoAt &&
+      orden.estadoServicio !== (EstadoOrden.LIQUIDADO as EstadoOrden) &&
+      !orden.declaracionEfectivo &&
+      !orden.consignacionOrden &&
+      this.isPaymentStateClosed(orden.estadoPago)
+    );
+  }
+
   private hasFinancialMutation(
     orden: {
       estadoServicio?: EstadoOrden | null;
@@ -2526,7 +2563,8 @@ export class OrdenesServicioService {
 
     if (
       this.isFinanciallyLocked(orden) &&
-      this.hasFinancialMutation(orden, updateDto)
+      this.hasFinancialMutation(orden, updateDto) &&
+      !this.canLiquidateOperationallyWhileFinanciallyLocked(orden, updateDto)
     ) {
       throw new ConflictException(
         'La orden ya tiene movimiento contable y sus datos financieros quedaron congelados; necesitas un flujo de ajuste aprobado',
