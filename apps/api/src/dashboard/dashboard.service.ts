@@ -13,6 +13,8 @@ import {
   addBogotaDaysUtc,
 } from '../common/utils/timezone.util';
 
+const DASHBOARD_KPI_CUTOFF_UTC = new Date('2026-01-01T05:00:00.000Z');
+
 @Injectable()
 export class DashboardService {
   constructor(private prisma: PrismaService) {}
@@ -33,6 +35,14 @@ export class DashboardService {
     const commonWhere: Prisma.OrdenServicioWhereInput = {
       ...(tenantId ? { tenantId } : {}),
       ...(empresaId && { empresaId }),
+      AND: [
+        {
+          OR: [
+            { fechaVisita: { gte: DASHBOARD_KPI_CUTOFF_UTC } },
+            { createdAt: { gte: DASHBOARD_KPI_CUTOFF_UTC } },
+          ],
+        },
+      ],
     };
 
     const [

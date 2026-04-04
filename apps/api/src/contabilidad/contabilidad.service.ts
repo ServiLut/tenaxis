@@ -21,6 +21,8 @@ import {
   endOfPreviousBogotaMonthUtc,
 } from '../common/utils/timezone.util';
 
+const ACCOUNTING_KPI_CUTOFF_UTC = new Date('2026-01-01T05:00:00.000Z');
+
 interface DesglosePagoItem {
   metodo: string;
   monto: number;
@@ -254,7 +256,7 @@ export class ContabilidadService {
         tenantId,
         empresaId: empresaId || undefined,
         tecnicoId: { not: null },
-        fechaVisita: { lte: today },
+        fechaVisita: { gte: ACCOUNTING_KPI_CUTOFF_UTC, lte: today },
         estadoPago: { in: ['PENDIENTE', 'PARCIAL'] },
         // No deben tener declaración asociada todavía
         declaracionEfectivo: null,
@@ -298,6 +300,12 @@ export class ContabilidadService {
           tenantId,
           empresaId: empresaId || undefined,
           consignado: false,
+          orden: {
+            OR: [
+              { fechaVisita: { gte: ACCOUNTING_KPI_CUTOFF_UTC } },
+              { createdAt: { gte: ACCOUNTING_KPI_CUTOFF_UTC } },
+            ],
+          },
         },
         select: {
           tecnicoId: true,
