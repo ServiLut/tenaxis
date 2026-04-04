@@ -573,6 +573,7 @@ export const OrdenServicioScalarFieldEnum = {
   facturaElectronica: 'facturaElectronica',
   evidenciaPath: 'evidenciaPath',
   desglosePago: 'desglosePago',
+  metodosPagoBase: 'metodosPagoBase',
   referenciaPago: 'referenciaPago',
   fechaPago: 'fechaPago',
   entidadFinancieraId: 'entidadFinancieraId',

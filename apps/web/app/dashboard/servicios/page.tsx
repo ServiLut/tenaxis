@@ -303,6 +303,9 @@ const isServicioScheduledInFuture = (orden?: Partial<OrdenServicioRaw> | null) =
 
 const SERVICIOS_UI_CACHE_KEY = "tenaxis:dashboard:servicios:ui-state:v1";
 
+const UUID_V4_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 const SERVICIOS_FILTER_DEFAULTS = {
   estado: "all",
   estadoPago: "all",
@@ -319,6 +322,48 @@ const SERVICIOS_FILTER_DEFAULTS = {
 };
 
 type ServiciosFiltersState = typeof SERVICIOS_FILTER_DEFAULTS;
+
+const normalizeMetodoPagoBase = (value?: string) => {
+  if (!value) return undefined;
+
+  const normalized = value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toUpperCase();
+
+  if (PAYMENT_METHOD_OPTIONS.some((option) => option.id === normalized)) {
+    return normalized;
+  }
+
+  if (normalized.includes("EFECT")) return "EFECTIVO";
+  if (normalized.includes("TRANSFER")) return "TRANSFERENCIA";
+  if (normalized.includes("CREDI") || normalized.includes("TARJETA")) return "CREDITO";
+  if (normalized.includes("BONO")) return "BONO";
+  if (normalized.includes("CORT")) return "CORTESIA";
+  if (normalized.includes("PEND")) return "PENDIENTE";
+  if (normalized.includes("QR")) return "TRANSFERENCIA";
+
+  return undefined;
+};
+
+const resolveMetodoPagoFilterQuery = (
+  metodoPago: string,
+  metodosPagoOptions: Array<{ id: string; nombre: string }>,
+) => {
+  if (!metodoPago || metodoPago === "all") return {};
+
+  if (!UUID_V4_REGEX.test(metodoPago)) {
+    return { metodoPagoBase: metodoPago };
+  }
+
+  const matchedOption = metodosPagoOptions.find((option) => option.id === metodoPago);
+  const normalizedBase = normalizeMetodoPagoBase(matchedOption?.nombre);
+
+  return normalizedBase
+    ? { metodoPagoBase: normalizedBase }
+    : { metodoPagoId: metodoPago };
+};
 
 interface ServiciosUiCacheState {
   search: string;
@@ -1072,7 +1117,7 @@ function ServiciosContent() {
         limit: itemsPerPage,
         estado: effectiveFilters.estado,
         estadoPago: effectiveFilters.estadoPago,
-        metodoPago: effectiveFilters.metodoPago,
+        ...resolveMetodoPagoFilterQuery(effectiveFilters.metodoPago, filterOptions.metodosPago),
         tecnicoId: effectiveFilters.tecnico,
         urgencia: effectiveFilters.urgencia,
         creadorId: effectiveFilters.creador,
@@ -1413,7 +1458,7 @@ function ServiciosContent() {
         search,
         estado: effectiveFilters.estado,
         estadoPago: effectiveFilters.estadoPago,
-        metodoPago: effectiveFilters.metodoPago,
+        ...resolveMetodoPagoFilterQuery(effectiveFilters.metodoPago, filterOptions.metodosPago),
         tecnicoId: effectiveFilters.tecnico,
         urgencia: effectiveFilters.urgencia,
         creadorId: effectiveFilters.creador,

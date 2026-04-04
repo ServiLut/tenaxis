@@ -1,5 +1,6 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
+  IsArray,
   IsDateString,
   IsEnum,
   IsInt,
@@ -80,6 +81,21 @@ export class QueryOrdenesServicioDto {
   @IsOptional()
   @IsEnum(MetodoPagoBase)
   metodoPagoBase?: MetodoPagoBase;
+
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (Array.isArray(value)) return value;
+    if (typeof value === 'string') {
+      return value
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+    return value;
+  })
+  @IsArray()
+  @IsEnum(MetodoPagoBase, { each: true })
+  metodosPagoBase?: MetodoPagoBase[];
 
   @IsOptional()
   @IsEnum(EstadoPagoOrden)

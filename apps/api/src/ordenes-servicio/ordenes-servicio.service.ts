@@ -358,6 +358,15 @@ export class OrdenesServicioService {
         TipoFacturacion.UNICO;
     const valorCotizadoResuelto = esGarantia ? 0 : createDto.valorCotizado;
     const desglosePagoResuelto = esGarantia ? [] : createDto.desglosePago;
+    const metodoPagoNombre = await this.resolveMetodoPagoNombreById(
+      tenantId,
+      createDto.empresaId,
+      createDto.metodoPagoId,
+    );
+    const metodosPagoBaseResueltos = this.deriveMetodosPagoBase(
+      desglosePagoResuelto,
+      metodoPagoNombre,
+    );
 
     // Al crear una orden nueva, el estado siempre es PENDIENTE y el valor pagado es 0
     // ya que el servicio no se ha prestado ni cobrado aún.
@@ -397,6 +406,7 @@ export class OrdenesServicioService {
         desglosePago: desglosePagoResuelto
           ? (desglosePagoResuelto as unknown as Prisma.InputJsonValue)
           : undefined,
+        metodosPagoBase: metodosPagoBaseResueltos,
         estadoPago,
         fechaVisita: fechaVisitaDate,
         horaInicio: horaInicioDate,
@@ -825,23 +835,39 @@ export class OrdenesServicioService {
       whereClause.metodoPagoId = filters.metodoPagoId;
     }
 
-    if (filters.metodoPagoBase) {
-      const metodoPagoClauses: Prisma.OrdenServicioWhereInput[] = [
-        {
-          desglosePago: {
-            string_contains: filters.metodoPagoBase,
+    const metodoPagoBases = [
+      ...(filters.metodoPagoBase ? [filters.metodoPagoBase] : []),
+      ...(filters.metodosPagoBase || []).filter(Boolean),
+    ];
+
+    if (metodoPagoBases.length > 0) {
+      const metodoPagoLegacyClauses = metodoPagoBases.flatMap(
+        (metodoPagoBase): Prisma.OrdenServicioWhereInput[] => [
+          {
+            desglosePago: {
+              string_contains: metodoPagoBase,
+            },
           },
-        },
-        {
-          metodoPago: {
-            is: {
-              nombre: {
-                contains: filters.metodoPagoBase,
-                mode: 'insensitive',
+          {
+            metodoPago: {
+              is: {
+                nombre: {
+                  contains: metodoPagoBase,
+                  mode: Prisma.QueryMode.insensitive,
+                },
               },
             },
           },
+        ],
+      );
+
+      const metodoPagoClauses: Prisma.OrdenServicioWhereInput[] = [
+        {
+          metodosPagoBase: {
+            hasSome: metodoPagoBases,
+          },
         },
+        ...metodoPagoLegacyClauses,
       ];
 
       const andClauses = Array.isArray(whereClause.AND)
@@ -2089,6 +2115,77 @@ export class OrdenesServicioService {
     return normalized;
   }
 
+  private normalizeMetodoPagoBaseFromName(
+    value?: string | null,
+  ): MetodoPagoBase | undefined {
+    const normalized = value
+      ?.normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim()
+      .toUpperCase();
+
+    if (!normalized) return undefined;
+    if (Object.values(MetodoPagoBase).includes(normalized as MetodoPagoBase)) {
+      return normalized as MetodoPagoBase;
+    }
+    if (normalized.includes('EFECT')) return MetodoPagoBase.EFECTIVO;
+    if (normalized.includes('TRANSFER')) return MetodoPagoBase.TRANSFERENCIA;
+    if (normalized.includes('CREDI') || normalized.includes('TARJETA')) {
+      return MetodoPagoBase.CREDITO;
+    }
+    if (normalized.includes('BONO')) return MetodoPagoBase.BONO;
+    if (normalized.includes('CORT')) return MetodoPagoBase.CORTESIA;
+    if (normalized.includes('PEND')) return MetodoPagoBase.PENDIENTE;
+    if (normalized.includes('QR')) return MetodoPagoBase.TRANSFERENCIA;
+
+    return undefined;
+  }
+
+  private deriveMetodosPagoBase(
+    breakdown?: DesglosePagoItem[] | null,
+    metodoPagoNombre?: string | null,
+  ): MetodoPagoBase[] {
+    const resolved = new Set<MetodoPagoBase>();
+
+    for (const item of breakdown ?? []) {
+      const normalized = this.normalizeMetodoPagoBaseFromName(item.metodo);
+      if (normalized) {
+        resolved.add(normalized);
+      }
+    }
+
+    const normalizedFromCatalog =
+      this.normalizeMetodoPagoBaseFromName(metodoPagoNombre);
+    if (normalizedFromCatalog) {
+      resolved.add(normalizedFromCatalog);
+    }
+
+    return Array.from(resolved);
+  }
+
+  private async resolveMetodoPagoNombreById(
+    tenantId: string,
+    empresaId: string,
+    metodoPagoId?: string | null,
+  ): Promise<string | undefined> {
+    if (!this.isUUID(metodoPagoId || undefined)) {
+      return undefined;
+    }
+
+    const metodoPago = await this.prisma.metodoPago.findFirst({
+      where: {
+        id: metodoPagoId!,
+        tenantId,
+        empresaId,
+      },
+      select: {
+        nombre: true,
+      },
+    });
+
+    return metodoPago?.nombre;
+  }
+
   private isRecord(value: unknown): value is Record<string, unknown> {
     return typeof value === 'object' && value !== null && !Array.isArray(value);
   }
@@ -2481,6 +2578,15 @@ export class OrdenesServicioService {
     );
     const breakdownVigente =
       breakdownActualizado ?? this.normalizeBreakdown(orden.desglosePago) ?? [];
+    const metodoPagoNombre = await this.resolveMetodoPagoNombreById(
+      tenantId,
+      orden.empresaId,
+      updateDto.metodoPagoId ?? orden.metodoPagoId,
+    );
+    const metodosPagoBaseVigentes = this.deriveMetodosPagoBase(
+      breakdownVigente,
+      metodoPagoNombre,
+    );
     const valorCotizadoResuelto = Number(
       updateDto.valorCotizado ?? orden.valorCotizado ?? 0,
     );
@@ -2587,6 +2693,7 @@ export class OrdenesServicioService {
         : updateDto.desglosePago
           ? (updateDto.desglosePago as unknown as Prisma.InputJsonValue)
           : undefined,
+      metodosPagoBase: esGarantia ? [] : metodosPagoBaseVigentes,
     };
 
     // Lógica automática basada en el desglose de pago

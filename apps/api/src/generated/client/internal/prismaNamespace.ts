@@ -5164,6 +5164,7 @@ export const OrdenServicioScalarFieldEnum = {
   facturaElectronica: 'facturaElectronica',
   evidenciaPath: 'evidenciaPath',
   desglosePago: 'desglosePago',
+  metodosPagoBase: 'metodosPagoBase',
   referenciaPago: 'referenciaPago',
   fechaPago: 'fechaPago',
   entidadFinancieraId: 'entidadFinancieraId',
@@ -6040,6 +6041,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MetodoPagoBase[]'
+ */
+export type ListEnumMetodoPagoBaseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MetodoPagoBase[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MetodoPagoBase'
+ */
+export type EnumMetodoPagoBaseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MetodoPagoBase'>
     
 
 

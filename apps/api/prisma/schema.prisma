@@ -708,6 +708,7 @@ model OrdenServicio {
   facturaElectronica           String?
   evidenciaPath                String?
   desglosePago                 Json?
+  metodosPagoBase             MetodoPagoBase[]            @default([])
   referenciaPago               String?
   fechaPago                    DateTime?
   entidadFinancieraId          String?                    @db.Uuid

@@ -208,6 +208,7 @@ export type OrdenServicioCountAggregateOutputType = {
   facturaElectronica: number
   evidenciaPath: number
   desglosePago: number
+  metodosPagoBase: number
   referenciaPago: number
   fechaPago: number
   entidadFinancieraId: number
@@ -424,6 +425,7 @@ export type OrdenServicioCountAggregateInputType = {
   facturaElectronica?: true
   evidenciaPath?: true
   desglosePago?: true
+  metodosPagoBase?: true
   referenciaPago?: true
   fechaPago?: true
   entidadFinancieraId?: true
@@ -579,6 +581,7 @@ export type OrdenServicioGroupByOutputType = {
   facturaElectronica: string | null
   evidenciaPath: string | null
   desglosePago: runtime.JsonValue | null
+  metodosPagoBase: $Enums.MetodoPagoBase[]
   referenciaPago: string | null
   fechaPago: Date | null
   entidadFinancieraId: string | null
@@ -670,6 +673,7 @@ export type OrdenServicioWhereInput = {
   facturaElectronica?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   evidenciaPath?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   desglosePago?: Prisma.JsonNullableFilter<"OrdenServicio">
+  metodosPagoBase?: Prisma.EnumMetodoPagoBaseNullableListFilter<"OrdenServicio">
   referenciaPago?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   fechaPago?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   entidadFinancieraId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
@@ -760,6 +764,7 @@ export type OrdenServicioOrderByWithRelationInput = {
   facturaElectronica?: Prisma.SortOrderInput | Prisma.SortOrder
   evidenciaPath?: Prisma.SortOrderInput | Prisma.SortOrder
   desglosePago?: Prisma.SortOrderInput | Prisma.SortOrder
+  metodosPagoBase?: Prisma.SortOrder
   referenciaPago?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaPago?: Prisma.SortOrderInput | Prisma.SortOrder
   entidadFinancieraId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -853,6 +858,7 @@ export type OrdenServicioWhereUniqueInput = Prisma.AtLeast<{
   facturaElectronica?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   evidenciaPath?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   desglosePago?: Prisma.JsonNullableFilter<"OrdenServicio">
+  metodosPagoBase?: Prisma.EnumMetodoPagoBaseNullableListFilter<"OrdenServicio">
   referenciaPago?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   fechaPago?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   entidadFinancieraId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
@@ -943,6 +949,7 @@ export type OrdenServicioOrderByWithAggregationInput = {
   facturaElectronica?: Prisma.SortOrderInput | Prisma.SortOrder
   evidenciaPath?: Prisma.SortOrderInput | Prisma.SortOrder
   desglosePago?: Prisma.SortOrderInput | Prisma.SortOrder
+  metodosPagoBase?: Prisma.SortOrder
   referenciaPago?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaPago?: Prisma.SortOrderInput | Prisma.SortOrder
   entidadFinancieraId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -1019,6 +1026,7 @@ export type OrdenServicioScalarWhereWithAggregatesInput = {
   facturaElectronica?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   evidenciaPath?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   desglosePago?: Prisma.JsonNullableWithAggregatesFilter<"OrdenServicio">
+  metodosPagoBase?: Prisma.EnumMetodoPagoBaseNullableListFilter<"OrdenServicio">
   referenciaPago?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   fechaPago?: Prisma.DateTimeNullableWithAggregatesFilter<"OrdenServicio"> | Date | string | null
   entidadFinancieraId?: Prisma.UuidNullableWithAggregatesFilter<"OrdenServicio"> | string | null
@@ -1077,6 +1085,7 @@ export type OrdenServicioCreateInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -1162,6 +1171,7 @@ export type OrdenServicioUncheckedCreateInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -1227,6 +1237,7 @@ export type OrdenServicioUpdateInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -1312,6 +1323,7 @@ export type OrdenServicioUncheckedUpdateInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1387,6 +1399,7 @@ export type OrdenServicioCreateManyInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -1445,6 +1458,7 @@ export type OrdenServicioUpdateManyMutationInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -1508,6 +1522,7 @@ export type OrdenServicioUncheckedUpdateManyInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1548,6 +1563,14 @@ export type OrdenServicioListRelationFilter = {
 
 export type OrdenServicioOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type EnumMetodoPagoBaseNullableListFilter<$PrismaModel = never> = {
+  equals?: $Enums.MetodoPagoBase[] | Prisma.ListEnumMetodoPagoBaseFieldRefInput<$PrismaModel> | null
+  has?: $Enums.MetodoPagoBase | Prisma.EnumMetodoPagoBaseFieldRefInput<$PrismaModel> | null
+  hasEvery?: $Enums.MetodoPagoBase[] | Prisma.ListEnumMetodoPagoBaseFieldRefInput<$PrismaModel>
+  hasSome?: $Enums.MetodoPagoBase[] | Prisma.ListEnumMetodoPagoBaseFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type OrdenServicioNullableScalarRelationFilter = {
@@ -1591,6 +1614,7 @@ export type OrdenServicioCountOrderByAggregateInput = {
   facturaElectronica?: Prisma.SortOrder
   evidenciaPath?: Prisma.SortOrder
   desglosePago?: Prisma.SortOrder
+  metodosPagoBase?: Prisma.SortOrder
   referenciaPago?: Prisma.SortOrder
   fechaPago?: Prisma.SortOrder
   entidadFinancieraId?: Prisma.SortOrder
@@ -2320,6 +2344,10 @@ export type OrdenServicioUncheckedUpdateManyWithoutMetodoPagoNestedInput = {
   deleteMany?: Prisma.OrdenServicioScalarWhereInput | Prisma.OrdenServicioScalarWhereInput[]
 }
 
+export type OrdenServicioCreatemetodosPagoBaseInput = {
+  set: $Enums.MetodoPagoBase[]
+}
+
 export type OrdenServicioCreateNestedOneWithoutOrdenesHijasInput = {
   create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutOrdenesHijasInput, Prisma.OrdenServicioUncheckedCreateWithoutOrdenesHijasInput>
   connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutOrdenesHijasInput
@@ -2338,6 +2366,11 @@ export type OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput = {
   connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutOrdenPadreInput | Prisma.OrdenServicioCreateOrConnectWithoutOrdenPadreInput[]
   createMany?: Prisma.OrdenServicioCreateManyOrdenPadreInputEnvelope
   connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+}
+
+export type OrdenServicioUpdatemetodosPagoBaseInput = {
+  set?: $Enums.MetodoPagoBase[]
+  push?: $Enums.MetodoPagoBase | $Enums.MetodoPagoBase[]
 }
 
 export type EnumEstadoPagoOrdenFieldUpdateOperationsInput = {
@@ -2556,6 +2589,7 @@ export type OrdenServicioCreateWithoutTenantInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -2639,6 +2673,7 @@ export type OrdenServicioUncheckedCreateWithoutTenantInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -2743,6 +2778,7 @@ export type OrdenServicioScalarWhereInput = {
   facturaElectronica?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   evidenciaPath?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   desglosePago?: Prisma.JsonNullableFilter<"OrdenServicio">
+  metodosPagoBase?: Prisma.EnumMetodoPagoBaseNullableListFilter<"OrdenServicio">
   referenciaPago?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   fechaPago?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   entidadFinancieraId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
@@ -2801,6 +2837,7 @@ export type OrdenServicioCreateWithoutCreadoPorInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -2884,6 +2921,7 @@ export type OrdenServicioUncheckedCreateWithoutCreadoPorInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -2959,6 +2997,7 @@ export type OrdenServicioCreateWithoutDeletedByInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -3043,6 +3082,7 @@ export type OrdenServicioUncheckedCreateWithoutDeletedByInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -3117,6 +3157,7 @@ export type OrdenServicioCreateWithoutLiquidadoPorInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -3201,6 +3242,7 @@ export type OrdenServicioUncheckedCreateWithoutLiquidadoPorInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -3275,6 +3317,7 @@ export type OrdenServicioCreateWithoutTecnicoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -3358,6 +3401,7 @@ export type OrdenServicioUncheckedCreateWithoutTecnicoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -3497,6 +3541,7 @@ export type OrdenServicioCreateWithoutEmpresaInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -3580,6 +3625,7 @@ export type OrdenServicioUncheckedCreateWithoutEmpresaInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -3671,6 +3717,7 @@ export type OrdenServicioCreateWithoutClienteInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -3754,6 +3801,7 @@ export type OrdenServicioUncheckedCreateWithoutClienteInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -3845,6 +3893,7 @@ export type OrdenServicioCreateWithoutContratoClienteInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -3929,6 +3978,7 @@ export type OrdenServicioUncheckedCreateWithoutContratoClienteInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -4019,6 +4069,7 @@ export type OrdenServicioCreateWithoutVehiculoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -4102,6 +4153,7 @@ export type OrdenServicioUncheckedCreateWithoutVehiculoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -4193,6 +4245,7 @@ export type OrdenServicioCreateWithoutDireccionInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -4276,6 +4329,7 @@ export type OrdenServicioUncheckedCreateWithoutDireccionInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -4367,6 +4421,7 @@ export type OrdenServicioCreateWithoutZonaInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -4450,6 +4505,7 @@ export type OrdenServicioUncheckedCreateWithoutZonaInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -4541,6 +4597,7 @@ export type OrdenServicioCreateWithoutServicioInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -4624,6 +4681,7 @@ export type OrdenServicioUncheckedCreateWithoutServicioInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -4715,6 +4773,7 @@ export type OrdenServicioCreateWithoutMetodoPagoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -4798,6 +4857,7 @@ export type OrdenServicioUncheckedCreateWithoutMetodoPagoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -4889,6 +4949,7 @@ export type OrdenServicioCreateWithoutOrdenesHijasInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -4973,6 +5034,7 @@ export type OrdenServicioUncheckedCreateWithoutOrdenesHijasInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -5042,6 +5104,7 @@ export type OrdenServicioCreateWithoutOrdenPadreInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -5126,6 +5189,7 @@ export type OrdenServicioUncheckedCreateWithoutOrdenPadreInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -5211,6 +5275,7 @@ export type OrdenServicioUpdateWithoutOrdenesHijasInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -5295,6 +5360,7 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenesHijasInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5375,6 +5441,7 @@ export type OrdenServicioCreateWithoutSeguimientosInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -5459,6 +5526,7 @@ export type OrdenServicioUncheckedCreateWithoutSeguimientosInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -5539,6 +5607,7 @@ export type OrdenServicioUpdateWithoutSeguimientosInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -5623,6 +5692,7 @@ export type OrdenServicioUncheckedUpdateWithoutSeguimientosInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5687,6 +5757,7 @@ export type OrdenServicioCreateWithoutEntidadFinancieraInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -5771,6 +5842,7 @@ export type OrdenServicioUncheckedCreateWithoutEntidadFinancieraInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -5861,6 +5933,7 @@ export type OrdenServicioCreateWithoutGeolocalizacionesInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -5945,6 +6018,7 @@ export type OrdenServicioUncheckedCreateWithoutGeolocalizacionesInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -6025,6 +6099,7 @@ export type OrdenServicioUpdateWithoutGeolocalizacionesInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -6109,6 +6184,7 @@ export type OrdenServicioUncheckedUpdateWithoutGeolocalizacionesInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6173,6 +6249,7 @@ export type OrdenServicioCreateWithoutNominaDetallesInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -6257,6 +6334,7 @@ export type OrdenServicioUncheckedCreateWithoutNominaDetallesInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -6337,6 +6415,7 @@ export type OrdenServicioUpdateWithoutNominaDetallesInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -6421,6 +6500,7 @@ export type OrdenServicioUncheckedUpdateWithoutNominaDetallesInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6485,6 +6565,7 @@ export type OrdenServicioCreateWithoutDeclaracionEfectivoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -6569,6 +6650,7 @@ export type OrdenServicioUncheckedCreateWithoutDeclaracionEfectivoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -6649,6 +6731,7 @@ export type OrdenServicioUpdateWithoutDeclaracionEfectivoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -6733,6 +6816,7 @@ export type OrdenServicioUncheckedUpdateWithoutDeclaracionEfectivoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6797,6 +6881,7 @@ export type OrdenServicioCreateWithoutConsignacionOrdenInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -6881,6 +6966,7 @@ export type OrdenServicioUncheckedCreateWithoutConsignacionOrdenInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -6961,6 +7047,7 @@ export type OrdenServicioUpdateWithoutConsignacionOrdenInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -7045,6 +7132,7 @@ export type OrdenServicioUncheckedUpdateWithoutConsignacionOrdenInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7109,6 +7197,7 @@ export type OrdenServicioCreateWithoutEvidenciasInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -7193,6 +7282,7 @@ export type OrdenServicioUncheckedCreateWithoutEvidenciasInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -7273,6 +7363,7 @@ export type OrdenServicioUpdateWithoutEvidenciasInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -7357,6 +7448,7 @@ export type OrdenServicioUncheckedUpdateWithoutEvidenciasInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7430,6 +7522,7 @@ export type OrdenServicioCreateManyTenantInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -7488,6 +7581,7 @@ export type OrdenServicioUpdateWithoutTenantInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -7571,6 +7665,7 @@ export type OrdenServicioUncheckedUpdateWithoutTenantInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7645,6 +7740,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutTenantInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7712,6 +7808,7 @@ export type OrdenServicioCreateManyCreadoPorInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -7780,6 +7877,7 @@ export type OrdenServicioCreateManyDeletedByInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -7847,6 +7945,7 @@ export type OrdenServicioCreateManyLiquidadoPorInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -7913,6 +8012,7 @@ export type OrdenServicioCreateManyTecnicoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -7971,6 +8071,7 @@ export type OrdenServicioUpdateWithoutCreadoPorInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -8054,6 +8155,7 @@ export type OrdenServicioUncheckedUpdateWithoutCreadoPorInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8128,6 +8230,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutCreadoPorInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8186,6 +8289,7 @@ export type OrdenServicioUpdateWithoutDeletedByInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -8270,6 +8374,7 @@ export type OrdenServicioUncheckedUpdateWithoutDeletedByInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8344,6 +8449,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutDeletedByInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8401,6 +8507,7 @@ export type OrdenServicioUpdateWithoutLiquidadoPorInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -8485,6 +8592,7 @@ export type OrdenServicioUncheckedUpdateWithoutLiquidadoPorInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8559,6 +8667,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8616,6 +8725,7 @@ export type OrdenServicioUpdateWithoutTecnicoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -8699,6 +8809,7 @@ export type OrdenServicioUncheckedUpdateWithoutTecnicoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8773,6 +8884,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutTecnicoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8840,6 +8952,7 @@ export type OrdenServicioCreateManyEmpresaInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -8898,6 +9011,7 @@ export type OrdenServicioUpdateWithoutEmpresaInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -8981,6 +9095,7 @@ export type OrdenServicioUncheckedUpdateWithoutEmpresaInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9055,6 +9170,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutEmpresaInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9122,6 +9238,7 @@ export type OrdenServicioCreateManyClienteInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -9180,6 +9297,7 @@ export type OrdenServicioUpdateWithoutClienteInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -9263,6 +9381,7 @@ export type OrdenServicioUncheckedUpdateWithoutClienteInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9337,6 +9456,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutClienteInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9405,6 +9525,7 @@ export type OrdenServicioCreateManyContratoClienteInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -9462,6 +9583,7 @@ export type OrdenServicioUpdateWithoutContratoClienteInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -9546,6 +9668,7 @@ export type OrdenServicioUncheckedUpdateWithoutContratoClienteInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9620,6 +9743,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutContratoClienteInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9686,6 +9810,7 @@ export type OrdenServicioCreateManyVehiculoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -9744,6 +9869,7 @@ export type OrdenServicioUpdateWithoutVehiculoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -9827,6 +9953,7 @@ export type OrdenServicioUncheckedUpdateWithoutVehiculoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9901,6 +10028,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutVehiculoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9968,6 +10096,7 @@ export type OrdenServicioCreateManyDireccionInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -10026,6 +10155,7 @@ export type OrdenServicioUpdateWithoutDireccionInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -10109,6 +10239,7 @@ export type OrdenServicioUncheckedUpdateWithoutDireccionInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10183,6 +10314,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutDireccionInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10250,6 +10382,7 @@ export type OrdenServicioCreateManyZonaInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -10308,6 +10441,7 @@ export type OrdenServicioUpdateWithoutZonaInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -10391,6 +10525,7 @@ export type OrdenServicioUncheckedUpdateWithoutZonaInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10465,6 +10600,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutZonaInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10532,6 +10668,7 @@ export type OrdenServicioCreateManyServicioInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -10590,6 +10727,7 @@ export type OrdenServicioUpdateWithoutServicioInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -10673,6 +10811,7 @@ export type OrdenServicioUncheckedUpdateWithoutServicioInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10747,6 +10886,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutServicioInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10814,6 +10954,7 @@ export type OrdenServicioCreateManyMetodoPagoInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -10872,6 +11013,7 @@ export type OrdenServicioUpdateWithoutMetodoPagoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -10955,6 +11097,7 @@ export type OrdenServicioUncheckedUpdateWithoutMetodoPagoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11029,6 +11172,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutMetodoPagoInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11097,6 +11241,7 @@ export type OrdenServicioCreateManyOrdenPadreInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   entidadFinancieraId?: string | null
@@ -11154,6 +11299,7 @@ export type OrdenServicioUpdateWithoutOrdenPadreInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -11238,6 +11384,7 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenPadreInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11312,6 +11459,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutOrdenPadreInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11379,6 +11527,7 @@ export type OrdenServicioCreateManyEntidadFinancieraInput = {
   facturaElectronica?: string | null
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioCreatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: string | null
   fechaPago?: Date | string | null
   estadoPago?: $Enums.EstadoPagoOrden
@@ -11436,6 +11585,7 @@ export type OrdenServicioUpdateWithoutEntidadFinancieraInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -11520,6 +11670,7 @@ export type OrdenServicioUncheckedUpdateWithoutEntidadFinancieraInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -11594,6 +11745,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutEntidadFinancieraInput = {
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metodosPagoBase?: Prisma.OrdenServicioUpdatemetodosPagoBaseInput | $Enums.MetodoPagoBase[]
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
@@ -11728,6 +11880,7 @@ export type OrdenServicioSelect<ExtArgs extends runtime.Types.Extensions.Interna
   facturaElectronica?: boolean
   evidenciaPath?: boolean
   desglosePago?: boolean
+  metodosPagoBase?: boolean
   referenciaPago?: boolean
   fechaPago?: boolean
   entidadFinancieraId?: boolean
@@ -11819,6 +11972,7 @@ export type OrdenServicioSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   facturaElectronica?: boolean
   evidenciaPath?: boolean
   desglosePago?: boolean
+  metodosPagoBase?: boolean
   referenciaPago?: boolean
   fechaPago?: boolean
   entidadFinancieraId?: boolean
@@ -11902,6 +12056,7 @@ export type OrdenServicioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   facturaElectronica?: boolean
   evidenciaPath?: boolean
   desglosePago?: boolean
+  metodosPagoBase?: boolean
   referenciaPago?: boolean
   fechaPago?: boolean
   entidadFinancieraId?: boolean
@@ -11985,6 +12140,7 @@ export type OrdenServicioSelectScalar = {
   facturaElectronica?: boolean
   evidenciaPath?: boolean
   desglosePago?: boolean
+  metodosPagoBase?: boolean
   referenciaPago?: boolean
   fechaPago?: boolean
   entidadFinancieraId?: boolean
@@ -12017,7 +12173,7 @@ export type OrdenServicioSelectScalar = {
   comprobantePago?: boolean
 }
 
-export type OrdenServicioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "servicioId" | "creadoPorId" | "tecnicoId" | "direccionId" | "direccionTexto" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "departamento" | "linkMaps" | "zonaId" | "vehiculoId" | "metodoPagoId" | "numeroOrden" | "fechaVisita" | "horaInicio" | "horaFin" | "observacion" | "observacionFinal" | "condicionesHigiene" | "condicionesLocal" | "valorCotizado" | "valorPagado" | "valorRepuestos" | "valorRepuestosTecnico" | "facturaPath" | "facturaElectronica" | "evidenciaPath" | "desglosePago" | "referenciaPago" | "fechaPago" | "entidadFinancieraId" | "estadoPago" | "seguimientoRevisado" | "liquidadoPorId" | "liquidadoAt" | "ordenPadreId" | "createdAt" | "updatedAt" | "frecuenciaSugerida" | "tipoFacturacion" | "tipoVisita" | "nivelInfestacion" | "urgencia" | "estadoServicio" | "contratoClienteId" | "serviciosSeleccionados" | "diagnosticoTecnico" | "hallazgosEstructurales" | "horaFinReal" | "horaInicioReal" | "huboRecomendacionEstructural" | "huboSellamiento" | "intervencionRealizada" | "recomendacionesObligatorias" | "deletedAt" | "deletedById" | "deletedReason" | "comprobantePago", ExtArgs["result"]["ordenServicio"]>
+export type OrdenServicioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "servicioId" | "creadoPorId" | "tecnicoId" | "direccionId" | "direccionTexto" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "departamento" | "linkMaps" | "zonaId" | "vehiculoId" | "metodoPagoId" | "numeroOrden" | "fechaVisita" | "horaInicio" | "horaFin" | "observacion" | "observacionFinal" | "condicionesHigiene" | "condicionesLocal" | "valorCotizado" | "valorPagado" | "valorRepuestos" | "valorRepuestosTecnico" | "facturaPath" | "facturaElectronica" | "evidenciaPath" | "desglosePago" | "metodosPagoBase" | "referenciaPago" | "fechaPago" | "entidadFinancieraId" | "estadoPago" | "seguimientoRevisado" | "liquidadoPorId" | "liquidadoAt" | "ordenPadreId" | "createdAt" | "updatedAt" | "frecuenciaSugerida" | "tipoFacturacion" | "tipoVisita" | "nivelInfestacion" | "urgencia" | "estadoServicio" | "contratoClienteId" | "serviciosSeleccionados" | "diagnosticoTecnico" | "hallazgosEstructurales" | "horaFinReal" | "horaInicioReal" | "huboRecomendacionEstructural" | "huboSellamiento" | "intervencionRealizada" | "recomendacionesObligatorias" | "deletedAt" | "deletedById" | "deletedReason" | "comprobantePago", ExtArgs["result"]["ordenServicio"]>
 export type OrdenServicioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   consignacionOrden?: boolean | Prisma.OrdenServicio$consignacionOrdenArgs<ExtArgs>
   declaracionEfectivo?: boolean | Prisma.OrdenServicio$declaracionEfectivoArgs<ExtArgs>
@@ -12140,6 +12296,7 @@ export type $OrdenServicioPayload<ExtArgs extends runtime.Types.Extensions.Inter
     facturaElectronica: string | null
     evidenciaPath: string | null
     desglosePago: runtime.JsonValue | null
+    metodosPagoBase: $Enums.MetodoPagoBase[]
     referenciaPago: string | null
     fechaPago: Date | null
     entidadFinancieraId: string | null
@@ -12650,6 +12807,7 @@ export interface OrdenServicioFieldRefs {
   readonly facturaElectronica: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly evidenciaPath: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly desglosePago: Prisma.FieldRef<"OrdenServicio", 'Json'>
+  readonly metodosPagoBase: Prisma.FieldRef<"OrdenServicio", 'MetodoPagoBase[]'>
   readonly referenciaPago: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly fechaPago: Prisma.FieldRef<"OrdenServicio", 'DateTime'>
   readonly entidadFinancieraId: Prisma.FieldRef<"OrdenServicio", 'String'>
