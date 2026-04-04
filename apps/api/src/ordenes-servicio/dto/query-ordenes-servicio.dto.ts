@@ -84,14 +84,21 @@ export class QueryOrdenesServicioDto {
 
   @IsOptional()
   @Transform(({ value }) => {
-    if (Array.isArray(value)) return value;
+    if (Array.isArray(value)) {
+      return value
+        .filter(
+          (item): item is string =>
+            typeof item === 'string' && item.trim().length > 0,
+        )
+        .map((item) => item.trim());
+    }
     if (typeof value === 'string') {
       return value
         .split(',')
         .map((item) => item.trim())
         .filter(Boolean);
     }
-    return value;
+    return undefined;
   })
   @IsArray()
   @IsEnum(MetodoPagoBase, { each: true })

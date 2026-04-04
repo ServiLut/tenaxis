@@ -353,17 +353,59 @@ const resolveMetodoPagoFilterQuery = (
 ) => {
   if (!metodoPago || metodoPago === "all") return {};
 
-  if (!UUID_V4_REGEX.test(metodoPago)) {
-    return { metodoPagoBase: metodoPago };
+  const selectedValues = metodoPago
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  const normalizedBases = Array.from(
+    new Set(
+      selectedValues
+        .map((selectedValue) => {
+          if (!UUID_V4_REGEX.test(selectedValue)) {
+            return normalizeMetodoPagoBase(selectedValue) ?? selectedValue;
+          }
+
+          const matchedOption = metodosPagoOptions.find(
+            (option) => option.id === selectedValue,
+          );
+
+          return normalizeMetodoPagoBase(matchedOption?.nombre);
+        })
+        .filter((value): value is string => Boolean(value)),
+    ),
+  );
+
+  if (selectedValues.length > 1) {
+    return normalizedBases.length > 0
+      ? { metodosPagoBase: normalizedBases.join(",") }
+      : {};
   }
 
-  const matchedOption = metodosPagoOptions.find((option) => option.id === metodoPago);
+  const selectedValue = selectedValues[0];
+  if (!selectedValue) return {};
+
+  if (!UUID_V4_REGEX.test(selectedValue)) {
+    const normalizedBase = normalizeMetodoPagoBase(selectedValue);
+    return normalizedBase ? { metodoPagoBase: normalizedBase } : {};
+  }
+
+  const matchedOption = metodosPagoOptions.find((option) => option.id === selectedValue);
   const normalizedBase = normalizeMetodoPagoBase(matchedOption?.nombre);
 
   return normalizedBase
     ? { metodoPagoBase: normalizedBase }
-    : { metodoPagoId: metodoPago };
+    : { metodoPagoId: selectedValue };
 };
+
+const parseMetodoPagoFilterValue = (value: string) =>
+  value
+    .split(",")
+    .map((item) => item.trim())
+    .filter((item) => Boolean(item) && item !== "all");
+
+const stringifyMetodoPagoFilterValue = (values: string[]) =>
+  values.length > 0 ? values.join(",") : "all";
 
 interface ServiciosUiCacheState {
   search: string;
@@ -1016,6 +1058,49 @@ function ServiciosContent() {
     tiposVisita: [],
   });
 
+  const metodoPagoFilterOptions = useMemo(() => {
+    const mapped = filterOptions.metodosPago
+      .map((option) => {
+        const normalizedBase = normalizeMetodoPagoBase(option.nombre) ?? normalizeMetodoPagoBase(option.id);
+        if (!normalizedBase) return null;
+        return {
+          value: normalizedBase,
+          label: option.nombre.toUpperCase(),
+        };
+      })
+      .filter((option): option is { value: string; label: string } => option !== null);
+
+    const deduped = new Map<string, { value: string; label: string }>();
+    for (const option of mapped) {
+      if (!deduped.has(option.value)) {
+        deduped.set(option.value, option);
+      }
+    }
+
+    return Array.from(deduped.values());
+  }, [filterOptions.metodosPago]);
+
+  const selectedMetodoPagoValues = useMemo(
+    () => parseMetodoPagoFilterValue(filters.metodoPago),
+    [filters.metodoPago],
+  );
+
+  const metodoPagoFilterLabel = useMemo(() => {
+    if (selectedMetodoPagoValues.length === 0) {
+      return "TODOS LOS MÉTODOS DE PAGO";
+    }
+
+    if (selectedMetodoPagoValues.length === 1) {
+      return (
+        metodoPagoFilterOptions.find(
+          (option) => option.value === selectedMetodoPagoValues[0],
+        )?.label || selectedMetodoPagoValues[0]
+      );
+    }
+
+    return `${selectedMetodoPagoValues.length} MÉTODOS SELECCIONADOS`;
+  }, [metodoPagoFilterOptions, selectedMetodoPagoValues]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -1182,7 +1267,7 @@ function ServiciosContent() {
       }
       setIsRefreshing(false);
     }
-  }, [getScopedEnterpriseId, search, currentPage, filters, activePreset, viewMode]);
+  }, [getScopedEnterpriseId, search, currentPage, filters, activePreset, viewMode, filterOptions.metodosPago]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -1480,7 +1565,7 @@ function ServiciosContent() {
     } finally {
       setKpisLoading(false);
     }
-  }, [activePreset, filters, getScopedEnterpriseId, search, viewMode]);
+  }, [activePreset, filters, getScopedEnterpriseId, search, viewMode, filterOptions.metodosPago]);
 
   const fetchCustomPresets = useCallback(async () => {
     try {
@@ -1723,6 +1808,23 @@ function ServiciosContent() {
     },
     [],
   );
+
+  const toggleMetodoPagoFilter = useCallback((value: string) => {
+    updateFilters((currentFilters) => {
+      const selectedValues = new Set(parseMetodoPagoFilterValue(currentFilters.metodoPago));
+
+      if (selectedValues.has(value)) {
+        selectedValues.delete(value);
+      } else {
+        selectedValues.add(value);
+      }
+
+      return {
+        ...currentFilters,
+        metodoPago: stringifyMetodoPagoFilterValue(Array.from(selectedValues)),
+      };
+    });
+  }, [updateFilters]);
 
   const filteredMunicipalityOptions = useMemo(() => {
     if (filters.departamento === "all") return [];
@@ -2356,7 +2458,60 @@ function ServiciosContent() {
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Municipio</Label><Combobox value={filters.municipio} onChange={(v) => updateFilters(f => ({ ...f, municipio: v }))} options={[{ value: "all", label: "TODOS LOS MUNICIPIOS" }, ...filteredMunicipalityOptions.map(m => ({ value: m.name.toUpperCase(), label: m.name.toUpperCase() }))]} disabled={filters.departamento === "all"} /></div>
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Estado</Label><Combobox value={filters.estado} onChange={(v) => updateFilters(f => ({ ...f, estado: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS" }, ...filterOptions.estados.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Estado de Pago</Label><Combobox value={filters.estadoPago} onChange={(v) => updateFilters(f => ({ ...f, estadoPago: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS DE PAGO" }, ...filterOptions.estadosPago.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
-                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Método de Pago</Label><Combobox value={filters.metodoPago} onChange={(v) => updateFilters(f => ({ ...f, metodoPago: v }))} options={[{ value: "all", label: "TODOS LOS MÉTODOS DE PAGO" }, ...filterOptions.metodosPago.map(m => ({ value: m.id, label: m.nombre.toUpperCase() }))]} /></div>
+                          <div className="space-y-2">
+                            <Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Método de Pago</Label>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <button
+                                  type="button"
+                                  className="flex h-11 w-full items-center justify-between rounded-xl border border-zinc-300 bg-zinc-50/30 px-4 py-2 text-sm transition-all focus:outline-none focus:border-zinc-300 focus:bg-white"
+                                >
+                                  <span className={cn("truncate text-left", selectedMetodoPagoValues.length === 0 && "text-zinc-400")}>
+                                    {metodoPagoFilterLabel}
+                                  </span>
+                                  <ChevronDown className="h-4 w-4 text-zinc-400" />
+                                </button>
+                              </PopoverTrigger>
+                              <PopoverContent align="start" className="w-[320px] rounded-2xl border border-border p-2 shadow-xl">
+                                <div className="space-y-2">
+                                  <button
+                                    type="button"
+                                    onClick={() => updateFilters((currentFilters) => ({ ...currentFilters, metodoPago: "all" }))}
+                                    className={cn(
+                                      "flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-muted",
+                                      selectedMetodoPagoValues.length === 0 && "bg-[#01ADFB]/10 text-[#01ADFB]",
+                                    )}
+                                  >
+                                    <span>Todos los métodos de pago</span>
+                                    {selectedMetodoPagoValues.length === 0 ? <CheckCircle2 className="h-4 w-4" /> : null}
+                                  </button>
+                                  <div className="max-h-60 space-y-1 overflow-y-auto pr-1 custom-scrollbar">
+                                    {metodoPagoFilterOptions.map((option) => {
+                                      const checked = selectedMetodoPagoValues.includes(option.value);
+
+                                      return (
+                                        <label
+                                          key={option.value}
+                                          className={cn(
+                                            "flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-muted",
+                                            checked && "bg-[#01ADFB]/10 text-[#01ADFB]",
+                                          )}
+                                        >
+                                          <span className="truncate pr-3">{option.label}</span>
+                                          <input
+                                            type="checkbox"
+                                            checked={checked}
+                                            onChange={() => toggleMetodoPagoFilter(option.value)}
+                                            className="h-4 w-4 rounded border-border text-[#01ADFB] focus:ring-[#01ADFB]"
+                                          />
+                                        </label>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              </PopoverContent>
+                            </Popover>
+                          </div>
                           <div className="lg:col-span-2 space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Rango de Fechas</Label><div className="flex gap-3"><DatePicker date={filters.fechaInicio ? ymdToPickerDate(filters.fechaInicio) : undefined} onChange={(d) => updateFilters(f => ({ ...f, fechaInicio: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="INICIO" /><DatePicker date={filters.fechaFin ? ymdToPickerDate(filters.fechaFin) : undefined} onChange={(d) => updateFilters(f => ({ ...f, fechaFin: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="FIN" /></div></div>
                         </div>
                         <div className="mt-8 pt-6 border-t border-border flex justify-end"><Button onClick={() => setShowFilters(false)} className="h-10 px-8 rounded-xl text-[10px] font-semibold uppercase tracking-widest bg-foreground text-background shadow-lg hover:opacity-90">Finalizar y Cerrar</Button></div>
