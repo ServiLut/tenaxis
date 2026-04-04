@@ -2035,9 +2035,83 @@ function ServiciosContent() {
   };
 
   const handleCopy = (servicio: Servicio) => {
-    const formattedValor = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(servicio.raw.valorCotizado || 0);
-    const detalles = [servicio.raw.bloque && `Bloque: ${servicio.raw.bloque}`, servicio.raw.piso && `Piso: ${servicio.raw.piso}`, servicio.raw.unidad && `Unidad: ${servicio.raw.unidad}`].filter(Boolean).join(" - ") || "Sin detalles adicionales";
-    const text = `ORDEN DE SERVICIO: #${servicio.id}\n*Cliente:* ${servicio.cliente}\n*Servicio:* ${servicio.servicioEspecifico}\n*Programación:* ${servicio.fecha} a las ${servicio.hora}\n*Técnico:* ${servicio.tecnico}\n*Estado:* ${servicio.estadoServicio}\n*Urgencia:* ${servicio.urgencia}\n*Dirección:* ${servicio.raw.direccionTexto || "No especificada"}\n*Link Maps:* ${servicio.raw.linkMaps || "N/A"}\n*Municipio:* ${servicio.raw.municipio || "N/A"}\n*Barrio:* ${servicio.raw.barrio || "N/A"}\n*Detalles:* ${detalles}\n*Valor Cotizado:* ${formattedValor}\n*Observaciones:* ${servicio.raw.observacion || "Sin observaciones"}`;
+    const formattedValorCotizado = new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      maximumFractionDigits: 0,
+    }).format(servicio.raw.valorCotizado || 0);
+    const formattedValorPagado = new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      maximumFractionDigits: 0,
+    }).format(servicio.raw.valorPagado || 0);
+
+    const serviceFields = [
+      servicio.raw.servicio?.nombre && `Servicio principal: ${servicio.raw.servicio.nombre}`,
+      Array.isArray(servicio.raw.serviciosSeleccionados) && servicio.raw.serviciosSeleccionados.length > 0
+        ? `Servicios seleccionados: ${servicio.raw.serviciosSeleccionados.join(", ")}`
+        : null,
+      `Servicio específico: ${servicio.servicioEspecifico || "No especificado"}`,
+      `Tipo de visita: ${formatVisitTypeLabel(servicio.raw.tipoVisita)}`,
+      `Estado servicio: ${servicio.estadoServicio || servicio.raw.estadoServicio || "N/A"}`,
+      `Urgencia: ${servicio.urgencia || "N/A"}`,
+      servicio.raw.nivelInfestacion && `Nivel infestación: ${servicio.raw.nivelInfestacion}`,
+      servicio.raw.tipoFacturacion && `Tipo facturación: ${servicio.raw.tipoFacturacion}`,
+      servicio.raw.frecuenciaSugerida && `Frecuencia sugerida: ${servicio.raw.frecuenciaSugerida}`,
+    ].filter((value): value is string => Boolean(value));
+
+    const addressFields = [
+      `Dirección principal: ${servicio.raw.direccionTexto || "No especificada"}`,
+      servicio.raw.barrio && `Barrio: ${servicio.raw.barrio}`,
+      servicio.raw.municipio && `Municipio: ${servicio.raw.municipio}`,
+      servicio.raw.departamento && `Departamento: ${servicio.raw.departamento}`,
+      servicio.raw.zona?.nombre && `Zona: ${servicio.raw.zona.nombre}`,
+      servicio.raw.bloque && `Bloque: ${servicio.raw.bloque}`,
+      servicio.raw.piso && `Piso: ${servicio.raw.piso}`,
+      servicio.raw.unidad && `Unidad: ${servicio.raw.unidad}`,
+      servicio.raw.linkMaps && `Link Maps: ${servicio.raw.linkMaps}`,
+    ].filter((value): value is string => Boolean(value));
+
+    const observationFields = [
+      servicio.raw.observacion && `Observación inicial: ${servicio.raw.observacion}`,
+      servicio.raw.observacionFinal && `Observación final: ${servicio.raw.observacionFinal}`,
+      servicio.raw.condicionesHigiene && `Condiciones de higiene: ${servicio.raw.condicionesHigiene}`,
+      servicio.raw.condicionesLocal && `Condiciones del local: ${servicio.raw.condicionesLocal}`,
+      servicio.raw.diagnosticoTecnico && `Diagnóstico técnico: ${servicio.raw.diagnosticoTecnico}`,
+      servicio.raw.intervencionRealizada && `Intervención realizada: ${servicio.raw.intervencionRealizada}`,
+      servicio.raw.hallazgosEstructurales && `Hallazgos estructurales: ${servicio.raw.hallazgosEstructurales}`,
+      servicio.raw.recomendacionesObligatorias && `Recomendaciones obligatorias: ${servicio.raw.recomendacionesObligatorias}`,
+      servicio.raw.recomendacionesSugeridas && `Recomendaciones sugeridas: ${servicio.raw.recomendacionesSugeridas}`,
+      servicio.raw.huboSellamiento !== undefined && `Hubo sellamiento: ${servicio.raw.huboSellamiento ? "Sí" : "No"}`,
+      servicio.raw.huboRecomendacionEstructural !== undefined && `Hubo recomendación estructural: ${servicio.raw.huboRecomendacionEstructural ? "Sí" : "No"}`,
+    ].filter((value): value is string => Boolean(value));
+
+    const text = [
+      `*ORDEN DE SERVICIO:* #${servicio.raw.numeroOrden || servicio.id}`,
+      "",
+      `*Cliente:* ${servicio.cliente}`,
+      `*Empresa:* ${servicio.raw.empresa?.nombre || "N/A"}`,
+      `*Programación:* ${servicio.fecha} a las ${servicio.hora}`,
+      `*Técnico:* ${servicio.tecnico}`,
+      "",
+      "*SERVICIO*",
+      ...serviceFields.map((field) => `• ${field}`),
+      "",
+      "*DIRECCIÓN*",
+      ...addressFields.map((field) => `• ${field}`),
+      "",
+      "*FINANZAS*",
+      `• Estado pago: ${servicio.raw.estadoPago || "N/A"}`,
+      `• Método pago: ${servicio.raw.metodoPago?.nombre || "N/A"}`,
+      `• Valor cotizado: ${formattedValorCotizado}`,
+      `• Valor pagado: ${formattedValorPagado}`,
+      "",
+      "*OBSERVACIONES Y DETALLES TÉCNICOS*",
+      ...(observationFields.length > 0
+        ? observationFields.map((field) => `• ${field}`)
+        : ["• Sin observaciones registradas"]),
+    ].join("\n");
+
     navigator.clipboard.writeText(text).then(() => toast.success("Información copiada")).catch(() => toast.error("Error al copiar"));
   };
 
@@ -3297,7 +3371,11 @@ function ServiciosContent() {
                       <span className="font-bold text-base text-foreground uppercase leading-snug">{selectedServicio.raw.direccionTexto || "N/A"}</span>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {selectedServicio.raw.municipio && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">{selectedServicio.raw.municipio}</span>}
+                        {selectedServicio.raw.departamento && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Depto: {selectedServicio.raw.departamento}</span>}
                         {selectedServicio.raw.barrio && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Barrio: {selectedServicio.raw.barrio}</span>}
+                        {selectedServicio.raw.bloque && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Bloque: {selectedServicio.raw.bloque}</span>}
+                        {selectedServicio.raw.piso && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Piso: {selectedServicio.raw.piso}</span>}
+                        {selectedServicio.raw.unidad && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Unidad: {selectedServicio.raw.unidad}</span>}
                         {selectedServicio.raw.zona?.nombre && <span className="px-2 py-1 rounded-md bg-[#01ADFB]/10 border border-[#01ADFB]/20 text-[9px] font-black uppercase text-[#01ADFB]">Zona: {selectedServicio.raw.zona.nombre}</span>}
                       </div>
                     </div>
