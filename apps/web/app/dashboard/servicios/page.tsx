@@ -82,6 +82,7 @@ import {
   exportOrdenesServicio,
   getDepartments,
   getEstadoServicios,
+  getMetodosPago,
   getMunicipalities,
   getOperators,
   getTenantMemberships,
@@ -305,6 +306,7 @@ const SERVICIOS_UI_CACHE_KEY = "tenaxis:dashboard:servicios:ui-state:v1";
 const SERVICIOS_FILTER_DEFAULTS = {
   estado: "all",
   estadoPago: "all",
+  metodoPago: "all",
   tecnico: "all",
   urgencia: "all",
   creador: "all",
@@ -935,6 +937,7 @@ function ServiciosContent() {
   const [filters, setFilters] = useState<ServiciosFiltersState>({
     estado: searchParams.get("estado") || SERVICIOS_FILTER_DEFAULTS.estado,
     estadoPago: searchParams.get("estadoPago") || SERVICIOS_FILTER_DEFAULTS.estadoPago,
+    metodoPago: searchParams.get("metodoPago") || SERVICIOS_FILTER_DEFAULTS.metodoPago,
     tecnico: searchParams.get("tecnico") || SERVICIOS_FILTER_DEFAULTS.tecnico,
     urgencia: searchParams.get("urgencia") || SERVICIOS_FILTER_DEFAULTS.urgencia,
     creador: searchParams.get("creador") || SERVICIOS_FILTER_DEFAULTS.creador,
@@ -949,6 +952,7 @@ function ServiciosContent() {
   const [filterOptions, setOptions] = useState<{
     estados: { id: string; nombre: string }[];
     estadosPago: { id: string; nombre: string }[];
+    metodosPago: { id: string; nombre: string }[];
     tecnicos: { id: string; nombre: string }[];
     creadores: { id: string; nombre: string }[];
     departamentos: DepartmentDTO[];
@@ -958,6 +962,7 @@ function ServiciosContent() {
   }>({
     estados: [],
     estadosPago: ESTADO_PAGO_OPTIONS,
+    metodosPago: PAYMENT_METHOD_OPTIONS,
     tecnicos: [],
     creadores: [],
     departamentos: [],
@@ -988,8 +993,9 @@ function ServiciosContent() {
       const empresaId = getScopedEnterpriseId();
       const currentTenantId = tenantId;
 
-      const [estados, tecnicos, departments, munis, memberships] = await Promise.all([
+      const [estados, metodosPago, tecnicos, departments, munis, memberships] = await Promise.all([
         getEstadoServicios(empresaId),
+        getMetodosPago(empresaId),
         getOperators(empresaId),
         getDepartments(),
         getMunicipalities(),
@@ -1019,6 +1025,9 @@ function ServiciosContent() {
         ...prev,
         estados: Array.isArray(estados) && estados.length > 0 ? (estados as Array<{id: string, nombre: string}>) : coreEstados,
         estadosPago: ESTADO_PAGO_OPTIONS,
+        metodosPago: Array.isArray(metodosPago) && metodosPago.length > 0
+          ? (metodosPago as Array<{ id: string; nombre: string }>)
+          : PAYMENT_METHOD_OPTIONS,
         creadores: administrativeMembers,
         tecnicos: (Array.isArray(tecnicos) ? (tecnicos as Array<{ id: string, nombre?: string, user?: { nombre?: string, apellido?: string } }>) : []).map(t => ({
           id: t.id,
@@ -1063,6 +1072,7 @@ function ServiciosContent() {
         limit: itemsPerPage,
         estado: effectiveFilters.estado,
         estadoPago: effectiveFilters.estadoPago,
+        metodoPago: effectiveFilters.metodoPago,
         tecnicoId: effectiveFilters.tecnico,
         urgencia: effectiveFilters.urgencia,
         creadorId: effectiveFilters.creador,
@@ -1403,6 +1413,7 @@ function ServiciosContent() {
         search,
         estado: effectiveFilters.estado,
         estadoPago: effectiveFilters.estadoPago,
+        metodoPago: effectiveFilters.metodoPago,
         tecnicoId: effectiveFilters.tecnico,
         urgencia: effectiveFilters.urgencia,
         creadorId: effectiveFilters.creador,
@@ -1451,18 +1462,9 @@ function ServiciosContent() {
     };
 
     setSearch(payload.search || "");
-    setFilters(payload.filters || {
-      estado: "all",
-      estadoPago: "all",
-      tecnico: "all",
-      urgencia: "all",
-      creador: "all",
-      departamento: "all",
-      municipio: "all",
-      empresa: "all",
-      tipo: "all",
-      fechaInicio: "",
-      fechaFin: "",
+    setFilters({
+      ...SERVICIOS_FILTER_DEFAULTS,
+      ...(payload.filters || {}),
     });
     setActivePreset(payload.activePreset || "all");
     setViewMode(payload.viewMode || "servicios");
@@ -1581,6 +1583,7 @@ function ServiciosContent() {
     if (activePreset !== "all") nextParams.set("preset", activePreset);
     if (filters.estado !== "all") nextParams.set("estado", filters.estado);
     if (filters.estadoPago !== "all") nextParams.set("estadoPago", filters.estadoPago);
+    if (filters.metodoPago !== "all") nextParams.set("metodoPago", filters.metodoPago);
     if (filters.tecnico !== "all") nextParams.set("tecnico", filters.tecnico);
     if (filters.urgencia !== "all") nextParams.set("urgencia", filters.urgencia);
     if (filters.creador !== "all") nextParams.set("creador", filters.creador);
@@ -1756,6 +1759,7 @@ function ServiciosContent() {
     activeOperationalFilter !== null ||
     filters.estado !== "all" ||
     filters.estadoPago !== "all" ||
+    filters.metodoPago !== "all" ||
     filters.tecnico !== "all" ||
     filters.urgencia !== "all" ||
     filters.creador !== "all" ||
@@ -2307,6 +2311,7 @@ function ServiciosContent() {
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Municipio</Label><Combobox value={filters.municipio} onChange={(v) => updateFilters(f => ({ ...f, municipio: v }))} options={[{ value: "all", label: "TODOS LOS MUNICIPIOS" }, ...filteredMunicipalityOptions.map(m => ({ value: m.name.toUpperCase(), label: m.name.toUpperCase() }))]} disabled={filters.departamento === "all"} /></div>
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Estado</Label><Combobox value={filters.estado} onChange={(v) => updateFilters(f => ({ ...f, estado: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS" }, ...filterOptions.estados.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
                           <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Estado de Pago</Label><Combobox value={filters.estadoPago} onChange={(v) => updateFilters(f => ({ ...f, estadoPago: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS DE PAGO" }, ...filterOptions.estadosPago.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Método de Pago</Label><Combobox value={filters.metodoPago} onChange={(v) => updateFilters(f => ({ ...f, metodoPago: v }))} options={[{ value: "all", label: "TODOS LOS MÉTODOS DE PAGO" }, ...filterOptions.metodosPago.map(m => ({ value: m.id, label: m.nombre.toUpperCase() }))]} /></div>
                           <div className="lg:col-span-2 space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Rango de Fechas</Label><div className="flex gap-3"><DatePicker date={filters.fechaInicio ? ymdToPickerDate(filters.fechaInicio) : undefined} onChange={(d) => updateFilters(f => ({ ...f, fechaInicio: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="INICIO" /><DatePicker date={filters.fechaFin ? ymdToPickerDate(filters.fechaFin) : undefined} onChange={(d) => updateFilters(f => ({ ...f, fechaFin: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="FIN" /></div></div>
                         </div>
                         <div className="mt-8 pt-6 border-t border-border flex justify-end"><Button onClick={() => setShowFilters(false)} className="h-10 px-8 rounded-xl text-[10px] font-semibold uppercase tracking-widest bg-foreground text-background shadow-lg hover:opacity-90">Finalizar y Cerrar</Button></div>
