@@ -75,6 +75,8 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     liquidadoAt?: Date | null;
     liquidadoPor?: { disconnect: true } | null;
     observacion?: string;
+    direccion?: { connect: { id: string } };
+    direccionTexto?: string;
     comprobantePago?: ComprobantePagoRecord[];
     referenciaPago?: string;
     fechaPago?: string | Date;
