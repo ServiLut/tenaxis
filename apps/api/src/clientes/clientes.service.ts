@@ -997,8 +997,8 @@ export class ClientesService implements OnModuleInit, OnModuleDestroy {
     }
 
     const now = startOfBogotaDayUtc(new Date());
-    const sixtyDaysAgo = new Date();
-    sixtyDaysAgo.setDate(now.getDate() - 60);
+    const inactivityThresholdDate = new Date();
+    inactivityThresholdDate.setDate(now.getDate() - 120);
 
     const segmented = {
       riesgoFuga: [] as ClienteWithRelations[],
@@ -1033,7 +1033,7 @@ export class ClientesService implements OnModuleInit, OnModuleDestroy {
       const lastVisit = client.ultimaVisita
         ? new Date(client.ultimaVisita)
         : new Date(client.createdAt);
-      const isDormido = lastVisit < sixtyDaysAgo;
+      const isDormido = lastVisit < inactivityThresholdDate;
 
       if (isDormido) {
         segmented.dormidos.push(client);

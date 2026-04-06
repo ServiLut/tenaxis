@@ -13,6 +13,8 @@ import { EstadoSugerencia } from '../generated/client/client';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request as ExpressRequest } from 'express';
+import { QuerySugerenciasDto } from './dto/query-sugerencias.dto';
+import { Query } from '@nestjs/common';
 
 interface RequestWithUser extends ExpressRequest {
   user: JwtPayload;
@@ -24,10 +26,13 @@ export class SugerenciasController {
   constructor(private readonly sugerenciasService: SugerenciasService) {}
 
   @Get()
-  async findAll(@Request() req: RequestWithUser) {
+  async findAll(
+    @Request() req: RequestWithUser,
+    @Query() query: QuerySugerenciasDto,
+  ) {
     const tenantId = req.user.tenantId || '';
     const empresaId = req.user.empresaId;
-    return this.sugerenciasService.findAll(tenantId, empresaId);
+    return this.sugerenciasService.findAll(tenantId, empresaId, query);
   }
 
   @Get('stats')

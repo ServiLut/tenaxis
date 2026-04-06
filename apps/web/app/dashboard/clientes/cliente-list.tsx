@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useDeferredValue, useTransition, useCallback } from "react";
+import React, { useState, useMemo, useEffect, useDeferredValue, useTransition, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
@@ -63,6 +63,7 @@ import { Contact } from "lucide-react";
 import { apiFetch } from "@/lib/api/base-client";
 import { clientesClient } from "@/lib/api/clientes-client";
 import { clientesKpisClient, type ClientesDashboardKpisResponse } from "@/lib/api/clientes-kpis-client";
+import { sugerenciasClient } from "@/lib/api/sugerencias-clientes-client";
 import { configClient } from "@/lib/api/config-client";
 import { serviciosClient } from "@/lib/api/servicios-client";
 import {
@@ -241,6 +242,15 @@ export interface SugerenciaStats {
   totalHoy: number;
 }
 
+interface SugerenciasPagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
 interface ClienteListProps {
   initialClientes: Cliente[];
   initialPagination?: {
@@ -335,6 +345,7 @@ export function ClienteList({
   const [_isRoutingPending, startRoutingTransition] = useTransition();
 
   const [mounted, setMounted] = useState(false);
+  const didSkipInitialClientsFetch = useRef(false);
   const [clientesData, setClientesData] = useState<Cliente[]>(initialClientes);
   const [pagination, setPagination] = useState(initialPagination);
   const [isPageLoading, setIsPageLoading] = useState(false);
@@ -407,9 +418,15 @@ export function ClienteList({
   }, [isLoadingRole, checkPermission, router]);
 
   const [showSuggestionsQueue, setShowSuggestionsQueue] = useState(false);
-  
+  const SUGERENCIAS_PAGE_SIZE = 12;
   const [sugerencias, setSugerencias] = useState<Sugerencia[]>(initialSugerencias);
+  const [sugerenciasPagination, setSugerenciasPagination] = useState<SugerenciasPagination | null>(null);
   const [localSugerenciasStats, setLocalSugerenciasStats] = useState<SugerenciaStats | null>(sugerenciasStats || null);
+  const [sugerenciasLoading, setSugerenciasLoading] = useState(false);
+  const [sugerenciasLoadingMore, setSugerenciasLoadingMore] = useState(false);
+  const [sugerenciasError, setSugerenciasError] = useState<string | null>(null);
+  const didLoadSugerenciasRef = useRef(initialSugerencias.length > 0);
+  const didLoadSugerenciasStatsRef = useRef(Boolean(sugerenciasStats));
   const [departments, setDepartments] = useState<Department[]>(initialDepartments);
   const [municipalities, setMunicipalities] = useState<Municipality[]>(initialMunicipalities);
   const clientes = clientesData;
@@ -458,13 +475,80 @@ export function ClienteList({
   const getRiesgoNombre = (cliente: Cliente) =>
     cliente.riesgo?.nombre || cliente.nivelRiesgo || "";
 
+  const loadSugerenciasPage = useCallback(
+    async (page: number, mode: "replace" | "append" = "replace") => {
+      if (mode === "replace" && sugerenciasLoading) {
+        return;
+      }
+
+      if (mode === "append" && sugerenciasLoadingMore) {
+        return;
+      }
+
+      try {
+        setSugerenciasError(null);
+        if (mode === "replace") {
+          setSugerenciasLoading(true);
+        } else {
+          setSugerenciasLoadingMore(true);
+        }
+
+        const response = await sugerenciasClient.getPage(page, SUGERENCIAS_PAGE_SIZE);
+
+        const nextSugerencias = response.sugerencias as Sugerencia[];
+        setSugerencias((prev) =>
+          mode === "append" ? [...prev, ...nextSugerencias] : nextSugerencias,
+        );
+        setSugerenciasPagination(response.pagination);
+        didLoadSugerenciasRef.current = true;
+      } catch (error) {
+        console.error("Error loading sugerencias clientes:", error);
+        setSugerenciasError(
+          error instanceof Error ? error.message : "No se pudieron cargar las sugerencias",
+        );
+      } finally {
+        if (mode === "replace") {
+          setSugerenciasLoading(false);
+        } else {
+          setSugerenciasLoadingMore(false);
+        }
+      }
+    },
+    [SUGERENCIAS_PAGE_SIZE, sugerenciasLoading, sugerenciasLoadingMore],
+  );
+
+  const loadSugerenciasStats = useCallback(async (forceRefresh = false) => {
+    if (!forceRefresh && didLoadSugerenciasStatsRef.current && localSugerenciasStats) {
+      return;
+    }
+
+    try {
+      const stats = await sugerenciasClient.getStats();
+      setLocalSugerenciasStats(stats);
+      didLoadSugerenciasStatsRef.current = true;
+    } catch (error) {
+      console.error("Error loading sugerencias stats:", error);
+    }
+  }, [localSugerenciasStats]);
+
+  const loadMoreSugerencias = useCallback(() => {
+    if (sugerenciasLoadingMore || !sugerenciasPagination?.hasNextPage) {
+      return;
+    }
+
+    void loadSugerenciasPage(sugerenciasPagination.page + 1, "append");
+  }, [loadSugerenciasPage, sugerenciasLoadingMore, sugerenciasPagination]);
+
   const handleUpdateSugerencia = async (id: string, nuevoEstado: string) => {
     try {
       await apiFetch(`/sugerencias-clientes/${id}/estado`, {
         method: "PATCH",
         body: JSON.stringify({ estado: nuevoEstado }),
       });
-      setSugerencias(prev => prev.map(s => s.id === id ? { ...s, estado: nuevoEstado } : s));
+      await Promise.all([
+        loadSugerenciasStats(true),
+        loadSugerenciasPage(sugerenciasPagination?.page || 1, "replace"),
+      ]);
       toast.success(`Sugerencia ${nuevoEstado.toLowerCase()} correctamente`);
     } catch (error) {
       console.error("Error updating suggestion status:", error);
@@ -509,7 +593,7 @@ export function ClienteList({
       list.push({
         id: "reactivar-cliente",
         title: "Reactivar Cliente Dormido",
-        description: "Este cliente no ha registrado actividad en los últimos 60 días. Se recomienda contacto comercial inmediato.",
+        description: "Este cliente no ha registrado actividad en los últimos 120 días. Se recomienda contacto comercial inmediato.",
         icon: RotateCcw,
         color: "text-slate-600 bg-slate-50",
         actionLabel: "Registrar Contacto",
@@ -635,40 +719,24 @@ export function ClienteList({
 
     async function loadSecondaryData() {
       try {
-        const shouldLoadSuggestions = initialSugerencias.length === 0;
-        const shouldLoadStats = !sugerenciasStats;
         const shouldLoadDepartments = initialDepartments.length === 0;
         const shouldLoadMunicipalities = initialMunicipalities.length === 0;
 
-        if (
-          !shouldLoadSuggestions &&
-          !shouldLoadStats &&
-          !shouldLoadDepartments &&
-          !shouldLoadMunicipalities
-        ) {
+        if (!shouldLoadDepartments && !shouldLoadMunicipalities) {
           return;
         }
 
-        const [loadedSuggestions, loadedStats, loadedDepartments, loadedMunicipalities] =
-          await Promise.all([
-            shouldLoadSuggestions
-              ? apiFetch<Sugerencia[]>("/sugerencias-clientes", { cache: "no-store" })
-              : Promise.resolve(initialSugerencias),
-            shouldLoadStats
-              ? apiFetch<SugerenciaStats>("/sugerencias-clientes/stats", { cache: "no-store" })
-              : Promise.resolve(sugerenciasStats as SugerenciaStats | null),
-            shouldLoadDepartments
-              ? geoClient.getDepartments()
-              : Promise.resolve(initialDepartments),
-            shouldLoadMunicipalities
-              ? geoClient.getMunicipalities()
-              : Promise.resolve(initialMunicipalities),
-          ]);
+        const [loadedDepartments, loadedMunicipalities] = await Promise.all([
+          shouldLoadDepartments
+            ? geoClient.getDepartments()
+            : Promise.resolve(initialDepartments),
+          shouldLoadMunicipalities
+            ? geoClient.getMunicipalities()
+            : Promise.resolve(initialMunicipalities),
+        ]);
 
         if (isCancelled) return;
 
-        setSugerencias(loadedSuggestions || []);
-        setLocalSugerenciasStats(loadedStats || null);
         setDepartments(loadedDepartments || []);
         setMunicipalities(loadedMunicipalities || []);
       } catch (error) {
@@ -685,10 +753,27 @@ export function ClienteList({
     };
   }, [
     mounted,
-    initialSugerencias,
-    sugerenciasStats,
     initialDepartments,
     initialMunicipalities,
+  ]);
+
+  useEffect(() => {
+    if (!mounted || !showSuggestionsQueue) {
+      return;
+    }
+
+    if (!didLoadSugerenciasRef.current) {
+      void loadSugerenciasPage(1, "replace");
+    }
+
+    if (!didLoadSugerenciasStatsRef.current) {
+      void loadSugerenciasStats();
+    }
+  }, [
+    mounted,
+    showSuggestionsQueue,
+    loadSugerenciasPage,
+    loadSugerenciasStats,
   ]);
 
   useEffect(() => {
@@ -703,6 +788,11 @@ export function ClienteList({
 
   useEffect(() => {
     if (!mounted) {
+      return;
+    }
+
+    if (!didSkipInitialClientsFetch.current) {
+      didSkipInitialClientsFetch.current = true;
       return;
     }
 
@@ -1190,9 +1280,19 @@ export function ClienteList({
             >
               <Zap className="h-4 w-4 fill-current" />
               Cola Operativa
-              {pendingSugerencias.length > 0 && (
+              {((localSugerenciasStats?.pendientesPorPrioridad
+                ? Number(localSugerenciasStats.pendientesPorPrioridad.CRITICA || 0) +
+                  Number(localSugerenciasStats.pendientesPorPrioridad.ALTA || 0) +
+                  Number(localSugerenciasStats.pendientesPorPrioridad.MEDIA || 0) +
+                  Number(localSugerenciasStats.pendientesPorPrioridad.BAJA || 0)
+                : sugerencias.filter((s) => s.estado === "PENDIENTE").length) > 0) && (
                 <span className="ml-1 px-2 py-0.5 rounded-full bg-white text-amber-600 text-[9px] font-black animate-pulse">
-                  {pendingSugerencias.length}
+                  {localSugerenciasStats?.pendientesPorPrioridad
+                    ? Number(localSugerenciasStats.pendientesPorPrioridad.CRITICA || 0) +
+                      Number(localSugerenciasStats.pendientesPorPrioridad.ALTA || 0) +
+                      Number(localSugerenciasStats.pendientesPorPrioridad.MEDIA || 0) +
+                      Number(localSugerenciasStats.pendientesPorPrioridad.BAJA || 0)
+                    : sugerencias.filter((s) => s.estado === "PENDIENTE").length}
                 </span>
               )}
             </Button>
@@ -2937,7 +3037,30 @@ export function ClienteList({
 
         {/* Lista de Tareas */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
-          {pendingSugerencias.length === 0 ? (
+          {sugerenciasLoading && !didLoadSugerenciasRef.current ? (
+            <div className="space-y-3">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="p-5 rounded-3xl bg-card border border-border shadow-sm animate-pulse">
+                  <div className="h-4 w-24 rounded bg-muted mb-4" />
+                  <div className="h-5 w-4/5 rounded bg-muted mb-2" />
+                  <div className="h-4 w-full rounded bg-muted mb-2" />
+                  <div className="h-4 w-3/4 rounded bg-muted" />
+                </div>
+              ))}
+            </div>
+          ) : sugerenciasError ? (
+            <div className="rounded-3xl border border-destructive/20 bg-destructive/10 p-5 text-center">
+              <p className="text-sm font-black uppercase tracking-widest text-destructive">No se pudo cargar la cola</p>
+              <p className="text-xs mt-1 text-muted-foreground">{sugerenciasError}</p>
+              <Button
+                variant="outline"
+                className="mt-4 h-10 rounded-xl border-border text-xs font-black uppercase tracking-widest"
+                onClick={() => void loadSugerenciasPage(1, "replace")}
+              >
+                Reintentar
+              </Button>
+            </div>
+          ) : pendingSugerencias.length === 0 ? (
             <div className="space-y-6">
               <div className="rounded-3xl border border-emerald-500/20 bg-emerald-500/5 p-5 text-center">
                 <ClipboardCheck className="mx-auto h-12 w-12 text-emerald-500 mb-3" />
@@ -3020,6 +3143,22 @@ export function ClienteList({
                   </div>
                 </div>
               ))
+          )}
+
+          {sugerenciasLoadingMore && (
+            <div className="rounded-2xl border border-border bg-card p-4 text-center animate-pulse">
+              <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Cargando más sugerencias...</p>
+            </div>
+          )}
+
+          {sugerenciasPagination?.hasNextPage && !sugerenciasLoading && (
+            <Button
+              variant="outline"
+              onClick={loadMoreSugerencias}
+              className="w-full h-11 rounded-2xl border-border bg-background text-[10px] font-black uppercase tracking-widest"
+            >
+              Cargar más sugerencias
+            </Button>
           )}
         </div>
 

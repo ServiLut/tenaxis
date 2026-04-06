@@ -16,6 +16,17 @@ export interface ClientesDashboardKpisResponse {
   } | null;
 }
 
+interface ClientesDashboardKpisWrappedResponse {
+  statusCode?: number;
+  message?: string;
+  data?: ClientesDashboardKpisResponse;
+  meta?: {
+    cached?: boolean;
+    generatedAt?: string;
+    cacheTtlSeconds?: number;
+  };
+}
+
 export const clientesKpisClient = {
   async getDashboardKpis(
     options?: { refresh?: boolean },
@@ -25,12 +36,25 @@ export const clientesKpisClient = {
       params.set("refresh", "true");
     }
 
-    return apiFetch<ClientesDashboardKpisResponse>(
+    const response = await apiFetch<
+      ClientesDashboardKpisResponse | ClientesDashboardKpisWrappedResponse
+    >(
       `/clientes/dashboard-kpis${params.toString() ? `?${params.toString()}` : ""}`,
       {
-      cache: "no-store",
-      includeEnterpriseId: true,
+        cache: "no-store",
+        includeEnterpriseId: true,
       },
     );
+
+    if (
+      response &&
+      typeof response === "object" &&
+      "data" in response &&
+      response.data
+    ) {
+      return response.data;
+    }
+
+    return response as ClientesDashboardKpisResponse;
   },
 };
