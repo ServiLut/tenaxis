@@ -5,6 +5,7 @@ import {
   EstadoOrden,
   MetodoPagoBase,
   Role,
+  TipoVisita,
 } from '../generated/client/client';
 import type { PrismaService } from '../prisma/prisma.service';
 import type { SupabaseService } from '../supabase/supabase.service';
@@ -49,6 +50,8 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     empresaId: string;
     clienteId: string;
     tecnicoId: string;
+    direccionId?: string | null;
+    direccionTexto?: string | null;
     liquidadoAt: Date | null;
     liquidadoPor?: { disconnect: true } | null;
     ordenPadreId: string | null;
@@ -115,6 +118,9 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     empresa: {
       findUnique: MockFn<[FindArgs], Promise<unknown>>;
     };
+    direccion: {
+      findUnique: MockFn<[FindArgs], Promise<unknown>>;
+    };
     cliente: {
       findUnique: MockFn<[FindArgs], Promise<unknown>>;
     };
@@ -160,6 +166,8 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     empresaId: 'emp-1',
     clienteId: 'cli-1',
     tecnicoId: 'tech-1',
+    direccionId: 'dir-1',
+    direccionTexto: 'Calle 1 # 2-3',
     liquidadoAt: null,
     ordenPadreId: null,
     tipoVisita: null,
@@ -217,6 +225,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
         create: mockFn(),
       },
       empresa: { findUnique: mockFn() },
+      direccion: { findUnique: mockFn() },
       cliente: { findUnique: mockFn() },
       servicio: { findFirst: mockFn() },
       contratoCliente: { findFirst: mockFn() },
@@ -241,6 +250,10 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     };
 
     prismaMock.declaracionEfectivo.findUnique.mockResolvedValue(null);
+    prismaMock.direccion.findUnique.mockResolvedValue({
+      id: 'dir-2',
+      direccion: 'Carrera 10 # 20-30',
+    });
     supabaseMock.getSignedUrls.mockResolvedValue([]);
     contratosMock.getActiveByCliente.mockResolvedValue(null);
 
@@ -305,6 +318,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
         updateDto: {
           desglosePago: [{ metodo: MetodoPagoBase.EFECTIVO, monto: 100000 }],
           estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          confirmarMovimientoFinanciero: true,
         },
         updatedOverrides: {
           estadoServicio: EstadoOrden.TECNICO_FINALIZO,
@@ -331,6 +345,30 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
           consignado: false,
         }),
       );
+    });
+
+    it('mantiene el efectivo como plan aunque el servicio quede finalizado si no hubo confirmación financiera explícita', async () => {
+      await arrangeUpdate({
+        orderOverrides: {
+          tipoVisita: TipoVisita.DIAGNOSTICO_INICIAL,
+        },
+        updateDto: {
+          desglosePago: [{ metodo: MetodoPagoBase.EFECTIVO, monto: 100000 }],
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          tipoVisita: TipoVisita.DIAGNOSTICO_INICIAL,
+        },
+        updatedOverrides: {
+          tipoVisita: TipoVisita.DIAGNOSTICO_INICIAL,
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          tecnicoId: 'tech-1',
+        },
+      });
+
+      const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
+
+      expect(updateCall.data.valorPagado).toBe(0);
+      expect(updateCall.data.estadoPago).toBe(EstadoPagoOrden.PENDIENTE);
+      expect(prismaMock.declaracionEfectivo.create).not.toHaveBeenCalled();
     });
 
     it('no convierte un pago mixto planeado en pago real mientras no haya registro explícito', async () => {
@@ -379,6 +417,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
           comprobantePago: 'ordenes/comp.png',
           fechaPago: '2026-03-25',
           referenciaPago: 'TRX-001',
+          confirmarMovimientoFinanciero: true,
         },
         updatedOverrides: {
           estadoServicio: EstadoOrden.TECNICO_FINALIZO,
@@ -585,6 +624,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
         },
         updateDto: {
           estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          confirmarMovimientoFinanciero: true,
         },
         updatedOverrides: {
           estadoServicio: EstadoOrden.TECNICO_FINALIZO,
@@ -661,17 +701,27 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       ).rejects.toBeInstanceOf(BadRequestException);
     });
 
-    it('rechaza mutación financiera cuando la orden ya está congelada por declaración', async () => {
+    it('permite mutación financiera cuando solo existe declaración y la orden sigue abierta', async () => {
       prismaMock.ordenServicio.findFirst.mockResolvedValue({
         ...baseOrden,
+        estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+        estadoPago: EstadoPagoOrden.PARCIAL,
         declaracionEfectivo: { id: 'decl-1', consignado: false },
       });
-
-      await expect(
-        service.update('tenant-1', 'orden-1', {
+      prismaMock.ordenServicio.update.mockResolvedValue(
+        buildOrden({
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          estadoPago: EstadoPagoOrden.PARCIAL,
+          declaracionEfectivo: { id: 'decl-1', consignado: false },
           valorCotizado: 150000,
         }),
-      ).rejects.toBeInstanceOf(ConflictException);
+      );
+
+      await service.update('tenant-1', 'orden-1', {
+        valorCotizado: 150000,
+      });
+
+      expect(prismaMock.ordenServicio.update).toHaveBeenCalled();
     });
 
     it('rechaza mutación financiera cuando la orden ya tiene consignación registrada', async () => {
@@ -716,6 +766,23 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       expect(updateCall.data.observacion).toBe('Reasignación operativa');
     });
 
+    it('persiste direccionId y direccionTexto al editar la orden', async () => {
+      await arrangeUpdate({
+        updateDto: {
+          direccionId: 'dir-2',
+        },
+        updatedOverrides: {
+          direccionId: 'dir-2',
+          direccionTexto: 'Carrera 10 # 20-30',
+        },
+      });
+
+      const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
+
+      expect(updateCall.data.direccion).toEqual({ connect: { id: 'dir-2' } });
+      expect(updateCall.data.direccionTexto).toBe('Carrera 10 # 20-30');
+    });
+
     it('permite liquidar operativamente una orden ya pagada sin reabrir finanzas', async () => {
       await arrangeUpdate({
         orderOverrides: {
@@ -754,10 +821,12 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
   });
 
   describe('lectura con freeze financiero para UI', () => {
-    it('expone financialLock en findAll y trae las relaciones mínimas para calcularlo', async () => {
+    it('no expone financialLock en findAll cuando la orden solo tiene declaración y sigue parcialmente abierta', async () => {
       prismaMock.ordenServicio.findMany.mockResolvedValue([
         {
           ...baseOrden,
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          estadoPago: EstadoPagoOrden.PARCIAL,
           declaracionEfectivo: { id: 'decl-1' },
           consignacionOrden: null,
           horaInicioReal: null,
@@ -772,7 +841,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       expect(findManyCall.include).toBeDefined();
       expect(findManyCall.include?.declaracionEfectivo).toBeDefined();
       expect(findManyCall.include?.consignacionOrden).toBeDefined();
-      expect(resultado.data[0]?.financialLock).toBe(true);
+      expect(resultado.data[0]?.financialLock).toBe(false);
     });
 
     it('expone financialLock en findOne cuando la orden ya quedó congelada por consignación', async () => {

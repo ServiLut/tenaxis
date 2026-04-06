@@ -521,6 +521,7 @@ const CLOSED_FINANCIAL_STATES = new Set([
 ]);
 
 const OPERATIONALLY_LIQUIDATABLE_PAYMENT_STATES = new Set([
+  "EFECTIVO_DECLARADO",
   "PAGADO",
   "CONCILIADO",
   "CORTESIA",
@@ -1523,6 +1524,7 @@ function ServiciosContent() {
         referenciaPago: primaryTransferencia?.referenciaPago || undefined,
         transferencias:
           uploadedTransferencias.length > 0 ? uploadedTransferencias : undefined,
+        confirmarMovimientoFinanciero: true,
         estadoServicio: nuevoEstado,
       });
 

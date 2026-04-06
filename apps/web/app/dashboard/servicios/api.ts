@@ -99,6 +99,7 @@ export interface OrdenServicioPayload {
   frecuenciaSugerida?: number;
   tipoFacturacion?: string;
   valorCotizado?: number;
+  confirmarMovimientoFinanciero?: boolean;
   desglosePago?: Array<{
     metodo: string;
     monto: number;

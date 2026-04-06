@@ -189,6 +189,10 @@ export class CreateOrdenServicioDto {
   @IsOptional()
   transferencias?: TransferenciaRealDto[];
 
+  @IsBoolean()
+  @IsOptional()
+  confirmarMovimientoFinanciero?: boolean;
+
   @IsOptional()
   desglosePago?: any[]; // Validaremos la estructura en el servicio para mayor flexibilidad con JSON
 }

@@ -2033,24 +2033,19 @@ export class OrdenesServicioService {
   }
 
   private isFinanciallyLocked(orden: OrdenFinancialLockState): boolean {
-    if (
-      orden.declaracionEfectivo ||
-      orden.consignacionOrden ||
-      orden.liquidadoAt
-    ) {
+    if (orden.consignacionOrden || orden.liquidadoAt) {
       return true;
     }
 
     return (
       orden.estadoServicio === EstadoOrden.LIQUIDADO ||
-      orden.estadoPago === EstadoPagoOrden.PAGADO ||
-      orden.estadoPago === EstadoPagoOrden.CONCILIADO ||
-      orden.estadoPago === EstadoPagoOrden.CORTESIA
+      this.isPaymentStateClosed(orden.estadoPago)
     );
   }
 
   private isPaymentStateClosed(estadoPago?: EstadoPagoOrden | null): boolean {
     return (
+      estadoPago === EstadoPagoOrden.EFECTIVO_DECLARADO ||
       estadoPago === EstadoPagoOrden.PAGADO ||
       estadoPago === EstadoPagoOrden.CONCILIADO ||
       estadoPago === EstadoPagoOrden.CORTESIA
@@ -2490,6 +2485,12 @@ export class OrdenesServicioService {
     ];
   }
 
+  private shouldConfirmCashCollection(
+    updateDto: Partial<CreateOrdenServicioDto>,
+  ): boolean {
+    return updateDto.confirmarMovimientoFinanciero === true;
+  }
+
   private calculateLegacyTransferAmountSuggestion(params: {
     breakdown: DesglosePagoItem[];
     valorCotizado: number;
@@ -2610,6 +2611,22 @@ export class OrdenesServicioService {
         updateDto.tipoFacturacion ||
         orden.tipoFacturacion ||
         TipoFacturacion.UNICO;
+    let direccionIdResuelta = orden.direccionId ?? undefined;
+    let direccionTextoResuelto = orden.direccionTexto ?? undefined;
+
+    if (updateDto.direccionId) {
+      const direccion = await this.prisma.direccion.findUnique({
+        where: { id: updateDto.direccionId },
+        select: { id: true, direccion: true },
+      });
+
+      if (!direccion) {
+        throw new BadRequestException('direccionId inválida');
+      }
+
+      direccionIdResuelta = direccion.id;
+      direccionTextoResuelto = direccion.direccion;
+    }
 
     const breakdownActualizado = this.normalizeBreakdown(
       updateDto.desglosePago,
@@ -2665,6 +2682,7 @@ export class OrdenesServicioService {
       updateDto.comprobantePago !== undefined ||
       updateDto.referenciaPago !== undefined ||
       updateDto.transferencias !== undefined ||
+      updateDto.confirmarMovimientoFinanciero === true ||
       serviceReachedSettlementPoint;
     const transferAmount = this.sumTransferPlan(breakdownVigente);
     const confirmedTransferAmount = mergedTransferEvents.reduce(
@@ -2698,6 +2716,10 @@ export class OrdenesServicioService {
       tipoVisita: tipoVisitaResuelta ?? undefined,
       frecuenciaSugerida: updateDto.frecuenciaSugerida ?? undefined,
       tipoFacturacion: tipoFacturacionResuelta,
+      direccion: updateDto.direccionId
+        ? { connect: { id: direccionIdResuelta } }
+        : undefined,
+      direccionTexto: direccionTextoResuelto,
       contratoCliente: contratoActivo
         ? { connect: { id: contratoActivo.id } }
         : { disconnect: true },
@@ -2757,6 +2779,7 @@ export class OrdenesServicioService {
           breakdownVigente,
           valorCotizadoResuelto,
           updateDto.estadoServicio || orden.estadoServicio,
+          this.shouldConfirmCashCollection(updateDto),
           confirmedTransferAmount,
         );
         data.valorPagado = totals.valorPagado;
@@ -2909,7 +2932,11 @@ export class OrdenesServicioService {
         .filter((l) => l.metodo === MetodoPagoBase.EFECTIVO)
         .reduce((sum, l) => sum + Number(l.monto || 0), 0);
 
-      if (cashAmount > 0 && updatedOrden.tecnicoId) {
+      if (
+        cashAmount > 0 &&
+        updatedOrden.tecnicoId &&
+        this.shouldConfirmCashCollection(updateDto)
+      ) {
         // Verificar si ya existe una declaración para esta orden
         const existingDecl = await this.prisma.declaracionEfectivo.findUnique({
           where: { ordenId: updatedOrden.id },
@@ -2965,15 +2992,20 @@ export class OrdenesServicioService {
     breakdown: DesglosePagoItem[],
     valorCotizado: number,
     estadoServicio: EstadoOrden,
+    confirmCashCollection: boolean,
     confirmedTransferAmount?: number,
   ): { valorPagado: number; estadoPago: EstadoPagoOrden } {
-    // 1. Montos por tipo (Lo que entra a caja/banco)
-    const valorEfectivo = breakdown
+    // 1. Montos por tipo (Lo que entra realmente a caja/banco)
+    const efectivoPlaneado = breakdown
       .filter((l) => l.metodo === MetodoPagoBase.EFECTIVO)
       .reduce((sum, l) => sum + Number(l.monto || 0), 0);
 
     const valorTransferencia = Math.max(0, confirmedTransferAmount ?? 0);
-
+    const isServiceFinished =
+      estadoServicio === EstadoOrden.LIQUIDADO ||
+      estadoServicio === EstadoOrden.TECNICO_FINALIZO;
+    const valorEfectivo =
+      confirmCashCollection && isServiceFinished ? efectivoPlaneado : 0;
     const valorPagado = valorEfectivo + valorTransferencia;
 
     // 2. Valor cubierto por métodos no monetarios (Bonos, Cortesías)
@@ -2993,11 +3025,6 @@ export class OrdenesServicioService {
     // 4. Total cubierto (Suma de todo para ver si la orden está cerrada)
     const totalCubierto = valorPagado + valorDescuentos + valorCredito;
 
-    // Determinar si el efectivo ya es "dinero en mano" (Solo si el servicio finalizó)
-    const isServiceFinished =
-      estadoServicio === EstadoOrden.LIQUIDADO ||
-      estadoServicio === EstadoOrden.TECNICO_FINALIZO;
-
     // Determinar estado de pago
     const hasCredito = valorCredito > 0;
     const hasCortesia = breakdown.some(
@@ -3010,13 +3037,12 @@ export class OrdenesServicioService {
     if (totalCubierto >= valorCotizado && !hasCredito) {
       if (hasCortesia && valorPagado === 0) {
         estadoPago = EstadoPagoOrden.CORTESIA;
-      } else if (valorEfectivo > 0) {
-        // Solo pasamos a EFECTIVO_DECLARADO si el servicio ya terminó
-        if (isServiceFinished) {
+      } else if (efectivoPlaneado > 0) {
+        // El efectivo solo pasa a recaudo real si el flujo lo confirmó explícitamente
+        if (valorEfectivo > 0) {
           estadoPago = EstadoPagoOrden.EFECTIVO_DECLARADO;
         } else {
-          // Si no ha terminado, el componente de efectivo no cuenta como recaudado.
-          // El estado será PARCIAL si ya hubo transferencias reales, o PENDIENTE si solo hay efectivo planeado.
+          // Mientras no se confirme recaudo, el efectivo del desglose es solo plan/cotización.
           estadoPago =
             valorTransferencia > 0
               ? EstadoPagoOrden.PARCIAL
