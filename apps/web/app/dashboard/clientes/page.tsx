@@ -1,8 +1,6 @@
 import React from "react";
 import { DashboardLayout } from "@/components/dashboard";
-import {
-  getClientesDashboardAction,
-} from "../actions";
+import { getClientesDashboardAction } from "../actions";
 import { ClienteList, type Cliente, type Sugerencia } from "./cliente-list";
 
 export const dynamic = "force-dynamic";
@@ -34,8 +32,6 @@ export default async function ClientesPage({
     <DashboardLayout overflowHidden>
       <ClienteList
         initialClientes={dashboardData.clientes}
-        segmentedData={dashboardData.segmentacion}
-        initialOverview={dashboardData.overview}
         initialPagination={dashboardData.pagination}
         initialSugerencias={[] as Sugerencia[]}
         sugerenciasStats={null}

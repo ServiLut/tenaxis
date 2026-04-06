@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useDeferredValue, useTransition } from "react";
+import React, { useState, useMemo, useEffect, useDeferredValue, useTransition, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
@@ -62,6 +62,7 @@ import { toast } from "sonner";
 import { Contact } from "lucide-react";
 import { apiFetch } from "@/lib/api/base-client";
 import { clientesClient } from "@/lib/api/clientes-client";
+import { clientesKpisClient, type ClientesDashboardKpisResponse } from "@/lib/api/clientes-kpis-client";
 import { configClient } from "@/lib/api/config-client";
 import { serviciosClient } from "@/lib/api/servicios-client";
 import {
@@ -242,19 +243,6 @@ export interface SugerenciaStats {
 
 interface ClienteListProps {
   initialClientes: Cliente[];
-  segmentedData?: {
-    riesgoFuga: { count: number };
-    upsellPotencial: { count: number };
-    dormidos: { count: number };
-    operacionEstable: { count: number };
-  } | null;
-  initialOverview?: {
-    total: number;
-    empresas: number;
-    oro: number;
-    riesgoCritico: number;
-    avgScore: number;
-  } | null;
   initialPagination?: {
     page: number;
     limit: number;
@@ -334,8 +322,6 @@ interface OrdenServicio {
 
 export function ClienteList({ 
   initialClientes, 
-  segmentedData, 
-  initialOverview = null,
   initialPagination = null,
   initialSugerencias = [],
   sugerenciasStats,
@@ -350,9 +336,13 @@ export function ClienteList({
 
   const [mounted, setMounted] = useState(false);
   const [clientesData, setClientesData] = useState<Cliente[]>(initialClientes);
-  const [overview, setOverview] = useState(initialOverview);
   const [pagination, setPagination] = useState(initialPagination);
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const [showKPIs, setShowKPIs] = useState(false);
+  const [kpisData, setKpisData] = useState<ClientesDashboardKpisResponse | null>(null);
+  const [kpisLoading, setKpisLoading] = useState(false);
+  const [kpisError, setKpisError] = useState<string | null>(null);
+  const [kpisRequestedOnce, setKpisRequestedOnce] = useState(false);
   
   // URL Persistence
   const [activeSegment, setActiveSegment] = useState<string>(searchParams.get("segment") || "all");
@@ -423,6 +413,35 @@ export function ClienteList({
   const [departments, setDepartments] = useState<Department[]>(initialDepartments);
   const [municipalities, setMunicipalities] = useState<Municipality[]>(initialMunicipalities);
   const clientes = clientesData;
+
+  const loadKpis = useCallback(
+    async (forceRefresh = false) => {
+      if (kpisLoading) {
+        return;
+      }
+
+      if (kpisRequestedOnce && !forceRefresh) {
+        return;
+      }
+
+      try {
+        setKpisLoading(true);
+        setKpisError(null);
+
+        const response = await clientesKpisClient.getDashboardKpis({
+          refresh: forceRefresh,
+        });
+        setKpisData(response);
+      } catch (error) {
+        console.error("Error loading clientes KPIs:", error);
+        setKpisError(error instanceof Error ? error.message : "Error inesperado");
+      } finally {
+        setKpisRequestedOnce(true);
+        setKpisLoading(false);
+      }
+    },
+    [kpisLoading, kpisRequestedOnce],
+  );
 
   const [empresaSearch, setEmpresaSearch] = useState("");
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
@@ -561,7 +580,6 @@ export function ClienteList({
   });
 
   const [accessScope, setAccessScope] = useState<AccessScope | null>(null);
-  const [showKPIs, setShowKPIs] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [customPresets, setCustomPresets] = useState<DashboardPreset[]>([]);
   const [isPresetModalOpen, setIsPresetModalOpen] = useState(false);
@@ -587,21 +605,6 @@ export function ClienteList({
         .slice(0, 8),
     [sugerencias]
   );
-
-  const stats = useMemo(() => {
-    return (
-      overview || {
-        total: clientes.length,
-        empresas: clientes.filter(c => c.tipoCliente === "EMPRESA").length,
-        oro: clientes.filter(c => c.clasificacion === "ORO").length,
-        riesgoCritico: clientes.filter(c => {
-          const r = getRiesgoNombre(c).toUpperCase();
-          return r === "CRITICO" || r === "ALTO";
-        }).length,
-        avgScore: clientes.length > 0 ? Math.round(clientes.reduce((acc, c) => acc + (c.score || 0), 0) / clientes.length) : 0,
-      }
-    );
-  }, [overview, clientes]);
 
   const handleDelete = (cliente: Cliente) => {
     setClienteToDelete(cliente);
@@ -689,6 +692,16 @@ export function ClienteList({
   ]);
 
   useEffect(() => {
+    if (!mounted || !showKPIs) {
+      return;
+    }
+
+    if (!kpisRequestedOnce) {
+      void loadKpis();
+    }
+  }, [mounted, showKPIs, kpisRequestedOnce, loadKpis]);
+
+  useEffect(() => {
     if (!mounted) {
       return;
     }
@@ -722,8 +735,6 @@ export function ClienteList({
         setIsPageLoading(true);
         const response = await apiFetch<{
           clientes: Cliente[];
-          segmentacion: ClienteListProps["segmentedData"];
-          overview: NonNullable<ClienteListProps["initialOverview"]>;
           pagination: NonNullable<ClienteListProps["initialPagination"]>;
         }>(`/clientes/dashboard-data?${params.toString()}`, {
           cache: "no-store",
@@ -733,7 +744,6 @@ export function ClienteList({
         if (isCancelled) return;
 
         setClientesData(response.clientes || []);
-        setOverview(response.overview || null);
         setPagination(response.pagination || null);
 
         if (response.pagination && response.pagination.page !== currentPage) {
@@ -1204,6 +1214,18 @@ export function ClienteList({
                 </>
               )}
             </Button>
+            {showKPIs && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => void loadKpis(true)}
+                disabled={kpisLoading}
+                className="h-10 px-4 rounded-xl border-border bg-card text-[10px] font-black uppercase tracking-widest gap-2"
+              >
+                <RotateCcw className={cn("h-4 w-4", kpisLoading && "animate-spin")} />
+                Refrescar KPIs
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -1214,24 +1236,83 @@ export function ClienteList({
 
           {/* KPI Cards Grid */}
           {showKPIs && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
-              {[
-                { label: "Total Clientes", val: stats.total, icon: User, color: "bg-primary" },
-                { label: "Corporativos", val: stats.empresas, icon: Building2, color: "bg-[#01ADFB]" },
-                { label: "Clientes Oro", val: stats.oro, icon: Trophy, color: "bg-[#01ADFB]" },
-                { label: "Riesgo Alto", val: stats.riesgoCritico, icon: AlertCircle, color: "bg-muted-foreground" },
-                { label: "Avg Score", val: stats.avgScore, icon: Activity, color: "bg-muted-foreground" },
-              ].map((item, i) => (
-                <div key={i} className="bg-card p-6 rounded-2xl border border-border shadow-sm flex items-center gap-4">
-                  <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center text-white", item.color)}>
-                    <item.icon className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{item.label}</p>
-                    <p className="text-2xl font-black text-foreground">{item.val}</p>
-                  </div>
+            <div className="mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300 space-y-4">
+              {kpisLoading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <div key={i} className="h-[92px] rounded-2xl border border-border bg-card animate-pulse" />
+                  ))}
                 </div>
-              ))}
+              ) : kpisError ? (
+                <div className="rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive font-medium">
+                  No se pudieron cargar los KPIs: {kpisError}
+                </div>
+              ) : kpisData?.overview ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                  {[
+                    { label: "Total Clientes", val: kpisData.overview.total, icon: User, color: "bg-primary" },
+                    { label: "Corporativos", val: kpisData.overview.empresas, icon: Building2, color: "bg-[#01ADFB]" },
+                    { label: "Clientes Oro", val: kpisData.overview.oro, icon: Trophy, color: "bg-[#01ADFB]" },
+                    { label: "Riesgo Alto", val: kpisData.overview.riesgoCritico, icon: AlertCircle, color: "bg-muted-foreground" },
+                    { label: "Avg Score", val: kpisData.overview.avgScore, icon: Activity, color: "bg-muted-foreground" },
+                  ].map((item, i) => (
+                    <div key={i} className="bg-card p-6 rounded-2xl border border-border shadow-sm flex items-center gap-4">
+                      <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center text-white", item.color)}>
+                        <item.icon className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{item.label}</p>
+                        <p className="text-2xl font-black text-foreground">{item.val}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+
+              {!kpisLoading && !kpisError && kpisData?.segmentacion && (
+                <div className="px-8 py-2 border-b border-border bg-muted/20 flex items-center gap-2 overflow-x-auto scrollbar-hide rounded-2xl">
+                  {[
+                    { id: "all", label: "Todos", count: pagination?.total ?? kpisData.overview?.total ?? 0, icon: Target },
+                    { id: "riesgoFuga", label: "Riesgo de Fuga", count: kpisData.segmentacion.riesgoFuga.count, icon: AlertCircle, color: "text-red-600" },
+                    { id: "upsellPotencial", label: "Upsell Potencial", count: kpisData.segmentacion.upsellPotencial.count, icon: Trophy, color: "text-amber-600" },
+                    { id: "dormidos", label: "Dormidos", count: kpisData.segmentacion.dormidos.count, icon: Clock, color: "text-slate-600" },
+                    { id: "operacionEstable", label: "Operación Estable", count: kpisData.segmentacion.operacionEstable.count, icon: ShieldCheck, color: "text-emerald-600" },
+                  ].map((seg) => (
+                    <button
+                      key={seg.id}
+                      onClick={() => {
+                        if (seg.id === "all") {
+                          resetFilters();
+                        } else {
+                          setActiveSegment(seg.id);
+                          setCurrentPage(1);
+                          setOnlySinVisita(false);
+                        }
+                      }}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-3 rounded-xl transition-all whitespace-nowrap border-2",
+                        activeSegment === seg.id
+                          ? "bg-background border-[#01ADFB] shadow-sm scale-[1.02]"
+                          : "border-transparent hover:bg-muted text-muted-foreground"
+                      )}
+                    >
+                      <seg.icon className={cn("h-4 w-4", activeSegment === seg.id ? "text-[#01ADFB]" : seg.color)} />
+                      <span className={cn(
+                        "text-[10px] font-black uppercase tracking-widest",
+                        activeSegment === seg.id ? "text-foreground" : ""
+                      )}>
+                        {seg.label}
+                      </span>
+                      <span className={cn(
+                        "text-[10px] font-black px-2 py-1 rounded-full",
+                        activeSegment === seg.id ? "bg-[#01ADFB] text-white" : "bg-background border border-border"
+                      )}>
+                        {seg.count}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -1285,52 +1366,6 @@ export function ClienteList({
                 )}
               </div>
               </div>
-
-              {/* Segmentación Operativa - Tabs */}
-              {segmentedData && (
-              <div className="px-8 py-2 border-b border-border bg-muted/20 flex items-center gap-2 overflow-x-auto scrollbar-hide">
-                {[
-                  { id: "all", label: "Todos", count: overview?.total ?? pagination?.total ?? 0, icon: Target },
-                  { id: "riesgoFuga", label: "Riesgo de Fuga", count: segmentedData.riesgoFuga.count, icon: AlertCircle, color: "text-red-600" },
-                  { id: "upsellPotencial", label: "Upsell Potencial", count: segmentedData.upsellPotencial.count, icon: Trophy, color: "text-amber-600" },
-                  { id: "dormidos", label: "Dormidos", count: segmentedData.dormidos.count, icon: Clock, color: "text-slate-600" },
-                  { id: "operacionEstable", label: "Operación Estable", count: segmentedData.operacionEstable.count, icon: ShieldCheck, color: "text-emerald-600" },
-                ].map((seg) => (
-                  <button
-                    key={seg.id}
-                    onClick={() => {
-                      if (seg.id === "all") {
-                        resetFilters();
-                      } else {
-                        setActiveSegment(seg.id);
-                        setCurrentPage(1);
-                        setOnlySinVisita(false);
-                      }
-                    }}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-3 rounded-xl transition-all whitespace-nowrap border-2",
-                      activeSegment === seg.id
-                        ? "bg-background border-[#01ADFB] shadow-sm scale-[1.02]"
-                        : "border-transparent hover:bg-muted text-muted-foreground"
-                    )}
-                  >
-                    <seg.icon className={cn("h-4 w-4", activeSegment === seg.id ? "text-[#01ADFB]" : seg.color)} />
-                    <span className={cn(
-                      "text-[10px] font-black uppercase tracking-widest",
-                      activeSegment === seg.id ? "text-foreground" : ""
-                    )}>
-                      {seg.label}
-                    </span>
-                    <span className={cn(
-                      "ml-1 px-2 py-0.5 rounded-full text-[9px] font-black",
-                      activeSegment === seg.id ? "bg-[#01ADFB] text-white" : "bg-muted text-muted-foreground"
-                    )}>
-                      {seg.count}
-                    </span>
-                  </button>
-                ))}
-              </div>
-              )}
 
               {/* Presets de Filtro Rápidos */}
               <div className="px-8 py-3 flex items-center gap-3 overflow-x-auto scrollbar-hide border-b border-border bg-muted/5">

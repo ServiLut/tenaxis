@@ -1,8 +1,13 @@
 import {
   Injectable,
+  Logger,
+  OnModuleDestroy,
+  OnModuleInit,
   UnauthorizedException,
   ConflictException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import IORedis, { RedisOptions } from 'ioredis';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { QueryClientesDashboardDto } from './dto/query-clientes-dashboard.dto';
@@ -66,6 +71,21 @@ interface DashboardOverview {
   avgScore: number;
 }
 
+interface DashboardKpisResponse {
+  overview: DashboardOverview;
+  segmentacion: {
+    riesgoFuga: { count: number };
+    upsellPotencial: { count: number };
+    dormidos: { count: number };
+    operacionEstable: { count: number };
+  };
+  meta: {
+    cached: boolean;
+    generatedAt: string;
+    cacheTtlSeconds: number;
+  };
+}
+
 interface NormalizedDashboardQuery {
   page: number;
   limit: number;
@@ -92,8 +112,38 @@ interface ClienteIdRow {
 }
 
 @Injectable()
-export class ClientesService {
-  constructor(private prisma: PrismaService) {}
+export class ClientesService implements OnModuleInit, OnModuleDestroy {
+  private readonly logger = new Logger(ClientesService.name);
+  private redis: IORedis | null = null;
+  private readonly dashboardKpisCacheTtlSeconds = 60 * 10;
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
+  ) {}
+
+  onModuleInit() {
+    try {
+      this.redis = new IORedis(this.getRedisOptions());
+      this.redis.on('error', (error) => {
+        this.logger.warn(`Redis error in clientes cache: ${error.message}`);
+      });
+    } catch (error) {
+      this.logger.warn(
+        `No se pudo inicializar Redis para cache de KPIs de clientes: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+      this.redis = null;
+    }
+  }
+
+  async onModuleDestroy() {
+    if (this.redis) {
+      await this.redis.quit().catch(() => undefined);
+      this.redis = null;
+    }
+  }
 
   private hasGeoScope(accessFilter: PrismaAccessFilter): boolean {
     return (
@@ -672,6 +722,115 @@ export class ClientesService {
     return { total, empresas, oro, riesgoCritico, avgScore };
   }
 
+  private buildDashboardSegmentacion(
+    clients: ClienteWithRelations[],
+  ): DashboardKpisResponse['segmentacion'] {
+    const segmentacionRaw = this.buildSegmentedFromClients(clients);
+
+    return {
+      riesgoFuga: { count: segmentacionRaw.riesgoFuga.count },
+      upsellPotencial: { count: segmentacionRaw.upsellPotencial.count },
+      dormidos: { count: segmentacionRaw.dormidos.count },
+      operacionEstable: { count: segmentacionRaw.operacionEstable.count },
+    };
+  }
+
+  private buildDashboardKpisCacheKey(accessFilter: PrismaAccessFilter): string {
+    const empresaScope =
+      typeof accessFilter.empresaId === 'string'
+        ? accessFilter.empresaId
+        : accessFilter.empresaId && 'in' in accessFilter.empresaId
+          ? [...accessFilter.empresaId.in].sort().join(',')
+          : 'all';
+
+    const zonaScope = [...(accessFilter.zonaIds || [])].sort().join(',');
+    const municipalityScope = [...(accessFilter.municipalityIds || [])]
+      .sort()
+      .join(',');
+    const departmentScope = [...(accessFilter.departmentIds || [])]
+      .sort()
+      .join(',');
+
+    return [
+      'clientes',
+      'dashboard-kpis',
+      `tenant:${accessFilter.tenantId || 'all'}`,
+      `empresa:${empresaScope}`,
+      `zonas:${zonaScope || 'none'}`,
+      `municipios:${municipalityScope || 'none'}`,
+      `departamentos:${departmentScope || 'none'}`,
+    ].join('|');
+  }
+
+  private async getDashboardKpisFromCache(
+    cacheKey: string,
+  ): Promise<DashboardKpisResponse | null> {
+    if (!this.redis) {
+      return null;
+    }
+
+    try {
+      const cached = await this.redis.get(cacheKey);
+      if (!cached) {
+        return null;
+      }
+
+      return JSON.parse(cached) as DashboardKpisResponse;
+    } catch (error) {
+      this.logger.warn(
+        `No se pudo leer cache de KPIs de clientes (${cacheKey}): ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+      return null;
+    }
+  }
+
+  private async setDashboardKpisCache(
+    cacheKey: string,
+    payload: DashboardKpisResponse,
+  ): Promise<void> {
+    if (!this.redis) {
+      return;
+    }
+
+    try {
+      await this.redis.set(
+        cacheKey,
+        JSON.stringify(payload),
+        'EX',
+        this.dashboardKpisCacheTtlSeconds,
+      );
+    } catch (error) {
+      this.logger.warn(
+        `No se pudo escribir cache de KPIs de clientes (${cacheKey}): ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
+  }
+
+  private async invalidateDashboardKpisCache(tenantId?: string): Promise<void> {
+    if (!this.redis || !tenantId) {
+      return;
+    }
+
+    const pattern = `clientes|dashboard-kpis|tenant:${tenantId}|*`;
+
+    try {
+      const keys = await this.redis.keys(pattern);
+      if (keys.length > 0) {
+        await this.redis.del(...keys);
+      }
+    } catch (error) {
+      this.logger.warn(
+        `No se pudo invalidar cache de KPIs de clientes (${pattern}): ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
+  }
+
   private buildPaginationMeta(
     total: number,
     page: number,
@@ -978,35 +1137,28 @@ export class ClientesService {
           ? { id: { in: hybridIds } }
           : { id: { in: ['00000000-0000-0000-0000-000000000000'] } };
 
-    const summaryClients = (await this.prisma.cliente.findMany({
-      where: this.buildClienteWhere(accessFilter, { deletedAt: null }),
-      select: {
-        id: true,
-        tipoCliente: true,
-        clasificacion: true,
-        nivelRiesgo: true,
-        score: true,
-        ticketPromedio: true,
-        frecuenciaServicio: true,
-        proximaVisita: true,
-        ultimaVisita: true,
-        createdAt: true,
-      },
-    })) as ClienteWithRelations[];
-
-    const segmentacionRaw = this.buildSegmentedFromClients(summaryClients);
-    const segmentIdSets = this.buildSegmentIdSets(segmentacionRaw);
-    const overview = this.buildDashboardOverview(summaryClients);
-    const segmentacion = {
-      riesgoFuga: { count: segmentacionRaw.riesgoFuga.count },
-      upsellPotencial: { count: segmentacionRaw.upsellPotencial.count },
-      dormidos: { count: segmentacionRaw.dormidos.count },
-      operacionEstable: { count: segmentacionRaw.operacionEstable.count },
-    };
-
     const where = this.buildDashboardWhere(accessFilter, query, extraWhere);
 
     if (this.requiresInMemoryDashboardProcessing(query)) {
+      const summaryClients = (await this.prisma.cliente.findMany({
+        where: this.buildClienteWhere(accessFilter, { deletedAt: null }),
+        select: {
+          id: true,
+          tipoCliente: true,
+          clasificacion: true,
+          nivelRiesgo: true,
+          score: true,
+          ticketPromedio: true,
+          frecuenciaServicio: true,
+          proximaVisita: true,
+          ultimaVisita: true,
+          createdAt: true,
+        },
+      })) as ClienteWithRelations[];
+      const segmentIdSets = this.buildSegmentIdSets(
+        this.buildSegmentedFromClients(summaryClients),
+      );
+
       const rawClients = (await this.prisma.cliente.findMany({
         where,
         include,
@@ -1036,8 +1188,8 @@ export class ClientesService {
 
       return {
         clientes: finalFiltered.slice(start, end),
-        segmentacion,
-        overview,
+        segmentacion: null,
+        overview: null,
         pagination,
       };
     }
@@ -1052,17 +1204,69 @@ export class ClientesService {
       take: pagination.limit,
     })) as ClienteWithRelations[];
 
-    const clientes = this.attachDashboardSegments(
-      rawClients.map((client) => this.applyCommercialRisk(client)),
-      segmentIdSets,
+    const clientes = rawClients.map((client) =>
+      this.applyCommercialRisk(client),
     );
 
     return {
       clientes,
-      segmentacion,
-      overview,
+      segmentacion: null,
+      overview: null,
       pagination,
     };
+  }
+
+  async getDashboardKpis(
+    user: JwtPayload,
+    reqEmpresaId?: string,
+    options?: { refresh?: boolean },
+  ): Promise<DashboardKpisResponse> {
+    const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
+    const cacheKey = this.buildDashboardKpisCacheKey(accessFilter);
+    const shouldRefresh = options?.refresh === true;
+
+    if (!shouldRefresh) {
+      const cached = await this.getDashboardKpisFromCache(cacheKey);
+      if (cached) {
+        return {
+          ...cached,
+          meta: {
+            ...cached.meta,
+            cached: true,
+          },
+        };
+      }
+    }
+
+    const summaryClients = (await this.prisma.cliente.findMany({
+      where: this.buildClienteWhere(accessFilter, { deletedAt: null }),
+      select: {
+        id: true,
+        tipoCliente: true,
+        clasificacion: true,
+        nivelRiesgo: true,
+        score: true,
+        ticketPromedio: true,
+        frecuenciaServicio: true,
+        proximaVisita: true,
+        ultimaVisita: true,
+        createdAt: true,
+      },
+    })) as ClienteWithRelations[];
+
+    const payload: DashboardKpisResponse = {
+      overview: this.buildDashboardOverview(summaryClients),
+      segmentacion: this.buildDashboardSegmentacion(summaryClients),
+      meta: {
+        cached: false,
+        generatedAt: new Date().toISOString(),
+        cacheTtlSeconds: this.dashboardKpisCacheTtlSeconds,
+      },
+    };
+
+    await this.setDashboardKpisCache(cacheKey, payload);
+
+    return payload;
   }
 
   async create(
@@ -1170,7 +1374,7 @@ export class ClientesService {
     } as unknown as Prisma.ClienteCreateInput;
 
     try {
-      return (await this.prisma.cliente.create({
+      const createdCliente = (await this.prisma.cliente.create({
         data,
         include: {
           direcciones: true,
@@ -1178,6 +1382,10 @@ export class ClientesService {
           tipoInteres: true,
         },
       })) as Cliente;
+
+      await this.invalidateDashboardKpisCache(user.tenantId);
+
+      return createdCliente;
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -1289,7 +1497,7 @@ export class ClientesService {
         : undefined,
     } as unknown as Prisma.ClienteUpdateInput;
 
-    return (await this.prisma.cliente.update({
+    const updatedCliente = (await this.prisma.cliente.update({
       where: { id },
       data,
       include: {
@@ -1298,6 +1506,10 @@ export class ClientesService {
         tipoInteres: true,
       },
     })) as Cliente;
+
+    await this.invalidateDashboardKpisCache(user.tenantId);
+
+    return updatedCliente;
   }
 
   async remove(id: string, user: JwtPayload): Promise<Cliente> {
@@ -1313,9 +1525,56 @@ export class ClientesService {
       );
     }
 
-    return this.prisma.cliente.update({
+    const deletedCliente = await this.prisma.cliente.update({
       where: { id },
       data: { deletedAt: new Date() },
     });
+
+    await this.invalidateDashboardKpisCache(user.tenantId);
+
+    return deletedCliente;
+  }
+
+  private getRedisOptions(): RedisOptions {
+    const redisUrl = this.configService.get<string>('REDIS_URL');
+
+    if (redisUrl) {
+      const parsed = new URL(redisUrl);
+      const dbFromPath = parsed.pathname?.replace('/', '').trim();
+
+      return {
+        host: parsed.hostname,
+        port: Number(parsed.port || 6379),
+        username: parsed.username || undefined,
+        password: parsed.password || undefined,
+        db: dbFromPath ? Number(dbFromPath) : 0,
+        tls: parsed.protocol === 'rediss:' ? {} : undefined,
+        maxRetriesPerRequest: null,
+        enableReadyCheck: false,
+      };
+    }
+
+    const host = this.configService.get<string>('REDIS_HOST') || '127.0.0.1';
+    const port = Number(this.configService.get<string>('REDIS_PORT') || 6379);
+    const username =
+      this.configService.get<string>('REDIS_USERNAME') ||
+      this.configService.get<string>('REDIS_USER') ||
+      undefined;
+    const password = this.configService.get<string>('REDIS_PASSWORD');
+    const db = Number(
+      this.configService.get<string>('REDIS_DB') ||
+        this.configService.get<string>('REDIS_BD') ||
+        0,
+    );
+
+    return {
+      host,
+      port,
+      username,
+      password,
+      db,
+      maxRetriesPerRequest: null,
+      enableReadyCheck: false,
+    };
   }
 }
