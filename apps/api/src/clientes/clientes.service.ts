@@ -11,6 +11,7 @@ import IORedis, { RedisOptions } from 'ioredis';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { QueryClientesDashboardDto } from './dto/query-clientes-dashboard.dto';
+import { QueryClientesSearchDto } from './dto/query-clientes-search.dto';
 import {
   Cliente,
   ClasificacionCliente,
@@ -110,6 +111,53 @@ interface NormalizedDashboardQuery {
 interface ClienteIdRow {
   id: string;
 }
+
+const clienteSearchSelect = {
+  id: true,
+  tipoCliente: true,
+  nombre: true,
+  apellido: true,
+  razonSocial: true,
+  telefono: true,
+  telefono2: true,
+  numeroDocumento: true,
+  nit: true,
+  correo: true,
+  empresaId: true,
+  createdAt: true,
+  direcciones: {
+    select: {
+      id: true,
+      direccion: true,
+      barrio: true,
+      nombreSede: true,
+      municipioId: true,
+      departmentId: true,
+      linkMaps: true,
+      piso: true,
+      bloque: true,
+      unidad: true,
+      tipoUbicacion: true,
+      clasificacionPunto: true,
+      horarioInicio: true,
+      horarioFin: true,
+      restricciones: true,
+      nombreContacto: true,
+      telefonoContacto: true,
+      cargoContacto: true,
+      municipioRel: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  },
+} as const satisfies Prisma.ClienteSelect;
+
+export type ClienteSearchResult = Prisma.ClienteGetPayload<{
+  select: typeof clienteSearchSelect;
+}>;
 
 @Injectable()
 export class ClientesService implements OnModuleInit, OnModuleDestroy {
@@ -1074,6 +1122,66 @@ export class ClientesService implements OnModuleInit, OnModuleDestroy {
     return clients.map((client) =>
       this.applyCommercialRisk(client as ClienteWithRelations),
     ) as Cliente[];
+  }
+
+  async search(
+    user: JwtPayload,
+    query?: QueryClientesSearchDto,
+    reqEmpresaId?: string,
+  ): Promise<ClienteSearchResult[]> {
+    const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
+    const q = (query?.q || '').trim();
+    const limit = Math.min(25, Math.max(1, Number(query?.limit ?? 10) || 10));
+
+    if (!q) {
+      return this.prisma.cliente.findMany({
+        where: this.buildClienteWhere(accessFilter, { deletedAt: null }),
+        orderBy: { createdAt: 'desc' },
+        take: limit,
+        select: clienteSearchSelect,
+      });
+    }
+
+    const searchTokens = q
+      .split(/\s+/)
+      .map((token) => token.trim())
+      .filter(Boolean);
+
+    const searchClauses: Prisma.ClienteWhereInput[] = [
+      { telefono: { contains: q, mode: 'insensitive' } },
+      { telefono2: { contains: q, mode: 'insensitive' } },
+      { numeroDocumento: { contains: q, mode: 'insensitive' } },
+      { nombre: { contains: q, mode: 'insensitive' } },
+      { apellido: { contains: q, mode: 'insensitive' } },
+      { razonSocial: { contains: q, mode: 'insensitive' } },
+      { nit: { contains: q, mode: 'insensitive' } },
+    ];
+
+    if (searchTokens.length > 1) {
+      searchClauses.push({
+        AND: searchTokens.map((token) => ({
+          OR: [
+            { nombre: { contains: token, mode: 'insensitive' } },
+            { apellido: { contains: token, mode: 'insensitive' } },
+            { razonSocial: { contains: token, mode: 'insensitive' } },
+            { nit: { contains: token, mode: 'insensitive' } },
+            { numeroDocumento: { contains: token, mode: 'insensitive' } },
+            { telefono: { contains: token, mode: 'insensitive' } },
+            { telefono2: { contains: token, mode: 'insensitive' } },
+          ],
+        })),
+      });
+    }
+
+    return this.prisma.cliente.findMany({
+      where: this.buildClienteWhere(accessFilter, {
+        deletedAt: null,
+        OR: searchClauses,
+      }),
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      select: clienteSearchSelect,
+    });
   }
 
   async getSegmented(user: JwtPayload, reqEmpresaId?: string) {

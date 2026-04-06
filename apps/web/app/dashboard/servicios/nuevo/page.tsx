@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, Suspense, useCallback, useMemo } from "react";
+import { useState, useEffect, Suspense, useCallback, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import {
   clientesClient,
+  type ClienteSearchResult,
   type ContratoCliente,
 } from "@/lib/api/clientes-client";
 import {
@@ -20,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
+import { ClienteSolicitanteCombobox, type ClienteSolicitanteOption } from "./cliente-solicitante-combobox";
 import { DatePicker } from "@/components/ui/date-picker";
 import { TimePicker } from "@/components/ui/time-picker";
 import {
@@ -156,7 +158,7 @@ interface ConfiguracionOperativa {
   direccionId?: string | null;
   direccion?: {
     id: string;
-    direccion: string;
+    direccion?: string;
   } | null;
   protocoloServicio?: string | null;
   observacionesFijas?: string | null;
@@ -168,7 +170,7 @@ interface ConfiguracionOperativa {
 
 interface Direccion {
   id: string;
-  direccion: string;
+  direccion?: string;
   nombreSede?: string | null;
   barrio?: string | null;
   municipio?: string | null;
@@ -231,33 +233,33 @@ const formatContractDate = (value?: string | null) => {
   }).format(date);
 };
 
-const getClienteDisplayName = (cliente: Cliente) =>
+const getClienteDisplayName = (cliente: ClienteSearchResult) =>
   cliente.tipoCliente === "EMPRESA"
     ? cliente.razonSocial || "Empresa sin nombre"
     : `${cliente.nombre || ""} ${cliente.apellido || ""}`.trim() || "Cliente sin nombre";
 
-const getClienteDocument = (cliente: Cliente) =>
+const getClienteDocument = (cliente: ClienteSearchResult) =>
   cliente.numeroDocumento?.trim() || cliente.nit?.trim() || "";
 
-const getClienteSearchText = (cliente: Cliente) =>
-  [
-    getClienteDisplayName(cliente),
-    cliente.telefono?.trim(),
-    cliente.telefono2?.trim(),
-    getClienteDocument(cliente),
-  ]
+const getClienteSearchDescription = (cliente: ClienteSearchResult) =>
+  [cliente.telefono?.trim(), cliente.telefono2?.trim(), getClienteDocument(cliente)]
     .filter(Boolean)
-    .join(" ");
+    .join(" • ");
 
 function NuevoServicioContent() {
   const router = useRouter();
   const { checkPermission, isLoading: isLoadingRole } = useUserRole();
   const [loading, setLoading] = useState(false);
-  const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [selectedClienteData, setSelectedClienteData] = useState<ClienteSearchResult | null>(null);
+  const [clienteSearchQuery, setClienteSearchQuery] = useState("");
+  const [clienteSearchResults, setClienteSearchResults] = useState<ClienteSearchResult[]>([]);
+  const [clienteSearchLoading, setClienteSearchLoading] = useState(false);
+  const [clienteSearchError, setClienteSearchError] = useState<string | null>(null);
   const [operadores, setOperadores] = useState<Operador[]>([]);
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
   const [serviciosEmpresa, setServiciosEmpresa] = useState<Servicio[]>([]);
   const [clienteConfigs, setClienteConfigs] = useState<ConfiguracionOperativa[]>([]);
+  const clienteSearchRequestRef = useRef(0);
 
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
@@ -418,21 +420,68 @@ function NuevoServicioContent() {
       ]
     : [];
 
-  const clienteOptions = useMemo(
-    () =>
-      [...(Array.isArray(clientes) ? clientes : [])]
-        .sort((a, b) => {
-          const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-          const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-          return bTime - aTime;
-        })
-        .map((cliente) => ({
-          value: cliente.id,
-          label: getClienteDisplayName(cliente),
-          searchText: getClienteSearchText(cliente),
-        })),
-    [clientes],
-  );
+  const clienteOptions = useMemo<ClienteSolicitanteOption[]>(() => {
+    const hydratedResults = selectedClienteData
+      ? [selectedClienteData, ...clienteSearchResults.filter((cliente) => cliente.id !== selectedClienteData.id)]
+      : clienteSearchResults;
+
+    return hydratedResults.map((cliente) => ({
+      id: cliente.id,
+      label: getClienteDisplayName(cliente),
+      description: getClienteSearchDescription(cliente),
+    }));
+  }, [clienteSearchResults, selectedClienteData]);
+
+  const selectedClienteOption = useMemo<ClienteSolicitanteOption | null>(() => {
+    if (!selectedClienteData) {
+      return clienteOptions.find((option) => option.id === selectedCliente) ?? null;
+    }
+
+    return {
+      id: selectedClienteData.id,
+      label: getClienteDisplayName(selectedClienteData),
+      description: getClienteSearchDescription(selectedClienteData),
+    };
+  }, [clienteOptions, selectedCliente, selectedClienteData]);
+
+  const searchClientes = useCallback(async (rawQuery: string) => {
+    const requestId = ++clienteSearchRequestRef.current;
+    setClienteSearchLoading(true);
+    setClienteSearchError(null);
+
+    try {
+      const results = await clientesClient.search(rawQuery, {
+        limit: 10,
+        includeEnterpriseId: false,
+      });
+
+      if (requestId !== clienteSearchRequestRef.current) {
+        return;
+      }
+
+      setClienteSearchResults(results);
+    } catch (error) {
+      if (requestId !== clienteSearchRequestRef.current) {
+        return;
+      }
+
+      console.error("Error searching clientes", error);
+      setClienteSearchResults([]);
+      setClienteSearchError("No pudimos cargar clientes. Probá de nuevo.");
+    } finally {
+      if (requestId === clienteSearchRequestRef.current) {
+        setClienteSearchLoading(false);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      void searchClientes(clienteSearchQuery);
+    }, 250);
+
+    return () => window.clearTimeout(timeout);
+  }, [clienteSearchQuery, searchClientes]);
 
   const applyConfigToForm = useCallback((configs: ConfiguracionOperativa[], dirId?: string) => {
     // 1. Try to find config for specific address
@@ -549,18 +598,12 @@ function NuevoServicioContent() {
       }
 
       try {
-        const [cls, emps, deps, muns] = await Promise.all([
-          clientesClient.getAll({ includeEnterpriseId: false }),
+        const [emps, deps, muns] = await Promise.all([
           enterpriseClient.getAll(),
           geoClient.getDepartments(),
           geoClient.getMunicipalities(),
         ]);
 
-        // Clientes usually returns an array or { data: [] }
-        const loadedClientes = (
-          Array.isArray(cls) ? (cls as Cliente[]) : []
-        ) as Cliente[];
-        setClientes(loadedClientes);
         setDepartments(deps);
         setMunicipalities(muns);
 
@@ -601,25 +644,28 @@ function NuevoServicioContent() {
         const urlClientId = urlParams.get("cliente");
         if (urlClientId) {
           setSelectedCliente(urlClientId);
-          
-          // Fetch configs
-          configClient.getClienteOperativa(urlClientId).then(configsResult => {
-            const configs = Array.isArray(configsResult) ? (configsResult as ConfiguracionOperativa[]) : [];
-            setClienteConfigs(configs);
-            
-            const urlDirId = urlParams.get("direccion");
-            const cliente = loadedClientes.find(c => c.id === urlClientId);
-            const dirs = cliente?.direcciones || [];
-            setDireccionesCliente(dirs);
-            
-            if (urlDirId) {
-              setSelectedDireccion(urlDirId);
-              applyConfigToForm(configs, urlDirId);
-            } else if (dirs.length > 0) {
-              setSelectedDireccion(dirs[0].id);
-              applyConfigToForm(configs, dirs[0].id);
-            }
-          });
+
+          const [configsResult, cliente] = await Promise.all([
+            configClient.getClienteOperativa(urlClientId),
+            clientesClient.getById(urlClientId),
+          ]);
+          const configs = Array.isArray(configsResult) ? (configsResult as ConfiguracionOperativa[]) : [];
+          setClienteConfigs(configs);
+          if (cliente) {
+            setSelectedClienteData(cliente);
+          }
+
+          const urlDirId = urlParams.get("direccion");
+          const dirs = cliente?.direcciones || [];
+          setDireccionesCliente(dirs);
+
+          if (urlDirId) {
+            setSelectedDireccion(urlDirId);
+            applyConfigToForm(configs, urlDirId);
+          } else if (dirs.length > 0) {
+            setSelectedDireccion(dirs[0].id);
+            applyConfigToForm(configs, dirs[0].id);
+          }
         }
 
         // 3. Other fields
@@ -691,19 +737,44 @@ function NuevoServicioContent() {
     }
   };
 
-  const handleClienteChange = async (clientId: string) => {
+  const handleClienteChange = async (option: ClienteSolicitanteOption | null) => {
+    const clientId = option?.id ?? "";
     setSelectedCliente(clientId);
-    setClienteConfigs([]);
-    
-    if (clientId) {
-      const configsResult = await configClient.getClienteOperativa(clientId);
-      const configs = Array.isArray(configsResult) ? (configsResult as ConfiguracionOperativa[]) : [];
-      setClienteConfigs(configs);
+    setSelectedClienteData((current) => {
+      if (!option) {
+        return null;
+      }
 
-      const cliente = (clientes || []).find(c => c.id === clientId);
-      const dirs = cliente?.direcciones || [];
+      const cachedCliente = clienteSearchResults.find((cliente) => cliente.id === option.id);
+      if (cachedCliente) {
+        return cachedCliente;
+      }
+
+      return current?.id === option.id
+        ? current
+        : {
+            id: option.id,
+            tipoCliente: "PERSONA",
+            nombre: option.label,
+          };
+    });
+    setClienteConfigs([]);
+
+    if (clientId) {
+      const [configsResult, cliente] = await Promise.all([
+        configClient.getClienteOperativa(clientId),
+        clientesClient.getById(clientId),
+      ]);
+      const configs = Array.isArray(configsResult) ? (configsResult as ConfiguracionOperativa[]) : [];
+      const resolvedCliente = cliente ?? null;
+      setClienteConfigs(configs);
+      if (cliente) {
+        setSelectedClienteData(cliente);
+      }
+
+      const dirs = resolvedCliente?.direcciones || [];
       setDireccionesCliente(dirs);
-      
+
       let dirId = "";
       if (dirs.length > 0) {
         dirId = dirs[0].id;
@@ -713,7 +784,7 @@ function NuevoServicioContent() {
       }
 
       applyConfigToForm(configs, dirId);
-      
+
       if (selectedEmpresa) {
         void loadContratoActivo(clientId, selectedEmpresa);
       }
@@ -881,8 +952,7 @@ function NuevoServicioContent() {
           applyConfigToForm(clienteConfigs, latestDir.id);
         }
         
-        // Update clients list in state to keep it consistent
-        setClientes(prev => prev.map(c => c.id === selectedCliente ? updatedClient : c));
+        setSelectedClienteData(updatedClient as unknown as ClienteSearchResult);
       }
       // Reset form
       setNewDir({
@@ -979,7 +1049,7 @@ function NuevoServicioContent() {
 
         if (targetTecnicoId) {
           const operator = operadores.find(o => o.id === targetTecnicoId);
-          const client = clientes.find(c => c.id === selectedCliente);
+          const client = selectedClienteData;
           const direccion = direccionesCliente.find(d => d.id === selectedDireccion);
 
           console.log("[Webhook] Service created, checking for operator notification...", { targetTecnicoId, operator });
@@ -1008,7 +1078,7 @@ function NuevoServicioContent() {
               tecnico: operator.nombre,
               estado: estadoServicio,
               urgencia: urgencia,
-              direccion: direccion ? direccion.direccion : "N/A",
+              direccion: direccion?.direccion ?? "N/A",
               linkMaps: (direccion && direccion.linkMaps) ? direccion.linkMaps : "N/A",
               municipio: (direccion && direccion.municipio) ? direccion.municipio : "N/A",
               barrio: (direccion && direccion.barrio) ? direccion.barrio : "N/A",
@@ -1189,12 +1259,17 @@ function NuevoServicioContent() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Cliente Solicitante <span className="text-red-500">*</span></Label>
-                  <Combobox
+                  <ClienteSolicitanteCombobox
                     options={clienteOptions}
                     value={selectedCliente}
-                    onChange={handleClienteChange}
-                    placeholder="Buscar por teléfono o documento..."
-                    defaultVisibleLimit={10}
+                    selectedOption={selectedClienteOption}
+                    searchValue={clienteSearchQuery}
+                    onSearchChange={setClienteSearchQuery}
+                    onSelect={handleClienteChange}
+                    loading={clienteSearchLoading}
+                    error={clienteSearchError}
+                    placeholder="Buscar por teléfono, documento o nombre..."
+                    recentMessage="Mostramos los 10 clientes más recientes mientras empezás a buscar."
                   />
                   <div className="flex justify-start px-1">
                     <Button variant="link" className="text-[10px] font-black p-0 h-auto text-zinc-900 dark:text-zinc-100 uppercase tracking-widest hover:no-underline" onClick={() => router.push('/dashboard/clientes/nuevo')}>

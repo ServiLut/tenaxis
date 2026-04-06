@@ -14,6 +14,7 @@ import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { QueryClientesDashboardDto } from './dto/query-clientes-dashboard.dto';
 import { QueryClientesDashboardKpisDto } from './dto/query-clientes-dashboard-kpis.dto';
+import { QueryClientesSearchDto } from './dto/query-clientes-search.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request as ExpressRequest } from 'express';
@@ -53,6 +54,14 @@ export class ClientesController {
     return this.clientesService.getDashboardKpis(req.user, undefined, {
       refresh: query.refresh === 'true',
     });
+  }
+
+  @Get('search')
+  async search(
+    @Request() req: RequestWithUser,
+    @Query() query: QueryClientesSearchDto,
+  ): Promise<unknown> {
+    return this.clientesService.search(req.user, query);
   }
 
   @Get(':id')

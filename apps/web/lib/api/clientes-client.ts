@@ -32,7 +32,21 @@ export interface Direccion {
   };
 }
 
-export interface Cliente {
+export interface ClienteSearchResult {
+  id: string;
+  nombre?: string | null;
+  apellido?: string | null;
+  telefono?: string | null;
+  telefono2?: string | null;
+  razonSocial?: string | null;
+  nit?: string | null;
+  numeroDocumento?: string | null;
+  tipoCliente: "PERSONA" | "EMPRESA";
+  createdAt?: string;
+  direcciones?: Direccion[];
+}
+
+export interface Cliente extends ClienteSearchResult {
   id: string;
   nombre?: string | null;
   apellido?: string | null;
@@ -148,6 +162,36 @@ export const clientesClient = {
       cache: "no-store",
       includeEnterpriseId: options?.includeEnterpriseId,
     });
+  },
+
+  async search(
+    query: string,
+    options?: {
+      limit?: number;
+      includeEnterpriseId?: boolean;
+    },
+  ): Promise<ClienteSearchResult[]> {
+    const params = new URLSearchParams();
+    const normalizedQuery = query.trim();
+
+    if (normalizedQuery) {
+      params.set("q", normalizedQuery);
+    }
+
+    params.set("limit", String(options?.limit ?? 10));
+
+    const result = await apiFetch<
+      ClienteSearchResult[] | { data?: ClienteSearchResult[]; items?: ClienteSearchResult[] }
+    >(`/clientes/search?${params.toString()}`, {
+      cache: "no-store",
+      includeEnterpriseId: options?.includeEnterpriseId,
+    });
+
+    if (Array.isArray(result)) {
+      return result;
+    }
+
+    return result.data ?? result.items ?? [];
   },
 
   async getById(id: string): Promise<Cliente | null> {
