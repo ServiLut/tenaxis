@@ -149,7 +149,7 @@ type DireccionSnapshot = {
   zonaId: string | null;
 };
 
-const direccionSnapshotSelect = Prisma.validator<Prisma.DireccionSelect>()({
+const direccionSnapshotSelect: Prisma.DireccionSelect = {
   id: true,
   direccion: true,
   piso: true,
@@ -164,11 +164,22 @@ const direccionSnapshotSelect = Prisma.validator<Prisma.DireccionSelect>()({
       name: true,
     },
   },
-});
+};
 
-type DireccionSnapshotRecord = Prisma.DireccionGetPayload<{
-  select: typeof direccionSnapshotSelect;
-}>;
+interface DireccionSnapshotRecord {
+  id: string;
+  direccion: string;
+  piso: string | null;
+  bloque: string | null;
+  unidad: string | null;
+  barrio: string | null;
+  municipio: string | null;
+  linkMaps: string | null;
+  zonaId: string | null;
+  departmentRel: {
+    name: string;
+  } | null;
+}
 
 export interface ServiciosKpiPayload {
   total: number;
@@ -238,7 +249,7 @@ export class OrdenesServicioService {
   }): Promise<DireccionSnapshot | null> {
     const { tenantId, direccionId, clienteId } = params;
 
-    const direccion = direccionId
+    const direccion: DireccionSnapshotRecord | null = direccionId
       ? await this.prisma.direccion.findFirst({
           where: {
             id: direccionId,
