@@ -509,6 +509,9 @@ export class ContabilidadService {
               line.metodo === ('EFECTIVO_AVANCE' as MetodoPagoBase),
           )
           .reduce((sum, line) => sum + Number(line.monto || 0), 0);
+        const transferAmount = breakdown
+          .filter((line) => line.metodo === MetodoPagoBase.TRANSFERENCIA)
+          .reduce((sum, line) => sum + Number(line.monto || 0), 0);
 
         if (cashAmount <= 0) {
           throw new ConflictException(
@@ -552,6 +555,7 @@ export class ContabilidadService {
           orden,
           declaracion,
           cashAmount,
+          transferAmount,
           valorEsperado,
         };
       });
@@ -585,7 +589,7 @@ export class ContabilidadService {
 
       // 2. Vincular con cada orden y actualizar declaración
       for (const item of ordenesPreparadas) {
-        const { orden, declaracion, cashAmount } = item;
+        const { orden, declaracion, cashAmount, transferAmount } = item;
 
         await tx.consignacionOrden.create({
           data: {
@@ -653,12 +657,18 @@ export class ContabilidadService {
         // --- VALIDACIÓN DE CIERRE FINANCIERO ---
         const totalCotizado = Number(orden.valorCotizado || 0);
         const totalPagadoActualmente = Number(orden.valorPagado || 0);
+        const totalPagadoTrasConsignacion =
+          transferAmount > 0
+            ? totalPagadoActualmente
+            : Math.max(totalPagadoActualmente, item.valorEsperado);
 
         // Decidir el nuevo estado de pago
-        // Si ya se cubrió el total, pasamos a CONCILIADO
-        // Si falta dinero, lo dejamos en PARCIAL (aunque se haya consignado el efectivo)
+        // Si la orden es solo de efectivo, conciliación puede reparar registros legacy
+        // donde valorPagado quedó desfasado respecto al efectivo declarado.
+        // Si la orden es mixta, seguimos confiando en valorPagado para no dar por
+        // conciliadas transferencias que todavía no están validadas.
         const nuevoEstadoPago =
-          totalPagadoActualmente >= totalCotizado
+          totalPagadoTrasConsignacion >= totalCotizado
             ? EstadoPagoOrden.CONCILIADO
             : EstadoPagoOrden.PARCIAL;
 
@@ -667,6 +677,10 @@ export class ContabilidadService {
           where: { id: orden.id },
           data: {
             estadoPago: nuevoEstadoPago,
+            valorPagado:
+              totalPagadoTrasConsignacion !== totalPagadoActualmente
+                ? totalPagadoTrasConsignacion
+                : undefined,
             estadoServicio:
               nuevoEstadoPago === EstadoPagoOrden.CONCILIADO
                 ? EstadoOrden.LIQUIDADO
