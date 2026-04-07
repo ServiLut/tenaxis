@@ -57,44 +57,64 @@ export const DashboardContent = React.memo(function DashboardContent({ enterpris
       },
       (context) => {
         const { reduceMotion } = context.conditions as { reduceMotion?: boolean };
+        const scope = containerRef.current;
+
+        if (!scope) return;
+
+        const header = scope.querySelector<HTMLElement>("[data-dashboard-header]");
+        const widgets = Array.from(
+          scope.querySelectorAll<HTMLElement>("[data-dashboard-widget]"),
+        );
+        const hiddenPanel = scope.querySelector<HTMLElement>("[data-dashboard-hidden-panel]");
+        const staticTargets = [header, ...widgets, hiddenPanel].filter(
+          (target): target is HTMLElement => Boolean(target),
+        );
 
         if (reduceMotion) {
-          gsap.set("[data-dashboard-header], [data-dashboard-widget], [data-dashboard-hidden-panel]", {
-            opacity: 1,
-            y: 0,
-            clearProps: "transform",
-          });
+          if (staticTargets.length > 0) {
+            gsap.set(staticTargets, {
+              opacity: 1,
+              y: 0,
+              clearProps: "transform",
+            });
+          }
           return;
         }
 
         const timeline = gsap.timeline({ defaults: { ease: "power2.out" } });
 
-        timeline.from("[data-dashboard-header]", {
-          opacity: 0,
-          y: 18,
-          duration: 0.45,
-        });
-
-        timeline.from(
-          "[data-dashboard-widget]",
-          {
+        if (header) {
+          timeline.from(header, {
             opacity: 0,
-            y: 22,
-            duration: 0.55,
-            stagger: 0.08,
-          },
-          "-=0.15",
-        );
+            y: 18,
+            duration: 0.45,
+          });
+        }
 
-        timeline.from(
-          "[data-dashboard-hidden-panel]",
-          {
-            opacity: 0,
-            y: 16,
-            duration: 0.4,
-          },
-          "-=0.2",
-        );
+        if (widgets.length > 0) {
+          timeline.from(
+            widgets,
+            {
+              opacity: 0,
+              y: 22,
+              duration: 0.55,
+              stagger: 0.08,
+            },
+            header ? "-=0.15" : 0,
+          );
+        }
+
+        if (hiddenPanel) {
+          timeline.from(
+            hiddenPanel,
+            {
+              opacity: 0,
+              y: 16,
+              duration: 0.4,
+            },
+            widgets.length > 0 || header ? "-=0.2" : 0,
+          );
+        }
       },
     );
 
