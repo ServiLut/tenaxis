@@ -99,6 +99,7 @@ export interface OrdenServicioPayload {
   frecuenciaSugerida?: number;
   tipoFacturacion?: string;
   valorCotizado?: number;
+  valorRepuestos?: number;
   confirmarMovimientoFinanciero?: boolean;
   desglosePago?: Array<{
     metodo: string;
@@ -150,6 +151,7 @@ export interface OrdenServicioDetail extends Record<string, unknown> {
   huboSellamiento?: boolean | null;
   huboRecomendacionEstructural?: boolean | null;
   valorCotizado?: number | null;
+  valorRepuestos?: number | null;
   desglosePago?: DesglosePagoItem[];
   tipoFacturacion?: string | null;
   estadoServicio?: string | null;

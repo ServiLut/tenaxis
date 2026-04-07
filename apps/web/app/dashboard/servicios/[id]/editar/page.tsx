@@ -260,6 +260,7 @@ function EditarServicioContent({ id }: { id: string }) {
   const [horaFinReal, setHoraFinReal] = useState("");
   const [duracionMinutos, setDuracionMinutos] = useState("60");
   const [valorCotizado, setValorCotizado] = useState("");
+  const [valorMaterialesInsumos, setValorMaterialesInsumos] = useState("");
   const [breakdown, setBreakdown] = useState<Array<{ metodo: string; monto: string; banco?: string; referencia?: string }>>([
     { metodo: "EFECTIVO", monto: "" }
   ]);
@@ -397,6 +398,12 @@ function EditarServicioContent({ id }: { id: string }) {
         const formattedDbValor = dbValorCotizado.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         setValorCotizado(formattedDbValor);
 
+        const dbValorMaterialesInsumos = orderData.valorRepuestos?.toString() || "";
+        const formattedDbValorMaterialesInsumos = dbValorMaterialesInsumos
+          .replace(/\D/g, "")
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        setValorMaterialesInsumos(formattedDbValorMaterialesInsumos);
+
         // Cargar desglose de pago
         if (orderData.desglosePago && Array.isArray(orderData.desglosePago) && orderData.desglosePago.length > 0) {
           setBreakdown((orderData.desglosePago as unknown as BreakdownLine[]).map(l => ({
@@ -523,6 +530,11 @@ function EditarServicioContent({ id }: { id: string }) {
         ? undefined
         : valorCotizado
           ? Number(valorCotizado.replace(/\./g, ""))
+          : undefined,
+      valorRepuestos: isFinancialLockActive
+        ? undefined
+        : valorMaterialesInsumos
+          ? Number(valorMaterialesInsumos.replace(/\./g, ""))
           : undefined,
       desglosePago: isFinancialLockActive
         ? undefined
@@ -1007,7 +1019,7 @@ function EditarServicioContent({ id }: { id: string }) {
               </div>
 
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
                   <div className="space-y-2">
                     <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tarifa del Servicio (COP) <span className="text-red-500">*</span></Label>
                     <div className="relative">
@@ -1039,6 +1051,35 @@ function EditarServicioContent({ id }: { id: string }) {
                     ) : isFinancialLockActive ? (
                       <p className="text-[10px] font-bold text-amber-700">
                         La tarifa quedó congelada por recaudo, conciliación o liquidación previa.
+                      </p>
+                    ) : null}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                      Materiales e Insumos (COP)
+                    </Label>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 font-bold">$</span>
+                      <Input
+                        type="text"
+                        value={valorMaterialesInsumos}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "");
+                          const formatted = val.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                          setValorMaterialesInsumos(formatted);
+                        }}
+                        placeholder="0"
+                        disabled={isFinancialLockActive}
+                        className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 pl-8 font-bold"
+                      />
+                    </div>
+                    <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
+                      Incluye repuestos, consumibles, insumos u otros materiales usados en la orden.
+                    </p>
+                    {isFinancialLockActive ? (
+                      <p className="text-[10px] font-bold text-amber-700">
+                        Este valor quedó congelado por recaudo, conciliación o liquidación previa.
                       </p>
                     ) : null}
                   </div>
