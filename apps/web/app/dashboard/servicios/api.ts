@@ -257,7 +257,19 @@ export interface OrdenServicioRaw {
   piso?: string;
   bloque?: string;
   unidad?: string;
+  tipoUbicacion?: string;
   zona?: { id: string; nombre: string };
+  direccion?: {
+    direccion?: string | null;
+    barrio?: string | null;
+    municipio?: string | null;
+    departamento?: string | null;
+    piso?: string | null;
+    bloque?: string | null;
+    unidad?: string | null;
+    tipoUbicacion?: string | null;
+    linkMaps?: string | null;
+  } | null;
   vehiculoId?: string;
   vehiculo?: {
     placa: string;

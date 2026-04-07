@@ -150,6 +150,21 @@ interface FollowUpRow extends Servicio {
   parentServicio: string;
 }
 
+function getServicioAddress(raw: OrdenServicioRaw) {
+  return {
+    direccionTexto: raw.direccionTexto || raw.direccion?.direccion || "",
+    barrio: raw.barrio || raw.direccion?.barrio || "",
+    municipio: raw.municipio || raw.direccion?.municipio || "",
+    departamento: raw.departamento || raw.direccion?.departamento || "",
+    bloque: raw.bloque || raw.direccion?.bloque || "",
+    piso: raw.piso || raw.direccion?.piso || "",
+    unidad: raw.unidad || raw.direccion?.unidad || "",
+    tipoUbicacion: raw.tipoUbicacion || raw.direccion?.tipoUbicacion || "",
+    linkMaps: raw.linkMaps || raw.direccion?.linkMaps || "",
+    zonaNombre: raw.zona?.nombre || "",
+  };
+}
+
 function resolveSoportePagoUrl(bucket: string, path?: unknown) {
   const normalizedPath =
     typeof path === "string"
@@ -906,6 +921,10 @@ function ServiciosContent() {
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
+  const selectedServicioAddress = useMemo(
+    () => (selectedServicio ? getServicioAddress(selectedServicio.raw) : null),
+    [selectedServicio],
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVisitaModalOpen, setIsVisitaModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
@@ -2087,55 +2106,35 @@ function ServiciosContent() {
   };
 
   const handleCopy = (servicio: Servicio) => {
+    const address = getServicioAddress(servicio.raw);
     const formattedValorCotizado = new Intl.NumberFormat("es-CO", {
       style: "currency",
       currency: "COP",
       maximumFractionDigits: 0,
     }).format(servicio.raw.valorCotizado || 0);
-    const formattedValorPagado = new Intl.NumberFormat("es-CO", {
-      style: "currency",
-      currency: "COP",
-      maximumFractionDigits: 0,
-    }).format(servicio.raw.valorPagado || 0);
 
     const serviceFields = [
-      servicio.raw.servicio?.nombre && `Servicio principal: ${servicio.raw.servicio.nombre}`,
       Array.isArray(servicio.raw.serviciosSeleccionados) && servicio.raw.serviciosSeleccionados.length > 0
         ? `Servicios seleccionados: ${servicio.raw.serviciosSeleccionados.join(", ")}`
         : null,
-      `Servicio específico: ${servicio.servicioEspecifico || "No especificado"}`,
       `Tipo de visita: ${formatVisitTypeLabel(servicio.raw.tipoVisita)}`,
       `Estado servicio: ${servicio.estadoServicio || servicio.raw.estadoServicio || "N/A"}`,
       `Urgencia: ${servicio.urgencia || "N/A"}`,
-      servicio.raw.nivelInfestacion && `Nivel infestación: ${servicio.raw.nivelInfestacion}`,
       servicio.raw.tipoFacturacion && `Tipo facturación: ${servicio.raw.tipoFacturacion}`,
-      servicio.raw.frecuenciaSugerida && `Frecuencia sugerida: ${servicio.raw.frecuenciaSugerida}`,
     ].filter((value): value is string => Boolean(value));
 
     const addressFields = [
-      `Dirección principal: ${servicio.raw.direccionTexto || "No especificada"}`,
-      servicio.raw.barrio && `Barrio: ${servicio.raw.barrio}`,
-      servicio.raw.municipio && `Municipio: ${servicio.raw.municipio}`,
-      servicio.raw.departamento && `Departamento: ${servicio.raw.departamento}`,
-      servicio.raw.zona?.nombre && `Zona: ${servicio.raw.zona.nombre}`,
-      servicio.raw.bloque && `Bloque: ${servicio.raw.bloque}`,
-      servicio.raw.piso && `Piso: ${servicio.raw.piso}`,
-      servicio.raw.unidad && `Unidad: ${servicio.raw.unidad}`,
-      servicio.raw.linkMaps && `Link Maps: ${servicio.raw.linkMaps}`,
+      `Dirección principal: ${address.direccionTexto || "No especificada"}`,
+      address.barrio && `Barrio: ${address.barrio}`,
+      address.municipio && `Municipio: ${address.municipio}`,
+      `Bloque / Torre / Conjunto: ${address.bloque || "No Concretado"}`,
+      `Apto / Piso / Local: ${address.piso || "No Concretado"}`,
+      `Unidad / Edificio / Vereda: ${address.unidad || "No Concretado"}`,
+      `Link Maps: ${address.linkMaps || "No Concretado"}`,
     ].filter((value): value is string => Boolean(value));
 
     const observationFields = [
-      servicio.raw.observacion && `Observación inicial: ${servicio.raw.observacion}`,
-      servicio.raw.observacionFinal && `Observación final: ${servicio.raw.observacionFinal}`,
-      servicio.raw.condicionesHigiene && `Condiciones de higiene: ${servicio.raw.condicionesHigiene}`,
-      servicio.raw.condicionesLocal && `Condiciones del local: ${servicio.raw.condicionesLocal}`,
       servicio.raw.diagnosticoTecnico && `Diagnóstico técnico: ${servicio.raw.diagnosticoTecnico}`,
-      servicio.raw.intervencionRealizada && `Intervención realizada: ${servicio.raw.intervencionRealizada}`,
-      servicio.raw.hallazgosEstructurales && `Hallazgos estructurales: ${servicio.raw.hallazgosEstructurales}`,
-      servicio.raw.recomendacionesObligatorias && `Recomendaciones obligatorias: ${servicio.raw.recomendacionesObligatorias}`,
-      servicio.raw.recomendacionesSugeridas && `Recomendaciones sugeridas: ${servicio.raw.recomendacionesSugeridas}`,
-      servicio.raw.huboSellamiento !== undefined && `Hubo sellamiento: ${servicio.raw.huboSellamiento ? "Sí" : "No"}`,
-      servicio.raw.huboRecomendacionEstructural !== undefined && `Hubo recomendación estructural: ${servicio.raw.huboRecomendacionEstructural ? "Sí" : "No"}`,
     ].filter((value): value is string => Boolean(value));
 
     const text = [
@@ -2153,10 +2152,8 @@ function ServiciosContent() {
       ...addressFields.map((field) => `• ${field}`),
       "",
       "*FINANZAS*",
-      `• Estado pago: ${servicio.raw.estadoPago || "N/A"}`,
       `• Método pago: ${servicio.raw.metodoPago?.nombre || "N/A"}`,
       `• Valor cotizado: ${formattedValorCotizado}`,
-      `• Valor pagado: ${formattedValorPagado}`,
       "",
       "*OBSERVACIONES Y DETALLES TÉCNICOS*",
       ...(observationFields.length > 0
@@ -3420,21 +3417,22 @@ function ServiciosContent() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="md:col-span-2 p-4 bg-muted/30 rounded-2xl border border-border">
                       <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2">Dirección de Ejecución</span>
-                      <span className="font-bold text-base text-foreground uppercase leading-snug">{selectedServicio.raw.direccionTexto || "N/A"}</span>
+                      <span className="font-bold text-base text-foreground uppercase leading-snug">{selectedServicioAddress?.direccionTexto || "N/A"}</span>
                       <div className="mt-3 flex flex-wrap gap-2">
-                        {selectedServicio.raw.municipio && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">{selectedServicio.raw.municipio}</span>}
-                        {selectedServicio.raw.departamento && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Depto: {selectedServicio.raw.departamento}</span>}
-                        {selectedServicio.raw.barrio && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Barrio: {selectedServicio.raw.barrio}</span>}
-                        {selectedServicio.raw.bloque && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Bloque: {selectedServicio.raw.bloque}</span>}
-                        {selectedServicio.raw.piso && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Piso: {selectedServicio.raw.piso}</span>}
-                        {selectedServicio.raw.unidad && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Unidad: {selectedServicio.raw.unidad}</span>}
-                        {selectedServicio.raw.zona?.nombre && <span className="px-2 py-1 rounded-md bg-[#01ADFB]/10 border border-[#01ADFB]/20 text-[9px] font-black uppercase text-[#01ADFB]">Zona: {selectedServicio.raw.zona.nombre}</span>}
+                        {selectedServicioAddress?.municipio && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">{selectedServicioAddress.municipio}</span>}
+                        {selectedServicioAddress?.departamento && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Depto: {selectedServicioAddress.departamento}</span>}
+                        {selectedServicioAddress?.barrio && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Barrio: {selectedServicioAddress.barrio}</span>}
+                        {selectedServicioAddress?.bloque && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Bloque / Torre / Conjunto: {selectedServicioAddress.bloque}</span>}
+                        {selectedServicioAddress?.piso && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Apto / Piso / Local: {selectedServicioAddress.piso}</span>}
+                        {selectedServicioAddress?.unidad && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Unidad / Edificio / Vereda: {selectedServicioAddress.unidad}</span>}
+                        {selectedServicioAddress?.tipoUbicacion && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Tipo Vivienda: {selectedServicioAddress.tipoUbicacion}</span>}
+                        {selectedServicioAddress?.zonaNombre && <span className="px-2 py-1 rounded-md bg-[#01ADFB]/10 border border-[#01ADFB]/20 text-[9px] font-black uppercase text-[#01ADFB]">Zona: {selectedServicioAddress.zonaNombre}</span>}
                       </div>
                     </div>
-                    {selectedServicio.raw.linkMaps && (
+                    {selectedServicioAddress?.linkMaps && (
                       <div className="md:col-span-2">
                         <Button variant="outline" size="sm" asChild className="h-10 w-full rounded-xl border-[#01ADFB]/20 bg-[#01ADFB]/5 text-[#01ADFB] font-black text-[10px] uppercase tracking-widest gap-2">
-                          <a href={selectedServicio.raw.linkMaps} target="_blank" rel="noopener noreferrer">
+                          <a href={selectedServicioAddress.linkMaps} target="_blank" rel="noopener noreferrer">
                             <ExternalLink className="h-4 w-4" /> Abrir en Google Maps
                           </a>
                         </Button>

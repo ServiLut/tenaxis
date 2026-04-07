@@ -136,6 +136,40 @@ type OrdenFinancialLockState = {
 type OrdenReadPayload = OrdenWithGeolocalizaciones &
   Partial<OrdenFinancialLockState>;
 
+type DireccionSnapshot = {
+  id: string;
+  direccionTexto: string;
+  piso: string | null;
+  bloque: string | null;
+  unidad: string | null;
+  barrio: string | null;
+  municipio: string | null;
+  departamento: string | null;
+  linkMaps: string | null;
+  zonaId: string | null;
+};
+
+const direccionSnapshotSelect = Prisma.validator<Prisma.DireccionSelect>()({
+  id: true,
+  direccion: true,
+  piso: true,
+  bloque: true,
+  unidad: true,
+  barrio: true,
+  municipio: true,
+  linkMaps: true,
+  zonaId: true,
+  departmentRel: {
+    select: {
+      name: true,
+    },
+  },
+});
+
+type DireccionSnapshotRecord = Prisma.DireccionGetPayload<{
+  select: typeof direccionSnapshotSelect;
+}>;
+
 export interface ServiciosKpiPayload {
   total: number;
   programadosHoy: number;
@@ -180,6 +214,53 @@ export class OrdenesServicioService {
     private contratosClienteService: ContratosClienteService,
   ) {}
 
+  private mapDireccionSnapshot(
+    direccion: DireccionSnapshotRecord,
+  ): DireccionSnapshot {
+    return {
+      id: direccion.id,
+      direccionTexto: direccion.direccion,
+      piso: direccion.piso ?? null,
+      bloque: direccion.bloque ?? null,
+      unidad: direccion.unidad ?? null,
+      barrio: direccion.barrio ?? null,
+      municipio: direccion.municipio ?? null,
+      departamento: direccion.departmentRel?.name ?? null,
+      linkMaps: direccion.linkMaps ?? null,
+      zonaId: direccion.zonaId ?? null,
+    };
+  }
+
+  private async resolveDireccionSnapshot(params: {
+    tenantId: string;
+    direccionId?: string | null;
+    clienteId: string;
+  }): Promise<DireccionSnapshot | null> {
+    const { tenantId, direccionId, clienteId } = params;
+
+    const direccion = direccionId
+      ? await this.prisma.direccion.findFirst({
+          where: {
+            id: direccionId,
+            tenantId,
+          },
+          select: direccionSnapshotSelect,
+        })
+      : await this.prisma.direccion.findFirst({
+          where: {
+            tenantId,
+            clienteId,
+            activa: true,
+          },
+          orderBy: {
+            createdAt: 'asc',
+          },
+          select: direccionSnapshotSelect,
+        });
+
+    return direccion ? this.mapDireccionSnapshot(direccion) : null;
+  }
+
   async create(
     tenantId: string,
     createDto: CreateOrdenServicioDto,
@@ -200,28 +281,22 @@ export class OrdenesServicioService {
 
     this.assertCanAssignServices();
 
-    // 2. Obtener dirección y texto
-    let direccionId = createDto.direccionId;
-    let direccionTexto = createDto.direccionTexto || 'Sin dirección';
+    // 2. Obtener snapshot de dirección
+    const direccionSnapshot = await this.resolveDireccionSnapshot({
+      tenantId,
+      direccionId: createDto.direccionId,
+      clienteId: createDto.clienteId,
+    });
+    const direccionId = direccionSnapshot?.id ?? createDto.direccionId;
+    const direccionTexto =
+      direccionSnapshot?.direccionTexto ||
+      createDto.direccionTexto ||
+      'Sin dirección';
 
-    if (!direccionId) {
-      // Intentar obtener la primera dirección activa del cliente si no se proporcionó una
-      const clienteDirecciones = await this.prisma.direccion.findMany({
-        where: { clienteId: createDto.clienteId, activa: true },
-        take: 1,
-      });
-      if (clienteDirecciones[0]) {
-        direccionId = clienteDirecciones[0].id;
-        direccionTexto = clienteDirecciones[0].direccion;
-        this.logger.log(`CREATE: Using client default address: ${direccionId}`);
-      }
-    } else {
-      const dir = await this.prisma.direccion.findUnique({
-        where: { id: direccionId },
-      });
-      if (dir) {
-        direccionTexto = dir.direccion;
-      }
+    if (direccionSnapshot?.id) {
+      this.logger.log(
+        `CREATE: Using resolved address snapshot: ${direccionSnapshot.id}`,
+      );
     }
 
     const fechaVisitaDate = createDto.fechaVisita
@@ -385,6 +460,14 @@ export class OrdenesServicioService {
         tecnicoId,
         direccionId,
         direccionTexto,
+        piso: direccionSnapshot?.piso,
+        bloque: direccionSnapshot?.bloque,
+        unidad: direccionSnapshot?.unidad,
+        barrio: direccionSnapshot?.barrio,
+        municipio: direccionSnapshot?.municipio,
+        departamento: direccionSnapshot?.departamento,
+        linkMaps: direccionSnapshot?.linkMaps,
+        zonaId: direccionSnapshot?.zonaId,
         estadoServicio: createDto.estadoServicio ?? 'NUEVO',
         observacion: createDto.observacion,
         observacionFinal: createDto.observacionFinal,
@@ -2613,19 +2696,21 @@ export class OrdenesServicioService {
         TipoFacturacion.UNICO;
     let direccionIdResuelta = orden.direccionId ?? undefined;
     let direccionTextoResuelto = orden.direccionTexto ?? undefined;
+    let direccionSnapshotResuelto: DireccionSnapshot | null = null;
 
     if (updateDto.direccionId) {
-      const direccion = await this.prisma.direccion.findUnique({
-        where: { id: updateDto.direccionId },
-        select: { id: true, direccion: true },
+      direccionSnapshotResuelto = await this.resolveDireccionSnapshot({
+        tenantId,
+        direccionId: updateDto.direccionId,
+        clienteId: orden.clienteId,
       });
 
-      if (!direccion) {
+      if (!direccionSnapshotResuelto) {
         throw new BadRequestException('direccionId inválida');
       }
 
-      direccionIdResuelta = direccion.id;
-      direccionTextoResuelto = direccion.direccion;
+      direccionIdResuelta = direccionSnapshotResuelto.id;
+      direccionTextoResuelto = direccionSnapshotResuelto.direccionTexto;
     }
 
     const breakdownActualizado = this.normalizeBreakdown(
@@ -2720,6 +2805,32 @@ export class OrdenesServicioService {
         ? { connect: { id: direccionIdResuelta } }
         : undefined,
       direccionTexto: direccionTextoResuelto,
+      piso: direccionSnapshotResuelto
+        ? direccionSnapshotResuelto.piso
+        : undefined,
+      bloque: direccionSnapshotResuelto
+        ? direccionSnapshotResuelto.bloque
+        : undefined,
+      unidad: direccionSnapshotResuelto
+        ? direccionSnapshotResuelto.unidad
+        : undefined,
+      barrio: direccionSnapshotResuelto
+        ? direccionSnapshotResuelto.barrio
+        : undefined,
+      municipio: direccionSnapshotResuelto
+        ? direccionSnapshotResuelto.municipio
+        : undefined,
+      departamento: direccionSnapshotResuelto
+        ? direccionSnapshotResuelto.departamento
+        : undefined,
+      linkMaps: direccionSnapshotResuelto
+        ? direccionSnapshotResuelto.linkMaps
+        : undefined,
+      zona: updateDto.direccionId
+        ? direccionSnapshotResuelto?.zonaId
+          ? { connect: { id: direccionSnapshotResuelto.zonaId } }
+          : { disconnect: true }
+        : undefined,
       contratoCliente: contratoActivo
         ? { connect: { id: contratoActivo.id } }
         : { disconnect: true },
