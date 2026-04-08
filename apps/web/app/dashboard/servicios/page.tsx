@@ -2112,10 +2112,17 @@ function ServiciosContent() {
       currency: "COP",
       maximumFractionDigits: 0,
     }).format(servicio.raw.valorCotizado || 0);
+    const serviciosSeleccionados = Array.isArray(servicio.raw.serviciosSeleccionados)
+      ? servicio.raw.serviciosSeleccionados
+          .map((item) => item?.trim())
+          .filter((item): item is string => Boolean(item))
+      : [];
+    const servicioPrincipal = servicio.servicioEspecifico || resolveServicioDisplayName(servicio.raw);
 
     const serviceFields = [
-      Array.isArray(servicio.raw.serviciosSeleccionados) && servicio.raw.serviciosSeleccionados.length > 0
-        ? `Servicios seleccionados: ${servicio.raw.serviciosSeleccionados.join(", ")}`
+      `Servicio específico: ${servicioPrincipal || "N/A"}`,
+      serviciosSeleccionados.length > 0
+        ? `Servicios específicos: ${serviciosSeleccionados.join(", ")}`
         : null,
       `Tipo de visita: ${formatVisitTypeLabel(servicio.raw.tipoVisita)}`,
       `Estado servicio: ${servicio.estadoServicio || servicio.raw.estadoServicio || "N/A"}`,

@@ -243,7 +243,7 @@ function EditarServicioContent({ id }: { id: string }) {
   const [frecuenciaRecomendada, setFrecuenciaRecomendada] = useState<number | "">("");
 
   // Form Fields
-  const [servicioEspecifico, setServicioEspecifico] = useState("");
+  const [serviciosSeleccionados, setServiciosSeleccionados] = useState<string[]>([]);
   const [tipoVisita, setTipoVisita] = useState("");
   const [urgencia, setUrgencia] = useState("");
   const [diagnosticoTecnico, setDiagnosticoTecnico] = useState("");
@@ -277,7 +277,7 @@ function EditarServicioContent({ id }: { id: string }) {
     if (selectedCliente) params.set("cliente", selectedCliente);
     if (selectedDireccion) params.set("direccion", selectedDireccion);
     if (selectedOperador) params.set("operador", selectedOperador);
-    if (servicioEspecifico) params.set("servicio", servicioEspecifico);
+    if (serviciosSeleccionados.length > 0) params.set("servicios", serviciosSeleccionados.join(","));
     if (tipoVisita) params.set("tipoVisita", tipoVisita);
     if (nivelInfestacion) params.set("nivel", nivelInfestacion);
     if (urgencia) params.set("urgencia", urgencia);
@@ -291,7 +291,7 @@ function EditarServicioContent({ id }: { id: string }) {
     const newUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ""}`;
     window.history.replaceState(null, "", newUrl);
   }, [
-    returnTo, selectedCliente, selectedDireccion, selectedOperador, servicioEspecifico,
+    returnTo, selectedCliente, selectedDireccion, selectedOperador, serviciosSeleccionados,
     tipoVisita, nivelInfestacion, urgencia, fechaVisita, horaInicio,
     duracionMinutos, tipoFacturacion, frecuenciaRecomendada,
   ]);
@@ -367,7 +367,12 @@ function EditarServicioContent({ id }: { id: string }) {
         setSelectedOperador(getVal("operador", orderData.tecnicoId || ""));
         setInitialOperadorId(orderData.tecnicoId || "");
         setNumeroOrden(orderData.numeroOrden || id.slice(0, 8).toUpperCase());
-        setServicioEspecifico(getVal("servicio", orderData.servicio?.nombre || ""));
+        const urlServicios = urlParams.get("servicios") || urlParams.get("servicio");
+        const orderServicios =
+          urlServicios?.split(",").map((value) => value.trim()).filter(Boolean) ||
+          orderData.serviciosSeleccionados?.filter(Boolean) ||
+          (orderData.servicio?.nombre ? [orderData.servicio.nombre] : []);
+        setServiciosSeleccionados(orderServicios);
         setTipoVisita(normalizeVisitTypeValue(getVal("tipoVisita", orderData.tipoVisita || "")));
         setNivelInfestacion(getVal("nivel", orderData.nivelInfestacion || ""));
         
@@ -510,7 +515,9 @@ function EditarServicioContent({ id }: { id: string }) {
       empresaId: selectedEmpresa,
       tecnicoId: selectedOperador || undefined,
       direccionId: selectedDireccion || undefined,
-      servicioEspecifico,
+      servicioId: serviciosEmpresa.find((item) => item.nombre === serviciosSeleccionados[0])?.id,
+      servicioEspecifico: serviciosSeleccionados[0] || undefined,
+      serviciosSeleccionados: serviciosSeleccionados.length > 0 ? serviciosSeleccionados : undefined,
       urgencia: urgencia || undefined,
       diagnosticoTecnico: diagnosticoTecnico.trim() || undefined,
       intervencionRealizada: intervencionRealizada.trim() || undefined,
@@ -592,7 +599,7 @@ function EditarServicioContent({ id }: { id: string }) {
             telefonoOperador: operator.telefono,
             numeroOrden: `#${numeroOrden}`,
             cliente: client ? (client.tipoCliente === "EMPRESA" ? (client.razonSocial || "") : `${client.nombre} ${client.apellido}`) : "Cliente desconocido",
-            servicio: servicioEspecifico.toUpperCase(),
+            servicio: serviciosSeleccionados.join(", ").toUpperCase(),
             programacion: `${formattedDate} a las ${formattedTime}`,
             tecnico: operator.nombre,
             estado: estadoServicio,
@@ -752,16 +759,44 @@ function EditarServicioContent({ id }: { id: string }) {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Servicio Específico <span className="text-red-500">*</span></Label>
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Servicios Específicos <span className="text-red-500">*</span></Label>
                   <Combobox
                     options={[
-                      { value: "", label: "Seleccionar servicio..." },
-                      ...(Array.isArray(serviciosEmpresa) ? serviciosEmpresa : []).map(s => ({ value: s.nombre, label: s.nombre }))
+                      { value: "", label: selectedEmpresa ? "Seleccionar servicio para añadir..." : "Primero seleccione una empresa" },
+                      ...(Array.isArray(serviciosEmpresa) ? serviciosEmpresa : [])
+                        .filter(s => !serviciosSeleccionados.includes(s.nombre))
+                        .map(s => ({ value: s.nombre, label: s.nombre }))
                     ]}
-                    value={servicioEspecifico}
-                    onChange={setServicioEspecifico}
-                    placeholder="Servicio..."
+                    value=""
+                    onChange={(val) => {
+                      if (val && !serviciosSeleccionados.includes(val)) {
+                        setServiciosSeleccionados([...serviciosSeleccionados, val]);
+                      }
+                    }}
+                    disabled={!selectedEmpresa}
+                    placeholder="Buscar servicio..."
                   />
+                  {serviciosSeleccionados.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {serviciosSeleccionados.map((srv, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center gap-1 rounded-md border border-[var(--color-azul-1)]/20 bg-[var(--color-azul-1)]/10 px-2 py-1 text-xs font-semibold text-[var(--color-azul-1)]"
+                        >
+                          <span>{srv}</span>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setServiciosSeleccionados(serviciosSeleccionados.filter((service) => service !== srv))
+                            }
+                            className="ml-1 text-[var(--color-azul-1)] hover:text-red-500 focus:outline-none"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-2">
