@@ -790,7 +790,9 @@ const hasRegisteredFollowUpCall = (orden: OrdenServicioRaw) =>
     : false;
 
 const canEditOrdenTecnica = (orden: OrdenServicioRaw) =>
-  !orden.ordenPadreId || hasRegisteredFollowUpCall(orden);
+  !orden.ordenPadreId ||
+  normalizeVisitType(orden.tipoVisita) === "SERVICIO_REFUERZO" ||
+  hasRegisteredFollowUpCall(orden);
 
 const getResolvedFollowUpStatus = (orden: OrdenServicioRaw) => {
   const latestStatus = getLatestFollowUpStatus(orden);
