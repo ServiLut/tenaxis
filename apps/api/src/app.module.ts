@@ -22,6 +22,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { DashboardPresetsModule } from './dashboard-presets/dashboard-presets.module';
 import { ContratosClienteModule } from './contratos-cliente/contratos-cliente.module';
 import { ProductosModule } from './productos/productos.module';
+import { MobileOperatorDashboardModule } from './mobile-operator-dashboard/mobile-operator-dashboard.module';
+import { MobileOperatorReferralsModule } from './mobile-operator-referrals/mobile-operator-referrals.module';
 
 @Module({
   imports: [
@@ -43,6 +45,8 @@ import { ProductosModule } from './productos/productos.module';
     DashboardPresetsModule,
     ContratosClienteModule,
     ProductosModule,
+    MobileOperatorDashboardModule,
+    MobileOperatorReferralsModule,
   ],
   controllers: [AppController],
   providers: [

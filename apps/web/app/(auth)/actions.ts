@@ -1,7 +1,11 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { authClient, type LoginResponse } from "@/lib/api/auth-client";
+import {
+  authClient,
+  type LoginResponse,
+  type RegisterPayload,
+} from "@/lib/api/auth-client";
 
 export async function loginAction(data: Record<string, unknown>) {
   try {
@@ -32,7 +36,7 @@ export async function loginAction(data: Record<string, unknown>) {
   }
 }
 
-export async function registerAction(data: Record<string, unknown>) {
+export async function registerAction(data: RegisterPayload) {
   try {
     const result = await authClient.register(data);
     return { success: true, data: result };

@@ -28,6 +28,23 @@ interface DesglosePagoItem {
   monto: number;
 }
 
+export interface RecaudoTecnicoPendiente {
+  id: string;
+  nombre: string;
+  apellido: string;
+  saldoPendiente: number;
+  ordenesPendientesCount: number;
+  ultimaTransferencia: Date | null;
+  diasSinTransferir: number;
+  ordenesIds: string[];
+  declaraciones: Array<{
+    ordenId: string;
+    valorDeclarado: number;
+    fechaDeclaracion: Date | null;
+    tipo: 'DECLARADO' | 'IMPLICITO';
+  }>;
+}
+
 @Injectable()
 export class ContabilidadService {
   constructor(private prisma: PrismaService) {}
@@ -245,7 +262,13 @@ export class ContabilidadService {
     });
   }
 
-  async getRecaudoTecnicos(tenantId: string, empresaId?: string) {
+  private async buildRecaudoTecnicos(
+    tenantId: string,
+    empresaIds?: string[],
+  ): Promise<RecaudoTecnicoPendiente[]> {
+    const empresaFilter =
+      empresaIds && empresaIds.length > 0 ? { in: empresaIds } : undefined;
+
     // 1. Buscar órdenes en efectivo que ya pasaron su fecha y NO han sido declaradas (deuda implícita)
     // Esto asegura que si un técnico no cierra la orden, administración igual vea la deuda.
     const today = new Date();
@@ -254,7 +277,7 @@ export class ContabilidadService {
     const ordenesNoDeclaradas = await this.prisma.ordenServicio.findMany({
       where: {
         tenantId,
-        empresaId: empresaId || undefined,
+        empresaId: empresaFilter,
         tecnicoId: { not: null },
         fechaVisita: { gte: ACCOUNTING_KPI_CUTOFF_UTC, lte: today },
         estadoPago: { in: ['PENDIENTE', 'PARCIAL'] },
@@ -298,7 +321,7 @@ export class ContabilidadService {
       await this.prisma.declaracionEfectivo.findMany({
         where: {
           tenantId,
-          empresaId: empresaId || undefined,
+          empresaId: empresaFilter,
           consignado: false,
           orden: {
             OR: [
@@ -359,8 +382,8 @@ export class ContabilidadService {
         activo: true,
         id: { in: tecnicoIdsPendientes },
         // Si hay empresaId, filtrar por los que pertenecen a esa empresa
-        empresaMemberships: empresaId
-          ? { some: { empresaId, activo: true } }
+        empresaMemberships: empresaFilter
+          ? { some: { empresaId: empresaFilter, activo: true } }
           : undefined,
       },
       include: {
@@ -373,7 +396,7 @@ export class ContabilidadService {
         // Obtener la última consignación realizada para saber la fecha
         consignacionesTecnico: {
           where: {
-            empresaId: empresaId || undefined,
+            empresaId: empresaFilter,
           },
           orderBy: {
             fechaConsignacion: 'desc',
@@ -391,18 +414,18 @@ export class ContabilidadService {
       const implicitas = deudasImplicitasPorTecnico.get(t.id) || [];
       const declaradas = declaracionesPendientesPorTecnico.get(t.id) || [];
 
-      const todasLasDeclaraciones = [
+      const todasLasDeclaraciones: RecaudoTecnicoPendiente['declaraciones'] = [
         ...declaradas.map((d) => ({
           ordenId: d.ordenId,
           valorDeclarado: Number(d.valorDeclarado),
           fechaDeclaracion: d.fechaDeclaracion,
-          tipo: 'DECLARADO',
+          tipo: 'DECLARADO' as const,
         })),
         ...implicitas.map((i) => ({
           ordenId: i.ordenId,
           valorDeclarado: i.valor,
           fechaDeclaracion: i.fecha,
-          tipo: 'IMPLICITO', // Indica que es un recaudo detectado por fecha, no por declaración
+          tipo: 'IMPLICITO' as const, // Indica que es un recaudo detectado por fecha, no por declaración
         })),
       ];
 
@@ -440,6 +463,29 @@ export class ContabilidadService {
         diasSinTransferir,
       };
     });
+  }
+
+  async getRecaudoTecnicos(tenantId: string, empresaId?: string) {
+    return this.buildRecaudoTecnicos(
+      tenantId,
+      empresaId ? [empresaId] : undefined,
+    );
+  }
+
+  async getOperatorCashCollectionSummary(
+    tenantId: string,
+    tecnicoId: string,
+    empresaIds: string[],
+  ) {
+    const recaudos = await this.buildRecaudoTecnicos(tenantId, empresaIds);
+    const recaudo = recaudos.find((item) => item.id === tecnicoId);
+
+    return {
+      saldoPendiente: Number(recaudo?.saldoPendiente || 0),
+      ordenesPendientesCount: Number(recaudo?.ordenesPendientesCount || 0),
+      ultimaTransferencia: recaudo?.ultimaTransferencia || null,
+      diasSinTransferir: Number(recaudo?.diasSinTransferir || 0),
+    };
   }
 
   async registrarConsignacion(

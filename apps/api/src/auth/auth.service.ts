@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   InternalServerErrorException,
@@ -71,6 +72,56 @@ export class AuthService {
       zonaIds,
       municipalityIds,
       departmentIds,
+    };
+  }
+
+  private async resolveReferralMembership(referralCode: string) {
+    const normalizedCode = referralCode.trim().toUpperCase();
+
+    if (!normalizedCode) {
+      throw new BadRequestException('El código de referido es inválido');
+    }
+
+    const referralMembership = await this.prisma.tenantMembership.findFirst({
+      where: {
+        codigoReferido: normalizedCode,
+        activo: true,
+        aprobado: true,
+        role: Role.OPERADOR,
+      },
+      include: {
+        empresaMemberships: {
+          where: {
+            activo: true,
+            deletedAt: null,
+          },
+          select: {
+            empresaId: true,
+          },
+          orderBy: {
+            createdAt: 'asc',
+          },
+        },
+      },
+    });
+
+    if (!referralMembership) {
+      throw new BadRequestException('El código de referido no es válido');
+    }
+
+    const empresaId = referralMembership.empresaMemberships[0]?.empresaId;
+
+    if (!empresaId) {
+      throw new BadRequestException(
+        'El código de referido no tiene una empresa activa asociada',
+      );
+    }
+
+    return {
+      referralCode: normalizedCode,
+      tenantId: referralMembership.tenantId,
+      membershipId: referralMembership.id,
+      empresaId,
     };
   }
 
@@ -359,6 +410,7 @@ export class AuthService {
       telefono,
       tipoDocumento,
       numeroDocumento,
+      referralCode,
     } = dto;
 
     // Verificar si el usuario ya existe
@@ -382,16 +434,38 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
-      const user = await this.prisma.user.create({
-        data: {
-          email,
-          password: hashedPassword,
-          nombre,
-          apellido,
-          telefono,
-          tipoDocumento,
-          numeroDocumento,
-        },
+      const referralContext = referralCode
+        ? await this.resolveReferralMembership(referralCode)
+        : null;
+
+      const user = await this.prisma.$transaction(async (tx) => {
+        const createdUser = await tx.user.create({
+          data: {
+            email,
+            password: hashedPassword,
+            nombre,
+            apellido,
+            telefono,
+            tipoDocumento,
+            numeroDocumento,
+          },
+        });
+
+        if (referralContext) {
+          await tx.referidos.create({
+            data: {
+              tenantId: referralContext.tenantId,
+              empresaId: referralContext.empresaId,
+              membershipId: referralContext.membershipId,
+              nombre,
+              apellido,
+              telefono,
+              codigo: referralContext.referralCode,
+            },
+          });
+        }
+
+        return createdUser;
       });
 
       return {

@@ -28,6 +28,17 @@ export interface LoginResponse {
   user: UserProfile;
 }
 
+export interface RegisterPayload {
+  email: string;
+  password: string;
+  nombre: string;
+  apellido: string;
+  telefono?: string;
+  tipoDocumento: string;
+  numeroDocumento: string;
+  referralCode?: string;
+}
+
 export const authClient = {
   async login(data: Record<string, unknown>) {
     return apiFetch<LoginResponse>("/auth/login", {
@@ -37,7 +48,7 @@ export const authClient = {
     });
   },
 
-  async register(data: Record<string, unknown>) {
+  async register(data: RegisterPayload) {
     return apiFetch<UserProfile>("/auth/register", {
       method: "POST",
       body: JSON.stringify(data),

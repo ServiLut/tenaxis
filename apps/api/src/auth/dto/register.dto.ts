@@ -35,4 +35,8 @@ export class RegisterDto {
   @IsString()
   @IsNotEmpty({ message: 'El número de documento es requerido' })
   numeroDocumento: string;
+
+  @IsString()
+  @IsOptional()
+  referralCode?: string;
 }
