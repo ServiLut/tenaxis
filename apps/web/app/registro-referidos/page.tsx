@@ -37,7 +37,7 @@ function normalizeReferralCode(value: string | null) {
   return value?.trim().toUpperCase() ?? '';
 }
 
-export default function ReferralRegisterPage() {
+function ReferralRegisterContent() {
   const searchParams = useSearchParams();
   const codeFromQuery = React.useMemo(() => normalizeReferralCode(searchParams.get('code')), [searchParams]);
   const [formData, setFormData] = React.useState<RegisterPayload>({
@@ -278,5 +278,19 @@ export default function ReferralRegisterPage() {
         )}
       </AuthSurface>
     </AuthShell>
+  );
+}
+
+export default function ReferralRegisterPage() {
+  return (
+    <React.Suspense
+      fallback={
+        <div className="flex min-h-[100dvh] items-center justify-center bg-[#f3f7ff] px-6 text-slate-600 dark:bg-[#020617] dark:text-slate-300">
+          Preparando tu enlace de referido...
+        </div>
+      }
+    >
+      <ReferralRegisterContent />
+    </React.Suspense>
   );
 }
