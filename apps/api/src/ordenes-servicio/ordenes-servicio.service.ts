@@ -1425,6 +1425,10 @@ export class OrdenesServicioService {
       } as QueryOrdenesServicioDto,
     );
 
+    if (dto.preset !== ServiciosPreset.SEGUIMIENTOS) {
+      delete whereClause.OR;
+    }
+
     const ordenes = await this.prisma.ordenServicio.findMany({
       where: whereClause,
       orderBy: [{ fechaVisita: 'desc' }, { createdAt: 'desc' }],
