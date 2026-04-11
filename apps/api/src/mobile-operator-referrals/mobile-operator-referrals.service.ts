@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -7,6 +8,8 @@ import { ConfigService } from '@nestjs/config';
 import { randomInt } from 'crypto';
 import { Role } from '../generated/client/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreatePublicReferralDto } from './dto/create-public-referral.dto';
+import { CreatePublicReferralResponseDto } from './dto/create-public-referral-response.dto';
 import { MobileOperatorReferralMeResponseDto } from './dto/get-mobile-operator-referral-me-response.dto';
 import { PublicReferralCodeResponseDto } from './dto/get-public-referral-code-response.dto';
 import { OperatorReferralScope } from './types/operator-referral-scope.type';
@@ -55,44 +58,8 @@ export class MobileOperatorReferralsService {
   async resolvePublicCode(
     rawCode: string,
   ): Promise<PublicReferralCodeResponseDto> {
-    const code = this.normalizeReferralCode(rawCode);
-
-    if (!code) {
-      return this.buildInvalidReferralCodeResponse('');
-    }
-
-    const membership = await this.prisma.tenantMembership.findFirst({
-      where: {
-        codigoReferido: code,
-        activo: true,
-        aprobado: true,
-        role: Role.OPERADOR,
-      },
-      select: {
-        id: true,
-        empresaMemberships: {
-          where: {
-            activo: true,
-            deletedAt: null,
-          },
-          select: {
-            empresaId: true,
-          },
-          orderBy: {
-            createdAt: 'asc',
-          },
-          take: 1,
-        },
-        user: {
-          select: {
-            nombre: true,
-            apellido: true,
-          },
-        },
-      },
-    });
-
-    const empresaId = membership?.empresaMemberships[0]?.empresaId ?? null;
+    const { code, membership, empresaId } =
+      await this.resolveReferralMembership(rawCode);
 
     if (!membership || !empresaId) {
       return this.buildInvalidReferralCodeResponse(code);
@@ -107,6 +74,34 @@ export class MobileOperatorReferralsService {
         nombre: membership.user.nombre ?? null,
         apellido: membership.user.apellido ?? null,
       },
+    };
+  }
+
+  async createPublicReferral(
+    dto: CreatePublicReferralDto,
+  ): Promise<CreatePublicReferralResponseDto> {
+    const { code, membership, empresaId } =
+      await this.resolveReferralMembership(dto.code);
+
+    if (!code || !membership || !empresaId) {
+      throw new BadRequestException('El código de referido no es válido');
+    }
+
+    await this.prisma.referidos.create({
+      data: {
+        tenantId: membership.tenantId,
+        empresaId,
+        membershipId: membership.id,
+        nombre: dto.nombre.trim(),
+        apellido: dto.apellido.trim(),
+        telefono: dto.telefono.trim(),
+        codigo: code,
+      },
+    });
+
+    return {
+      success: true,
+      message: 'Referido registrado correctamente',
     };
   }
 
@@ -140,6 +135,56 @@ export class MobileOperatorReferralsService {
       code,
       empresaId: null,
       referrer: null,
+    };
+  }
+
+  private async resolveReferralMembership(rawCode: string) {
+    const code = this.normalizeReferralCode(rawCode);
+
+    if (!code) {
+      return {
+        code: '',
+        membership: null,
+        empresaId: null,
+      };
+    }
+
+    const membership = await this.prisma.tenantMembership.findFirst({
+      where: {
+        codigoReferido: code,
+        activo: true,
+        aprobado: true,
+        role: Role.OPERADOR,
+      },
+      select: {
+        id: true,
+        tenantId: true,
+        empresaMemberships: {
+          where: {
+            activo: true,
+            deletedAt: null,
+          },
+          select: {
+            empresaId: true,
+          },
+          orderBy: {
+            createdAt: 'asc',
+          },
+          take: 1,
+        },
+        user: {
+          select: {
+            nombre: true,
+            apellido: true,
+          },
+        },
+      },
+    });
+
+    return {
+      code,
+      membership,
+      empresaId: membership?.empresaMemberships[0]?.empresaId ?? null,
     };
   }
 

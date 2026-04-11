@@ -36,7 +36,6 @@ export interface RegisterPayload {
   telefono?: string;
   tipoDocumento: string;
   numeroDocumento: string;
-  referralCode?: string;
 }
 
 export const authClient = {
