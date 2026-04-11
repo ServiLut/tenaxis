@@ -1,3 +1,5 @@
+import { Prisma } from '../../generated/client/client';
+
 export class OperatorDashboardSummaryDto {
   serviciosHoy!: number;
   programadosHoy!: number;
@@ -49,7 +51,7 @@ export class OperatorDashboardNextServiceDto {
   direccion!: string | null;
   servicioId!: string;
   servicio!: OperatorDashboardNextServiceServicioDto | null;
-  serviciosSeleccionados!: unknown | null;
+  serviciosSeleccionados!: Prisma.JsonValue | null;
 }
 
 export class OperatorDashboardResponseDto {
