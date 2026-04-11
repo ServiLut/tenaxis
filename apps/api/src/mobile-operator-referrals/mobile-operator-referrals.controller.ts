@@ -12,6 +12,16 @@ export class MobileOperatorReferralsController {
     private readonly mobileOperatorReferralsService: MobileOperatorReferralsService,
   ) {}
 
+  @Get()
+  list(@GetOperatorReferralScope() scope: OperatorReferralScope) {
+    return this.mobileOperatorReferralsService.list(scope);
+  }
+
+  @Get('stats')
+  getStats(@GetOperatorReferralScope() scope: OperatorReferralScope) {
+    return this.mobileOperatorReferralsService.getStats(scope);
+  }
+
   @Get('me')
   getMe(@GetOperatorReferralScope() scope: OperatorReferralScope) {
     return this.mobileOperatorReferralsService.getMe(scope);

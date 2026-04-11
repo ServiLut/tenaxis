@@ -7,10 +7,16 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { randomInt } from 'crypto';
 import { Role } from '../generated/client/client';
+import { startOfBogotaMonthUtc } from '../common/utils/timezone.util';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePublicReferralDto } from './dto/create-public-referral.dto';
 import { CreatePublicReferralResponseDto } from './dto/create-public-referral-response.dto';
+import {
+  MobileOperatorReferralItemDto,
+  MobileOperatorReferralListResponseDto,
+} from './dto/get-mobile-operator-referral-list-response.dto';
 import { MobileOperatorReferralMeResponseDto } from './dto/get-mobile-operator-referral-me-response.dto';
+import { MobileOperatorReferralStatsResponseDto } from './dto/get-mobile-operator-referral-stats-response.dto';
 import { PublicReferralCodeResponseDto } from './dto/get-public-referral-code-response.dto';
 import { OperatorReferralScope } from './types/operator-referral-scope.type';
 
@@ -53,6 +59,68 @@ export class MobileOperatorReferralsService {
       shareUrl,
       qrValue: shareUrl,
     };
+  }
+
+  async getStats(
+    scope: OperatorReferralScope,
+  ): Promise<MobileOperatorReferralStatsResponseDto> {
+    const where = this.buildScopedReferralWhere(scope);
+    const startOfMonth = startOfBogotaMonthUtc();
+
+    const [total, thisMonth, latestReferral] = await Promise.all([
+      this.prisma.referidos.count({ where }),
+      this.prisma.referidos.count({
+        where: {
+          ...where,
+          createdAt: {
+            gte: startOfMonth,
+          },
+        },
+      }),
+      this.prisma.referidos.findFirst({
+        where,
+        orderBy: {
+          createdAt: 'desc',
+        },
+        select: {
+          createdAt: true,
+        },
+      }),
+    ]);
+
+    return {
+      total,
+      thisMonth,
+      lastReferralAt: latestReferral?.createdAt ?? null,
+    };
+  }
+
+  async list(
+    scope: OperatorReferralScope,
+  ): Promise<MobileOperatorReferralListResponseDto> {
+    const rows = await this.prisma.referidos.findMany({
+      where: this.buildScopedReferralWhere(scope),
+      orderBy: {
+        createdAt: 'desc',
+      },
+      select: {
+        id: true,
+        nombre: true,
+        apellido: true,
+        telefono: true,
+        createdAt: true,
+      },
+    });
+
+    return rows.map(
+      (row): MobileOperatorReferralItemDto => ({
+        id: row.id,
+        nombre: row.nombre ?? null,
+        apellido: row.apellido ?? null,
+        telefono: row.telefono ?? null,
+        createdAt: row.createdAt,
+      }),
+    );
   }
 
   async resolvePublicCode(
@@ -224,6 +292,16 @@ export class MobileOperatorReferralsService {
   private buildShareUrl(code: string): string {
     const baseUrl = this.resolveShareBaseUrl();
     return `${baseUrl}/registro-referidos?code=${encodeURIComponent(code)}`;
+  }
+
+  private buildScopedReferralWhere(scope: OperatorReferralScope) {
+    return {
+      tenantId: scope.tenantId,
+      membershipId: scope.membershipId,
+      empresaId: {
+        in: scope.empresaIds,
+      },
+    };
   }
 
   private resolveShareBaseUrl(): string {
