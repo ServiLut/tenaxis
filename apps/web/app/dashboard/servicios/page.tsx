@@ -528,6 +528,23 @@ const getStoredTransferencias = (
   return [];
 };
 
+const getInitialTransferencias = (
+  orden?: Partial<OrdenServicioRaw> | null,
+): LiquidarTransferenciaForm[] => {
+  const storedTransferencias = getStoredTransferencias(orden);
+
+  if (storedTransferencias.length > 0) {
+    return storedTransferencias;
+  }
+
+  const breakdown = orden?.desglosePago || [];
+  const hasTransfer = breakdown.length > 0
+    ? breakdown.some((b) => b.metodo.toUpperCase().includes("TRANSFERENCIA") && Number(b.monto) > 0)
+    : orden?.metodoPago?.nombre?.toUpperCase().includes("TRANSFERENCIA");
+
+  return hasTransfer ? [createTransferenciaForm()] : [];
+};
+
 const CLOSED_FINANCIAL_STATES = new Set([
   "EFECTIVO_DECLARADO",
   "PAGADO",
@@ -2983,12 +3000,7 @@ function ServiciosContent() {
                                       setLiquidarData({
                                         breakdown: currentBreakdown,
                                         observacionFinal: s.raw.observacionFinal || "",
-                                        transferencias: settlementMeta.hasTransfer
-                                          ? [
-                                              ...getStoredTransferencias(s.raw),
-                                              createTransferenciaForm(),
-                                            ]
-                                          : [],
+                                        transferencias: getInitialTransferencias(s.raw),
                                       });
                                       setIsLiquidarModalOpen(true);
                                     }}
@@ -3706,12 +3718,7 @@ function ServiciosContent() {
                       setLiquidarData({
                         breakdown: currentBreakdown,
                         observacionFinal: s.raw.observacionFinal || "",
-                        transferencias: settlementMeta.hasTransfer
-                          ? [
-                              ...getStoredTransferencias(s.raw),
-                              createTransferenciaForm(),
-                            ]
-                          : [],
+                        transferencias: getInitialTransferencias(s.raw),
                       });
                       setIsLiquidarModalOpen(true);
                     }}
