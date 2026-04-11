@@ -210,6 +210,10 @@ export interface OrdenServicioRaw {
   hallazgosEstructurales?: string | null;
   numeroOrden?: string;
   ordenPadreId?: string | null;
+  ordenPadre?: {
+    id: string;
+    numeroOrden?: string | null;
+  } | null;
   cliente: ClienteDTO;
   clienteId: string;
   empresaId: string;
@@ -309,6 +313,18 @@ export interface ExportOrdenesServicioPayload {
   includeAllEmpresas?: boolean;
   fechaInicio?: string;
   fechaFin?: string;
+  search?: string;
+  estado?: string;
+  estadoPago?: string;
+  metodoPagoId?: string;
+  metodoPagoBase?: string;
+  metodosPagoBase?: string[];
+  tecnicoId?: string;
+  urgencia?: string;
+  creadorId?: string;
+  departamento?: string;
+  municipio?: string;
+  tipoVisita?: string;
   preset?:
     | "HOY"
     | "MANANA"

@@ -413,6 +413,22 @@ const resolveMetodoPagoFilterQuery = (
     : { metodoPagoId: selectedValue };
 };
 
+const resolveMetodoPagoExportPayload = (
+  metodoPago: string,
+  metodosPagoOptions: Array<{ id: string; nombre: string }>,
+) => {
+  const query = resolveMetodoPagoFilterQuery(metodoPago, metodosPagoOptions);
+
+  return {
+    ...query,
+    metodosPagoBase: Array.isArray(query.metodosPagoBase)
+      ? query.metodosPagoBase
+      : typeof query.metodosPagoBase === "string"
+        ? query.metodosPagoBase.split(",").map((value) => value.trim()).filter(Boolean)
+        : undefined,
+  };
+};
+
 const parseMetodoPagoFilterValue = (value: string) =>
   value
     .split(",")
@@ -855,6 +871,7 @@ const EXPORT_PRESET_OPTIONS = [
   { value: "HOY", label: "HOY" },
   { value: "MANANA", label: "MAÑANA" },
   { value: "SEMANA", label: "SEMANA" },
+  { value: "SEGUIMIENTOS", label: "SEGUIMIENTOS" },
   { value: "RECHAZADOS", label: "RECHAZADOS" },
   { value: "VENCIDOS", label: "VENCIDOS" },
   { value: "SIN_TECNICO", label: "SIN TÉCNICO" },
@@ -2032,7 +2049,10 @@ function ServiciosContent() {
     ? visibleServicios.map((os) => ({
         ...os,
         parentId: os.raw.ordenPadreId || "",
-        parentNumero: os.raw.ordenPadreId?.substring(0, 8).toUpperCase() || "",
+        parentNumero:
+          os.raw.ordenPadre?.numeroOrden ||
+          os.raw.ordenPadreId?.substring(0, 8).toUpperCase() ||
+          "",
         parentCliente: os.cliente,
         parentServicio: os.servicioEspecifico,
       }))
@@ -2279,14 +2299,33 @@ function ServiciosContent() {
     const toastId = toast.loading("Generando Excel...");
 
     try {
+      const presetFromCurrentView =
+        exportPreset !== "none"
+          ? exportPreset
+          : viewMode === "seguimientos"
+            ? "SEGUIMIENTOS"
+            : activePreset !== "all" && activePreset !== "PAGO_PENDIENTE"
+              ? activePreset
+              : undefined;
+
       const rows = await exportOrdenesServicio({
         includeAllEmpresas: exportEnterpriseMode === "all",
         empresaIds: exportEnterpriseMode === "selected" ? exportEmpresaIds : undefined,
-        fechaInicio: exportDateRange.fechaInicio,
-        fechaFin: exportDateRange.fechaFin,
-        preset: exportPreset === "none"
-          ? undefined
-          : exportPreset as NonNullable<Parameters<typeof exportOrdenesServicio>[0]["preset"]>,
+        fechaInicio: exportDateRange.fechaInicio || filters.fechaInicio || undefined,
+        fechaFin: exportDateRange.fechaFin || filters.fechaFin || undefined,
+        search: search.trim() || undefined,
+        estado: filters.estado !== "all" ? filters.estado : undefined,
+        estadoPago: filters.estadoPago !== "all" ? filters.estadoPago : undefined,
+        ...resolveMetodoPagoExportPayload(filters.metodoPago, filterOptions.metodosPago),
+        tecnicoId: filters.tecnico !== "all" ? filters.tecnico : undefined,
+        urgencia: filters.urgencia !== "all" ? filters.urgencia : undefined,
+        creadorId: filters.creador !== "all" ? filters.creador : undefined,
+        departamento: filters.departamento !== "all" ? filters.departamento : undefined,
+        municipio: filters.municipio !== "all" ? filters.municipio : undefined,
+        tipoVisita: filters.tipo !== "all" ? filters.tipo : undefined,
+        preset: presetFromCurrentView as NonNullable<
+          Parameters<typeof exportOrdenesServicio>[0]["preset"]
+        > | undefined,
       });
 
       await exportToExcel({

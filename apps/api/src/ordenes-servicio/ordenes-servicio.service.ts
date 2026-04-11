@@ -799,6 +799,13 @@ export class OrdenesServicioService {
       { numeroOrden: { contains: searchToken, mode: 'insensitive' } },
       { direccionTexto: { contains: searchToken, mode: 'insensitive' } },
       { barrio: { contains: searchToken, mode: 'insensitive' } },
+      {
+        ordenPadre: {
+          is: {
+            numeroOrden: { contains: searchToken, mode: 'insensitive' },
+          },
+        },
+      },
       { cliente: { nombre: { contains: searchToken, mode: 'insensitive' } } },
       {
         cliente: {
@@ -896,6 +903,19 @@ export class OrdenesServicioService {
       whereClause.OR = [
         {
           ordenPadreId: null,
+        },
+        {
+          ordenPadreId: { not: null },
+          tecnicoId: { not: null },
+          fechaVisita: { not: null },
+          estadoServicio: {
+            in: [
+              EstadoOrden.PROGRAMADO as EstadoOrden,
+              EstadoOrden.PROCESO as EstadoOrden,
+              EstadoOrden.TECNICO_FINALIZO as EstadoOrden,
+              EstadoOrden.LIQUIDADO as EstadoOrden,
+            ],
+          },
         },
         {
           ordenPadreId: { not: null },
@@ -999,11 +1019,6 @@ export class OrdenesServicioService {
 
     if (filters.tipoVisita) {
       whereClause.tipoVisita = filters.tipoVisita;
-    }
-
-    const searchToken = normalizeSearchToken(filters.search);
-    if (searchToken) {
-      whereClause.OR = this.buildSearchClauses(searchToken);
     }
 
     const dateStart = toDayBoundsFromIso(filters.fechaInicio)?.start;
@@ -1125,9 +1140,96 @@ export class OrdenesServicioService {
     user: JwtPayload,
     reqEmpresaId: string | undefined,
     filters?: QueryOrdenesServicioDto,
-  ): Prisma.OrdenServicioWhereInput {
+  ): Promise<Prisma.OrdenServicioWhereInput> {
     const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
-    return this.buildWhereClauseFromAccessFilter(accessFilter, filters);
+    const whereClause = this.buildWhereClauseFromAccessFilter(
+      accessFilter,
+      filters,
+    );
+
+    return this.applySearchFilter(whereClause, accessFilter, filters?.search);
+  }
+
+  private async resolveOrderSearchIds(
+    accessFilter: PrismaAccessFilter,
+    searchToken?: string,
+  ): Promise<string[]> {
+    const normalizedToken = normalizeSearchToken(searchToken);
+    if (!normalizedToken || !accessFilter.tenantId) {
+      return [];
+    }
+
+    const pattern = `%${normalizedToken}%`;
+    const empresaFilter = accessFilter.empresaId
+      ? Prisma.sql`AND os."empresaId" = ${accessFilter.empresaId}::uuid`
+      : Prisma.empty;
+
+    const rows = await this.prisma.$queryRaw<Array<{ id: string }>>(
+      Prisma.sql`
+        SELECT DISTINCT os.id::text AS id
+        FROM "ordenes_servicio" AS os
+        LEFT JOIN "ordenes_servicio" AS parent
+          ON parent.id = os."ordenPadreId"
+        WHERE os."tenantId" = ${accessFilter.tenantId}::uuid
+          ${empresaFilter}
+          AND os."deletedAt" IS NULL
+          AND (
+            os.id::text ILIKE ${pattern}
+            OR COALESCE(os."numeroOrden", '') ILIKE ${pattern}
+            OR COALESCE(parent.id::text, '') ILIKE ${pattern}
+            OR COALESCE(parent."numeroOrden", '') ILIKE ${pattern}
+          )
+        LIMIT 100
+      `,
+    );
+
+    return rows
+      .map((row) => row.id)
+      .filter((id): id is string => typeof id === 'string' && id.length > 0);
+  }
+
+  private async applySearchFilter(
+    whereClause: Prisma.OrdenServicioWhereInput,
+    accessFilter: PrismaAccessFilter,
+    search?: string,
+  ): Promise<Prisma.OrdenServicioWhereInput> {
+    const searchToken = normalizeSearchToken(search);
+    if (!searchToken) {
+      return whereClause;
+    }
+
+    const searchClauses = this.buildSearchClauses(searchToken);
+    const matchedOrderIds = await this.resolveOrderSearchIds(
+      accessFilter,
+      searchToken,
+    );
+
+    if (matchedOrderIds.length > 0) {
+      searchClauses.push(
+        { id: { in: matchedOrderIds } },
+        { ordenPadreId: { in: matchedOrderIds } },
+      );
+    }
+
+    if (Array.isArray(whereClause.OR) && whereClause.OR.length > 0) {
+      const baseOrClauses = [...whereClause.OR];
+      const andClauses = Array.isArray(whereClause.AND)
+        ? [...whereClause.AND]
+        : [];
+
+      andClauses.push({ OR: baseOrClauses }, { OR: searchClauses });
+
+      return {
+        ...whereClause,
+        AND: andClauses,
+        OR: undefined,
+      };
+    }
+
+    return {
+      ...whereClause,
+      OR: searchClauses,
+    };
   }
 
   async findAll(
@@ -1135,7 +1237,7 @@ export class OrdenesServicioService {
     empresaId?: string,
     filters?: QueryOrdenesServicioDto,
   ) {
-    const whereClause = this.buildWhereClause(user, empresaId, filters);
+    const whereClause = await this.buildWhereClause(user, empresaId, filters);
 
     const page = filters?.page || 1;
     const limit = filters?.limit || 50;
@@ -1211,6 +1313,12 @@ export class OrdenesServicioService {
           seguimientos: {
             orderBy: { createdAt: 'desc' },
           },
+          ordenPadre: {
+            select: {
+              id: true,
+              numeroOrden: true,
+            },
+          },
           ordenesHijas: {
             where: {
               deletedAt: null,
@@ -1273,6 +1381,12 @@ export class OrdenesServicioService {
               seguimientos: {
                 orderBy: { createdAt: 'desc' },
               },
+              ordenPadre: {
+                select: {
+                  id: true,
+                  numeroOrden: true,
+                },
+              },
             },
             orderBy: { fechaVisita: 'asc' },
           },
@@ -1303,7 +1417,7 @@ export class OrdenesServicioService {
     empresaId?: string,
     filters?: QueryOrdenesServicioDto,
   ): Promise<ServiciosKpiPayload> {
-    const whereClause = this.buildWhereClause(user, empresaId, filters);
+    const whereClause = await this.buildWhereClause(user, empresaId, filters);
 
     const todayRange = toLocalDayRange(new Date());
 
@@ -1416,18 +1530,32 @@ export class OrdenesServicioService {
     user: JwtPayload,
     dto: ExportOrdenesServicioDto,
   ): Promise<ServicioExportPayload[]> {
-    const whereClause = this.buildWhereClauseFromAccessFilter(
-      this.resolveExportAccessFilter(user, dto),
+    const accessFilter = this.resolveExportAccessFilter(user, dto);
+    const whereClauseBase = this.buildWhereClauseFromAccessFilter(
+      accessFilter,
       {
+        search: dto.search,
+        estado: dto.estado,
+        estadoPago: dto.estadoPago,
+        metodoPagoId: dto.metodoPagoId,
+        metodoPagoBase: dto.metodoPagoBase,
+        metodosPagoBase: dto.metodosPagoBase,
+        tecnicoId: dto.tecnicoId,
+        urgencia: dto.urgencia,
+        creadorId: dto.creadorId,
+        municipio: dto.municipio,
+        departamento: dto.departamento,
+        tipoVisita: dto.tipoVisita,
         fechaInicio: dto.fechaInicio,
         fechaFin: dto.fechaFin,
         ...(dto.preset ? { preset: dto.preset } : {}),
       } as QueryOrdenesServicioDto,
     );
-
-    if (dto.preset !== ServiciosPreset.SEGUIMIENTOS) {
-      delete whereClause.OR;
-    }
+    const whereClause = await this.applySearchFilter(
+      whereClauseBase,
+      accessFilter,
+      dto.search,
+    );
 
     const ordenes = await this.prisma.ordenServicio.findMany({
       where: whereClause,
