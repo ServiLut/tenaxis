@@ -561,6 +561,47 @@ const getInitialTransferencias = (
   return hasTransfer ? [createTransferenciaForm()] : [];
 };
 
+const hasStoredTransferEvidence = (orden?: Partial<OrdenServicioRaw> | null) => {
+  if (!orden) return false;
+
+  if (Array.isArray(orden.comprobantePago)) {
+    return orden.comprobantePago.length > 0;
+  }
+
+  return Boolean(orden.comprobantePago);
+};
+
+const hasStoredTransferSettlementData = (orden?: Partial<OrdenServicioRaw> | null) => {
+  if (!orden) return false;
+
+  const soportes = Array.isArray(orden.comprobantePago) ? orden.comprobantePago : [];
+  const hasSupportMetadata = soportes.some(
+    (item) =>
+      Boolean(item?.path) &&
+      Boolean(item?.referenciaPago?.trim()) &&
+      Boolean(item?.fechaPago || item?.fecha),
+  );
+
+  return (
+    hasSupportMetadata ||
+    (hasStoredTransferEvidence(orden) &&
+      Boolean(orden.referenciaPago?.trim()) &&
+      Boolean(orden.fechaPago))
+  );
+};
+
+const isTransferenciaMetadataComplete = (
+  transferencia?: Partial<LiquidarTransferenciaForm> | null,
+) => {
+  if (!transferencia?.existingPath && !transferencia?.comprobanteFile) return false;
+
+  return (
+    parseCurrencyInput(transferencia.monto) > 0 &&
+    Boolean(transferencia.fechaPago) &&
+    Boolean(transferencia.referenciaPago?.trim())
+  );
+};
+
 const CLOSED_FINANCIAL_STATES = new Set([
   "EFECTIVO_DECLARADO",
   "PAGADO",
@@ -690,6 +731,20 @@ const getSettlementFlowMeta = (orden?: Partial<OrdenServicioRaw> | null) => {
     summaryLabel: "Monto a liquidar",
     accent: "emerald" as const,
   };
+};
+
+const canDirectLiquidatePaidTransfer = (orden?: Partial<OrdenServicioRaw> | null) => {
+  if (!orden) return false;
+
+  const settlementMeta = getSettlementFlowMeta(orden);
+  const paymentStatus = orden.estadoPago?.trim().toUpperCase();
+
+  return (
+    paymentStatus === "PAGADO" &&
+    settlementMeta.hasTransfer &&
+    !settlementMeta.hasCash &&
+    hasStoredTransferSettlementData(orden)
+  );
 };
 
 const ESTADO_STYLING: Record<string, string> = {
@@ -1442,6 +1497,14 @@ function ServiciosContent() {
         (b) => b.metodo === "TRANSFERENCIA" && b.monto > 0,
       );
       const storedTransferencias = liquidarData.transferencias.filter((transferencia) => transferencia.persisted);
+      const storedTransferenciasToProcess = storedTransferencias.filter(
+        (transferencia) =>
+          !isTransferenciaMetadataComplete(transferencia) || Boolean(transferencia.comprobanteFile),
+      );
+      const lockedStoredTransferencias = storedTransferencias.filter(
+        (transferencia) =>
+          isTransferenciaMetadataComplete(transferencia) && !transferencia.comprobanteFile,
+      );
       const draftTransferencias = liquidarData.transferencias.filter(
         (transferencia) => !transferencia.persisted,
       );
@@ -1473,14 +1536,19 @@ function ServiciosContent() {
         return;
       }
 
-      const invalidTransferencia = activeDraftTransferencias.find((transferencia) => {
+      const transferenciasPendientesPorCompletar = [
+        ...storedTransferenciasToProcess,
+        ...activeDraftTransferencias,
+      ];
+
+      const invalidTransferencia = transferenciasPendientesPorCompletar.find((transferencia) => {
         const monto = parseCurrencyInput(transferencia.monto);
 
         return (
           monto <= 0 ||
           !transferencia.fechaPago ||
           !transferencia.referenciaPago.trim() ||
-          !transferencia.comprobanteFile
+          (!transferencia.comprobanteFile && !transferencia.existingPath)
         );
       });
 
@@ -1499,7 +1567,7 @@ function ServiciosContent() {
       setIsUploading(true);
       toastId = toast.loading("Liquidando servicio...");
 
-      const uploadedTransferencias: Array<{
+      const processedTransferencias: Array<{
         monto: number;
         comprobantePath: string;
         referenciaPago: string;
@@ -1508,22 +1576,27 @@ function ServiciosContent() {
         observacion?: string;
       }> = [];
 
-      for (const transferencia of activeDraftTransferencias) {
-        const signed = await createSignedUploadUrl(
-          selectedServicio.raw.id,
-          "comprobantePago",
-          transferencia.comprobanteFile!.name,
-        );
-        await uploadToSupabaseSignedUrl(
-          signed.path,
-          signed.token,
-          transferencia.comprobanteFile!,
-        );
-        await confirmOrdenUpload(selectedServicio.raw.id, "comprobantePago", [signed.path]);
+      for (const transferencia of [...storedTransferenciasToProcess, ...activeDraftTransferencias]) {
+        let comprobantePath = transferencia.existingPath || "";
 
-        uploadedTransferencias.push({
+        if (transferencia.comprobanteFile) {
+          const signed = await createSignedUploadUrl(
+            selectedServicio.raw.id,
+            "comprobantePago",
+            transferencia.comprobanteFile.name,
+          );
+          await uploadToSupabaseSignedUrl(
+            signed.path,
+            signed.token,
+            transferencia.comprobanteFile,
+          );
+          await confirmOrdenUpload(selectedServicio.raw.id, "comprobantePago", [signed.path]);
+          comprobantePath = signed.path;
+        }
+
+        processedTransferencias.push({
           monto: parseCurrencyInput(transferencia.monto),
-          comprobantePath: signed.path,
+          comprobantePath,
           referenciaPago: transferencia.referenciaPago.trim(),
           fechaPago: transferencia.fechaPago,
           banco: transferencia.banco.trim() || undefined,
@@ -1531,16 +1604,18 @@ function ServiciosContent() {
         });
       }
 
+      const transferenciasPayload = processedTransferencias;
+
       const primaryTransferencia =
-        uploadedTransferencias[0] ||
-        (storedTransferencias[0]
+        transferenciasPayload[0] ||
+        (lockedStoredTransferencias[0]
           ? {
-              monto: parseCurrencyInput(storedTransferencias[0].monto),
-              comprobantePath: storedTransferencias[0].existingPath || "",
-              referenciaPago: storedTransferencias[0].referenciaPago.trim(),
-              fechaPago: storedTransferencias[0].fechaPago,
-              banco: storedTransferencias[0].banco.trim() || undefined,
-              observacion: storedTransferencias[0].observacion.trim() || undefined,
+              monto: parseCurrencyInput(lockedStoredTransferencias[0].monto),
+              comprobantePath: lockedStoredTransferencias[0].existingPath || "",
+              referenciaPago: lockedStoredTransferencias[0].referenciaPago.trim(),
+              fechaPago: lockedStoredTransferencias[0].fechaPago,
+              banco: lockedStoredTransferencias[0].banco.trim() || undefined,
+              observacion: lockedStoredTransferencias[0].observacion.trim() || undefined,
             }
           : null);
 
@@ -1578,14 +1653,14 @@ function ServiciosContent() {
         comprobantePago: primaryTransferencia?.comprobantePath || undefined,
         referenciaPago: primaryTransferencia?.referenciaPago || undefined,
         transferencias:
-          uploadedTransferencias.length > 0 ? uploadedTransferencias : undefined,
+          transferenciasPayload.length > 0 ? transferenciasPayload : undefined,
         confirmarMovimientoFinanciero: true,
         estadoServicio: nuevoEstado,
       });
 
       let successMsg = "Pago registrado correctamente.";
       if (isFuture) successMsg = "Anticipo registrado. El servicio sigue programado.";
-      else if (hasTransfer && hasCash && uploadedTransferencias.length === 0 && !hasExistingTransferProof) {
+      else if (hasTransfer && hasCash && transferenciasPayload.length === 0 && !hasExistingTransferProof) {
         successMsg = "Efectivo registrado. La transferencia quedó pendiente de soporte.";
       }
       else if (nuevoEstado === "LIQUIDADO" && hasTransfer) successMsg = "Transferencia confirmada con soporte. Servicio liquidado exitosamente.";
@@ -1628,6 +1703,80 @@ function ServiciosContent() {
       setIsUploading(false);
     }
   };
+
+  const openLiquidationModalForServicio = useCallback((servicio: Servicio) => {
+    const settlementMeta = getSettlementFlowMeta(servicio.raw);
+    const currentBreakdown = servicio.raw.desglosePago && servicio.raw.desglosePago.length > 0
+      ? servicio.raw.desglosePago.map(d => ({
+          metodo: d.metodo,
+          monto: d.monto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+          banco: toOptionalString(d.banco),
+          referencia: toOptionalString(d.referencia),
+          observacion: toOptionalString(d.observacion)
+        }))
+      : [{
+          metodo: servicio.raw.metodoPago?.nombre || (settlementMeta.hasCash ? "EFECTIVO" : "TRANSFERENCIA"),
+          monto: (servicio.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        }];
+
+    setSelectedServicio(servicio);
+    setLiquidarData({
+      breakdown: currentBreakdown,
+      observacionFinal: servicio.raw.observacionFinal || "",
+      transferencias: getInitialTransferencias(servicio.raw),
+    });
+    setIsLiquidarModalOpen(true);
+  }, []);
+
+  const handleLiquidateAction = useCallback(async (servicio: Servicio) => {
+    if (!canDirectLiquidatePaidTransfer(servicio.raw)) {
+      openLiquidationModalForServicio(servicio);
+      return;
+    }
+
+    setSelectedServicio(servicio);
+    setIsUploading(true);
+    const toastId = toast.loading("Liquidando servicio...");
+
+    try {
+      await updateOrdenServicio(servicio.raw.id, {
+        estadoServicio: "LIQUIDADO",
+        observacionFinal: servicio.raw.observacionFinal || undefined,
+      });
+
+      toast.success("Servicio liquidado exitosamente.", { id: toastId });
+
+      notifyLiquidationWebhook({
+        telefono: servicio.clienteFull.telefono || "",
+        cliente: servicio.cliente,
+        fecha: servicio.fecha,
+        servicio: servicio.servicioEspecifico,
+        idServicio: servicio.raw.id,
+      }).catch(err => console.error("Error notifying webhook:", err));
+
+      const updatedList = await fetchServicios();
+      if (updatedList.length > 0) {
+        const refreshed = updatedList.find((item) => item.raw.id === servicio.raw.id);
+        if (refreshed) setSelectedServicio(refreshed);
+      }
+    } catch (error) {
+      console.error("Direct liquidation error:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "No fue posible liquidar el servicio";
+
+      toast.error(errorMessage, { id: toastId });
+
+      if (
+        errorMessage.includes("Para registrar pagos por transferencia") ||
+        errorMessage.includes("comprobante") ||
+        errorMessage.includes("fecha de pago")
+      ) {
+        openLiquidationModalForServicio(servicio);
+      }
+    } finally {
+      setIsUploading(false);
+    }
+  }, [fetchServicios, openLiquidationModalForServicio]);
 
   const fetchKpis = useCallback(async () => {
     setKpisLoading(true);
@@ -3023,25 +3172,7 @@ function ServiciosContent() {
                                 ) : !s.raw.fechaVisita ? null : (
                                   <DropdownMenuItem
                                     onClick={() => {
-                                      setSelectedServicio(s);
-                                      const currentBreakdown = s.raw.desglosePago && s.raw.desglosePago.length > 0
-                                        ? s.raw.desglosePago.map(d => ({
-                                            metodo: d.metodo,
-                                            monto: d.monto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
-                                            banco: toOptionalString(d.banco),
-                                            referencia: toOptionalString(d.referencia),
-                                            observacion: toOptionalString(d.observacion)
-                                          }))
-                                        : [{
-                                            metodo: s.raw.metodoPago?.nombre || (settlementMeta.hasCash ? "EFECTIVO" : "TRANSFERENCIA"),
-                                            monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-                                          }];
-                                      setLiquidarData({
-                                        breakdown: currentBreakdown,
-                                        observacionFinal: s.raw.observacionFinal || "",
-                                        transferencias: getInitialTransferencias(s.raw),
-                                      });
-                                      setIsLiquidarModalOpen(true);
+                                      void handleLiquidateAction(s);
                                     }}
                                     className={cn(
                                       "flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer",
@@ -3741,25 +3872,7 @@ function ServiciosContent() {
                   <Button
                     disabled={financialLock.locked}
                     onClick={() => {
-                      const s = selectedServicio;
-                      const currentBreakdown = s.raw.desglosePago && s.raw.desglosePago.length > 0
-                        ? s.raw.desglosePago.map(d => ({
-                            metodo: d.metodo,
-                            monto: d.monto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
-                            banco: toOptionalString(d.banco),
-                            referencia: toOptionalString(d.referencia),
-                            observacion: toOptionalString(d.observacion)
-                          }))
-                        : [{
-                            metodo: s.raw.metodoPago?.nombre || (settlementMeta.hasCash ? "EFECTIVO" : "TRANSFERENCIA"),
-                            monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-                          }];
-                      setLiquidarData({
-                        breakdown: currentBreakdown,
-                        observacionFinal: s.raw.observacionFinal || "",
-                        transferencias: getInitialTransferencias(s.raw),
-                      });
-                      setIsLiquidarModalOpen(true);
+                      void handleLiquidateAction(selectedServicio);
                     }}
                     className={cn(
                       "flex-1 h-14 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl gap-3",
@@ -4040,19 +4153,34 @@ function ServiciosContent() {
                               <div className="space-y-3">
                                 {liquidarData.transferencias.map((transferencia, idx) => (
                                   <div key={transferencia.id} className="rounded-2xl border border-border bg-muted/20 p-3 md:p-4">
+                                    {(() => {
+                                      const isLockedPersistedTransfer =
+                                        transferencia.persisted &&
+                                        isTransferenciaMetadataComplete(transferencia);
+
+                                      return (
+                                        <>
                                     <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                                       <div className="min-w-0">
                                         <p className="text-[10px] font-semibold uppercase tracking-widest text-foreground">
                                           Transferencia #{idx + 1}
                                         </p>
                                         <p className="text-[10px] font-medium text-muted-foreground">
-                                          {transferencia.persisted ? "Ya registrada" : "Nueva transferencia a registrar"}
+                                          {transferencia.persisted
+                                            ? isLockedPersistedTransfer
+                                              ? "Ya registrada"
+                                              : "Comprobante cargado: completá los datos faltantes"
+                                            : "Nueva transferencia a registrar"}
                                         </p>
                                       </div>
                                       <div className="flex items-center gap-2">
-                                        {transferencia.persisted ? (
+                                        {isLockedPersistedTransfer ? (
                                           <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[9px] font-semibold uppercase tracking-widest text-emerald-700">
                                             Guardada
+                                          </span>
+                                        ) : transferencia.persisted ? (
+                                          <span className="rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 text-[9px] font-semibold uppercase tracking-widest text-amber-700">
+                                            Completar datos
                                           </span>
                                         ) : liquidarData.transferencias.filter((item) => !item.persisted).length > 1 ? (
                                           <Button
@@ -4078,7 +4206,7 @@ function ServiciosContent() {
                                         <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Monto</Label>
                                         <Input
                                           value={transferencia.monto}
-                                          disabled={transferencia.persisted}
+                                          disabled={isLockedPersistedTransfer}
                                           onChange={(e) =>
                                             setLiquidarData((prev) => ({
                                               ...prev,
@@ -4104,7 +4232,7 @@ function ServiciosContent() {
                                         <Input
                                           type="date"
                                           value={transferencia.fechaPago}
-                                          disabled={transferencia.persisted}
+                                          disabled={isLockedPersistedTransfer}
                                           onChange={(e) =>
                                             setLiquidarData((prev) => ({
                                               ...prev,
@@ -4121,7 +4249,7 @@ function ServiciosContent() {
                                         <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Referencia</Label>
                                         <Input
                                           value={transferencia.referenciaPago}
-                                          disabled={transferencia.persisted}
+                                          disabled={isLockedPersistedTransfer}
                                           onChange={(e) =>
                                             setLiquidarData((prev) => ({
                                               ...prev,
@@ -4139,7 +4267,7 @@ function ServiciosContent() {
                                         <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Banco</Label>
                                         <Input
                                           value={transferencia.banco}
-                                          disabled={transferencia.persisted}
+                                          disabled={isLockedPersistedTransfer}
                                           onChange={(e) =>
                                             setLiquidarData((prev) => ({
                                               ...prev,
@@ -4155,16 +4283,38 @@ function ServiciosContent() {
 
                                       <div className="space-y-2 sm:col-span-2 xl:col-span-2 min-w-0">
                                         <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Comprobante</Label>
-                                        {transferencia.persisted && transferencia.existingPath ? (
-                                          <a
-                                            href={resolveSoportePagoUrl("tenaxis-docs", transferencia.existingPath)}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex h-10 items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 text-[10px] font-semibold uppercase tracking-widest text-emerald-700"
-                                          >
-                                            <ExternalLink className="h-3.5 w-3.5" />
-                                            Ver comprobante cargado
-                                          </a>
+                                        {transferencia.existingPath ? (
+                                          <div className="space-y-2">
+                                            <a
+                                              href={resolveSoportePagoUrl("tenaxis-docs", transferencia.existingPath)}
+                                              target="_blank"
+                                              rel="noopener noreferrer"
+                                              className="flex h-10 items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 text-[10px] font-semibold uppercase tracking-widest text-emerald-700"
+                                            >
+                                              <ExternalLink className="h-3.5 w-3.5" />
+                                              Ver comprobante cargado
+                                            </a>
+                                            <Input
+                                              type="file"
+                                              accept="application/pdf,image/*"
+                                              onChange={(e) =>
+                                                setLiquidarData((prev) => ({
+                                                  ...prev,
+                                                  transferencias: prev.transferencias.map((item) =>
+                                                    item.id === transferencia.id
+                                                      ? { ...item, comprobanteFile: e.target.files?.[0] || null }
+                                                      : item,
+                                                  ),
+                                                }))
+                                              }
+                                              className="h-10 bg-background py-1 font-medium text-sm file:mr-3 file:h-8 file:rounded-lg file:border-0 file:bg-amber-600 file:px-3 file:text-xs file:font-bold file:text-white"
+                                            />
+                                            {transferencia.comprobanteFile ? (
+                                              <p className="text-[10px] font-medium text-amber-700">
+                                                Nuevo comprobante listo para reemplazar el actual: {transferencia.comprobanteFile.name}
+                                              </p>
+                                            ) : null}
+                                          </div>
                                         ) : (
                                           <Input
                                             type="file"
@@ -4179,7 +4329,7 @@ function ServiciosContent() {
                                                 ),
                                               }))
                                             }
-                                            className="h-10 bg-background font-medium text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-emerald-600 file:px-3 file:py-2 file:text-xs file:font-bold file:text-white"
+                                            className="h-10 bg-background py-1 font-medium text-sm file:mr-3 file:h-8 file:rounded-lg file:border-0 file:bg-emerald-600 file:px-3 file:text-xs file:font-bold file:text-white"
                                           />
                                         )}
                                       </div>
@@ -4189,7 +4339,7 @@ function ServiciosContent() {
                                       <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Observación de transferencia</Label>
                                       <textarea
                                         value={transferencia.observacion}
-                                        disabled={transferencia.persisted}
+                                        disabled={isLockedPersistedTransfer}
                                         onChange={(e) =>
                                           setLiquidarData((prev) => ({
                                             ...prev,
@@ -4202,6 +4352,9 @@ function ServiciosContent() {
                                         placeholder="Notas de esta transferencia..."
                                       />
                                     </div>
+                                        </>
+                                      );
+                                    })()}
                                   </div>
                                 ))}
                               </div>
