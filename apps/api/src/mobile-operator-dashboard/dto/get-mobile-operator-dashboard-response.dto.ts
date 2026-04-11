@@ -32,13 +32,24 @@ export class OperatorDashboardCashCollectionDto {
   diasSinTransferir!: number;
 }
 
+export class OperatorDashboardNextServiceServicioDto {
+  id!: string;
+  nombre!: string;
+}
+
 export class OperatorDashboardNextServiceDto {
   id!: string;
   fechaVisita!: string;
+  horaInicio!: string | null;
+  horaVisita!: string | null;
   estadoServicio!: string;
   tipoVisita!: string | null;
   urgencia!: string | null;
   clienteNombre!: string | null;
+  direccion!: string | null;
+  servicioId!: string;
+  servicio!: OperatorDashboardNextServiceServicioDto | null;
+  serviciosSeleccionados!: unknown | null;
 }
 
 export class OperatorDashboardResponseDto {

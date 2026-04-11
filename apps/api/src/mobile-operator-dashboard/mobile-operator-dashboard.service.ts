@@ -24,9 +24,19 @@ type NextServiceRecord = Prisma.OrdenServicioGetPayload<{
   select: {
     id: true;
     fechaVisita: true;
+    horaInicio: true;
+    servicioId: true;
     estadoServicio: true;
     tipoVisita: true;
     urgencia: true;
+    direccionTexto: true;
+    serviciosSeleccionados: true;
+    servicio: {
+      select: {
+        id: true;
+        nombre: true;
+      };
+    };
     cliente: {
       select: {
         nombre: true;
@@ -155,15 +165,29 @@ export class MobileOperatorDashboardService {
       ),
       this.prisma.ordenServicio.findFirst({
         where: this.buildOpenOrderWhere(scope, {
-          fechaVisita: { gte: now },
+          fechaVisita: { gte: startOfToday },
         }),
-        orderBy: [{ fechaVisita: 'asc' }, { createdAt: 'asc' }],
+        orderBy: [
+          { fechaVisita: 'asc' },
+          { horaInicio: 'asc' },
+          { createdAt: 'asc' },
+        ],
         select: {
           id: true,
           fechaVisita: true,
+          horaInicio: true,
+          servicioId: true,
           estadoServicio: true,
           tipoVisita: true,
           urgencia: true,
+          direccionTexto: true,
+          serviciosSeleccionados: true,
+          servicio: {
+            select: {
+              id: true,
+              nombre: true,
+            },
+          },
           cliente: {
             select: {
               nombre: true,
@@ -299,10 +323,21 @@ export class MobileOperatorDashboardService {
     return {
       id: service.id,
       fechaVisita: service.fechaVisita.toISOString(),
+      horaInicio: service.horaInicio?.toISOString() ?? null,
+      horaVisita: service.horaInicio?.toISOString() ?? null,
       estadoServicio: service.estadoServicio,
       tipoVisita: service.tipoVisita ?? null,
       urgencia: service.urgencia ?? null,
       clienteNombre: this.resolveClientName(service.cliente),
+      direccion: service.direccionTexto?.trim() || null,
+      servicioId: service.servicioId,
+      servicio: service.servicio
+        ? {
+            id: service.servicio.id,
+            nombre: service.servicio.nombre,
+          }
+        : null,
+      serviciosSeleccionados: service.serviciosSeleccionados ?? null,
     };
   }
 
