@@ -39,10 +39,12 @@ import {
   Trash2,
   Clock,
   Contact2,
+  CheckCircle2,
   Building2,
   UserCircle2,
   Target,
   Search,
+  AlertCircle,
   GanttChart,
 } from "lucide-react";
 import { useUserRole } from "@/hooks/use-user-role";
@@ -831,6 +833,45 @@ function EditarClienteContent() {
                       <div className="space-y-2">
                         <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Indicaciones Opcionales</Label>
                         <Input value={dir.restriccionesAcceso} onChange={(e) => handleDireccionChange(dir.id, "restriccionesAcceso", e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Ej: Portón café, cerca al parque" />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col md:flex-row items-center gap-6 p-6 rounded-2xl bg-muted border border-border">
+                      <div className="flex-1 w-full space-y-1.5">
+                        <Label className="text-[10px] font-black text-azul-1 uppercase tracking-[0.15em]">Latitud Geográfica</Label>
+                        <Input
+                          value={dir.latitud}
+                          onChange={(e) => handleDireccionChange(dir.id, "latitud", e.target.value.replace(/[^0-9.-]/g, ""))}
+                          pattern="^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$"
+                          title="Latitud válida entre -90 y 90"
+                          className="h-10 border-border bg-background text-foreground font-mono text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+                          placeholder="0.0000"
+                        />
+                      </div>
+                      <div className="flex-1 w-full space-y-1.5">
+                        <Label className="text-[10px] font-black text-azul-1 uppercase tracking-[0.15em]">Longitud Geográfica</Label>
+                        <Input
+                          value={dir.longitud}
+                          onChange={(e) => handleDireccionChange(dir.id, "longitud", e.target.value.replace(/[^0-9.-]/g, ""))}
+                          pattern="^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$"
+                          title="Longitud válida entre -180 y 180"
+                          className="h-10 border-border bg-background text-foreground font-mono text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+                          placeholder="0.0000"
+                        />
+                      </div>
+                      <div
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border font-bold text-[10px] uppercase tracking-wider transition-all ${
+                          dir.validadoPorSistema
+                            ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                            : "bg-background text-muted-foreground border-border"
+                        }`}
+                      >
+                        {dir.validadoPorSistema ? (
+                          <CheckCircle2 className="h-3.5 w-3.5" />
+                        ) : (
+                          <AlertCircle className="h-3.5 w-3.5" />
+                        )}
+                        {dir.validadoPorSistema ? "SISTEMA: GEORREFERENCIADO" : "SISTEMA: PENDIENTE"}
                       </div>
                     </div>
 
