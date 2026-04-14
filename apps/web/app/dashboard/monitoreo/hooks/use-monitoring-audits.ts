@@ -1,27 +1,99 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Audit } from "../types";
+
+import {
+  Audit,
+  AuditFilters,
+  AuditFilterOptions,
+  AuditMeta,
+} from "../types";
 import { monitoringClient } from "@/lib/api/monitoreo-client";
+
+const EMPTY_FILTER_OPTIONS: AuditFilterOptions = {
+  actions: [],
+  entities: [],
+  statuses: [],
+  users: [],
+};
+
+const DEFAULT_META: AuditMeta = {
+  total: 0,
+  page: 1,
+  limit: 20,
+  totalPages: 1,
+  filterOptions: EMPTY_FILTER_OPTIONS,
+};
+
+const createDefaultFilters = (): AuditFilters => ({
+  entityId: "",
+  actions: [],
+  users: [],
+  entities: [],
+  statuses: [],
+});
 
 export function useMonitoringAudits(date?: string) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [filters, setFilters] = useState<AuditFilters>(createDefaultFilters);
+  const [debouncedEntityId, setDebouncedEntityId] = useState("");
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      setDebouncedEntityId(filters.entityId.trim());
+    }, 300);
+
+    return () => window.clearTimeout(timeout);
+  }, [filters.entityId]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [
+    date,
+    filters.actions,
+    filters.users,
+    filters.entities,
+    filters.statuses,
+    debouncedEntityId,
+  ]);
 
   const auditsQuery = useQuery({
-    queryKey: ["monitoring", "audits", currentPage, date],
+    queryKey: [
+      "monitoring",
+      "audits",
+      currentPage,
+      date,
+      debouncedEntityId,
+      filters.actions.join("|"),
+      filters.users.join("|"),
+      filters.entities.join("|"),
+      filters.statuses.join("|"),
+    ],
     queryFn: async () => {
-      const result = await monitoringClient.getAudits({
+      const result = (await monitoringClient.getAudits({
         page: currentPage,
         limit: 20,
         date,
-      }) as { results?: Audit[]; data?: Audit[]; meta?: Record<string, unknown> };
+        entityId: debouncedEntityId || undefined,
+        actions: filters.actions.length > 0 ? filters.actions : undefined,
+        users: filters.users.length > 0 ? filters.users : undefined,
+        entities: filters.entities.length > 0 ? filters.entities : undefined,
+        statuses: filters.statuses.length > 0 ? filters.statuses : undefined,
+      })) as {
+        results?: Audit[];
+        data?: Audit[];
+        meta?: AuditMeta;
+      };
 
       return {
-        data: (result.results || result.data || []) as Audit[],
-        meta: result.meta || { total: 0, page: currentPage, limit: 20, totalPages: 1 },
+        data: Array.isArray(result.results)
+          ? result.results
+          : Array.isArray(result.data)
+            ? result.data
+            : [],
+        meta: result.meta || DEFAULT_META,
       };
     },
     staleTime: 60000,
@@ -36,56 +108,53 @@ export function useMonitoringAudits(date?: string) {
 
   const auditsData = useMemo(() => {
     const response = auditsQuery.data;
-    
-    if (!response || !response.data) {
-      return { 
-        results: [] as Audit[], 
-        meta: { total: 0, page: currentPage, limit: 20, totalPages: 1 } 
+
+    if (!response) {
+      return {
+        results: [] as Audit[],
+        meta: DEFAULT_META,
       };
     }
-    
-    const results = Array.isArray(response.data) ? response.data : [];
-    
-    return { 
-      results, 
-      meta: response.meta || { total: results.length, page: currentPage, limit: 20, totalPages: 1 } 
+
+    return {
+      results: Array.isArray(response.data) ? response.data : [],
+      meta: response.meta || DEFAULT_META,
     };
-  }, [auditsQuery.data, currentPage]);
+  }, [auditsQuery.data]);
 
-  const filteredAudits = useMemo(() => {
-    const results = auditsData.results || [];
-    
-    return results.filter((audit: Audit) => {
-      if (!searchQuery) return true;
-      const searchStr = searchQuery.toLowerCase();
-      
-      const entidad = (audit.entidad || "").toLowerCase();
-      const accion = (audit.accion || "").toLowerCase();
-      const nombre = (audit.membership?.user?.nombre || "").toLowerCase();
-      const apellido = (audit.membership?.user?.apellido || "").toLowerCase();
-      const username = (audit.membership?.username || "").toLowerCase();
+  const updateFilters = (updater: Partial<AuditFilters> | ((prev: AuditFilters) => AuditFilters)) => {
+    setFilters((prev) =>
+      typeof updater === "function" ? updater(prev) : { ...prev, ...updater },
+    );
+  };
 
-      return (
-        entidad.includes(searchStr) ||
-        accion.includes(searchStr) ||
-        nombre.includes(searchStr) ||
-        apellido.includes(searchStr) ||
-        username.includes(searchStr)
-      );
-    });
-  }, [auditsData.results, searchQuery]);
+  const setEntityIdFilter = (value: string) => {
+    setFilters((prev) => ({ ...prev, entityId: value }));
+
+    if (!value.trim()) {
+      setDebouncedEntityId("");
+    }
+  };
+
+  const clearFilters = () => {
+    setDebouncedEntityId("");
+    setFilters(createDefaultFilters());
+  };
 
   return {
-    audits: filteredAudits,
+    audits: auditsData.results,
     meta: auditsData.meta,
+    filterOptions: auditsData.meta.filterOptions || EMPTY_FILTER_OPTIONS,
+    filters,
+    updateFilters,
+    setEntityIdFilter,
+    clearFilters,
     currentPage,
     setCurrentPage,
     lastUpdated: auditsQuery.dataUpdatedAt,
     isLoading: auditsQuery.isLoading,
     isRefreshing: auditsQuery.isFetching,
     isError: auditsQuery.isError,
-    searchQuery,
-    setSearchQuery,
-    fetchAudits: () => auditsQuery.refetch()
+    fetchAudits: () => auditsQuery.refetch(),
   };
 }

@@ -3,6 +3,10 @@ import { PrismaService } from '../prisma/prisma.service';
 import { MonitoringScope } from './types';
 import { Prisma } from '../generated/client/client';
 import {
+  MonitoringAuditsQueryDto,
+  MonitoringAuditStatusFilter,
+} from './dto/monitoring.dto';
+import {
   MonitoringPayrollPreviewItem,
   MonitoringPayrollPreviewResponse,
 } from './payroll.types';
@@ -828,15 +832,12 @@ export class MonitoringService {
     };
   }
 
-  async findAllAudits(
+  private buildAuditsBaseWhere(
     scope: MonitoringScope,
-    page: number = 1,
-    limit: number = 20,
     date?: string,
     startDate?: string,
     endDate?: string,
-  ) {
-    const skip = (page - 1) * limit;
+  ): Prisma.AuditoriaWhereInput {
     const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const where: Prisma.AuditoriaWhereInput = {
@@ -857,7 +858,267 @@ export class MonitoringService {
       };
     }
 
-    const [data, total] = await Promise.all([
+    return where;
+  }
+
+  private buildAuditsWhere(
+    scope: MonitoringScope,
+    query: MonitoringAuditsQueryDto,
+  ): Prisma.AuditoriaWhereInput {
+    const where = this.buildAuditsBaseWhere(
+      scope,
+      query.date,
+      query.startDate,
+      query.endDate,
+    );
+    const andFilters: Prisma.AuditoriaWhereInput[] = [];
+
+    if (query.entities?.length) {
+      andFilters.push({
+        entidad: {
+          in: query.entities,
+        },
+      });
+    }
+
+    if (query.entityId?.trim()) {
+      andFilters.push({
+        entidadId: {
+          contains: query.entityId.trim(),
+          mode: 'insensitive',
+        },
+      });
+    }
+
+    if (query.actions?.length) {
+      andFilters.push({
+        OR: query.actions.map((action) => ({
+          accion: {
+            startsWith: `${action}_`,
+          },
+        })),
+      });
+    }
+
+    if (query.statuses?.length) {
+      andFilters.push({
+        OR: query.statuses.map((status) => ({
+          accion: {
+            endsWith: `_${status}`,
+          },
+        })),
+      });
+    }
+
+    if (query.users?.length) {
+      const includeSystem = query.users.includes('__system__');
+      const membershipIds = query.users.filter((value) => value !== '__system__');
+
+      if (includeSystem && membershipIds.length > 0) {
+        andFilters.push({
+          OR: [
+            { membershipId: null },
+            {
+              membershipId: {
+                in: membershipIds,
+              },
+            },
+          ],
+        });
+      } else if (includeSystem) {
+        andFilters.push({
+          membershipId: null,
+        });
+      } else if (membershipIds.length > 0) {
+        andFilters.push({
+          membershipId: {
+            in: membershipIds,
+          },
+        });
+      }
+    }
+
+    if (andFilters.length === 0) {
+      return where;
+    }
+
+    const existingAnd = Array.isArray(where.AND)
+      ? where.AND
+      : where.AND
+        ? [where.AND]
+        : [];
+
+    return {
+      ...where,
+      AND: [...existingAnd, ...andFilters],
+    };
+  }
+
+  private getAuditActionLabel(action: string): string {
+    return action.split('_')[0]?.trim() || action;
+  }
+
+  private getAuditStatusLabel(
+    status: MonitoringAuditStatusFilter,
+  ): 'EXITOSA' | 'FALLIDA' {
+    return status === MonitoringAuditStatusFilter.FAILED
+      ? 'FALLIDA'
+      : 'EXITOSA';
+  }
+
+  private buildUserOptionLabel(user: {
+    username: string | null;
+    nombre: string | null;
+    apellido: string | null;
+  }): string {
+    const fullName = [user.nombre, user.apellido].filter(Boolean).join(' ').trim();
+    if (fullName && user.username) {
+      return `${fullName} (@${user.username})`;
+    }
+
+    if (fullName) {
+      return fullName;
+    }
+
+    if (user.username) {
+      return `@${user.username}`;
+    }
+
+    return 'Sistema';
+  }
+
+  private async getAuditFilterOptions(
+    where: Prisma.AuditoriaWhereInput,
+  ): Promise<{
+    actions: { value: string; label: string }[];
+    entities: { value: string; label: string }[];
+    statuses: { value: string; label: string }[];
+    users: { value: string; label: string }[];
+  }> {
+    const [actionRows, entityRows, userRows] = await Promise.all([
+      this.prisma.auditoria.findMany({
+        where,
+        distinct: ['accion'],
+        select: {
+          accion: true,
+        },
+        orderBy: {
+          accion: 'asc',
+        },
+      }),
+      this.prisma.auditoria.findMany({
+        where,
+        distinct: ['entidad'],
+        select: {
+          entidad: true,
+        },
+        orderBy: {
+          entidad: 'asc',
+        },
+      }),
+      this.prisma.auditoria.findMany({
+        where,
+        distinct: ['membershipId'],
+        select: {
+          membershipId: true,
+          membership: {
+            select: {
+              username: true,
+              user: {
+                select: {
+                  nombre: true,
+                  apellido: true,
+                },
+              },
+            },
+          },
+        },
+      }),
+    ]);
+
+    const actions = Array.from(
+      new Set(actionRows.map((row) => this.getAuditActionLabel(row.accion))),
+    )
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b, 'es-CO'))
+      .map((action) => ({
+        value: action,
+        label: action,
+      }));
+
+    const entities = entityRows
+      .map((row) => row.entidad)
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b, 'es-CO'))
+      .map((entity) => ({
+        value: entity,
+        label: entity,
+      }));
+
+    const statusSet = new Set<MonitoringAuditStatusFilter>();
+    actionRows.forEach((row) => {
+      if (row.accion.endsWith(`_${MonitoringAuditStatusFilter.SUCCESS}`)) {
+        statusSet.add(MonitoringAuditStatusFilter.SUCCESS);
+      }
+
+      if (row.accion.endsWith(`_${MonitoringAuditStatusFilter.FAILED}`)) {
+        statusSet.add(MonitoringAuditStatusFilter.FAILED);
+      }
+    });
+
+    const statuses = Array.from(statusSet).map((status) => ({
+      value: status,
+      label: this.getAuditStatusLabel(status),
+    }));
+
+    const users = userRows
+      .map((row) => {
+        if (!row.membershipId || !row.membership) {
+          return {
+            value: '__system__',
+            label: 'Sistema',
+          };
+        }
+
+        return {
+          value: row.membershipId,
+          label: this.buildUserOptionLabel({
+            username: row.membership.username ?? null,
+            nombre: row.membership.user?.nombre ?? null,
+            apellido: row.membership.user?.apellido ?? null,
+          }),
+        };
+      })
+      .filter(
+        (option, index, array) =>
+          array.findIndex((entry) => entry.value === option.value) === index,
+      )
+      .sort((a, b) => a.label.localeCompare(b.label, 'es-CO'));
+
+    return {
+      actions,
+      entities,
+      statuses,
+      users,
+    };
+  }
+
+  async findAllAudits(
+    scope: MonitoringScope,
+    query: MonitoringAuditsQueryDto,
+  ) {
+    const page = query.page || 1;
+    const limit = query.limit || 20;
+    const skip = (page - 1) * limit;
+    const baseWhere = this.buildAuditsBaseWhere(
+      scope,
+      query.date,
+      query.startDate,
+      query.endDate,
+    );
+    const where = this.buildAuditsWhere(scope, query);
+
+    const [data, total, filterOptions] = await Promise.all([
       this.prisma.auditoria.findMany({
         where,
         include: {
@@ -882,6 +1143,7 @@ export class MonitoringService {
       this.prisma.auditoria.count({
         where,
       }),
+      this.getAuditFilterOptions(baseWhere),
     ]);
 
     return {
@@ -891,6 +1153,7 @@ export class MonitoringService {
         page,
         limit,
         totalPages: Math.ceil(total / limit),
+        filterOptions,
       },
     };
   }

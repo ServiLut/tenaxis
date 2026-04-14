@@ -3,11 +3,38 @@ import {
   IsOptional,
   IsNotEmpty,
   IsNumber,
+  IsArray,
+  IsEnum,
   Matches,
   Min,
   Max,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
+
+const normalizeQueryArray = ({ value }: { value: unknown }) => {
+  if (Array.isArray(value)) {
+    return value
+      .flatMap((entry) =>
+        typeof entry === 'string' ? entry.split(',') : String(entry),
+      )
+      .map((entry) => String(entry).trim())
+      .filter(Boolean);
+  }
+
+  if (typeof value === 'string') {
+    return value
+      .split(',')
+      .map((entry) => entry.trim())
+      .filter(Boolean);
+  }
+
+  return undefined;
+};
+
+export enum MonitoringAuditStatusFilter {
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED',
+}
 
 export class RecordEventDto {
   @IsString()
@@ -66,4 +93,34 @@ export class MonitoringPaginationDto {
     message: 'endDate debe estar en formato YYYY-MM-DD',
   })
   endDate?: string;
+}
+
+export class MonitoringAuditsQueryDto extends MonitoringPaginationDto {
+  @Transform(normalizeQueryArray)
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  actions?: string[];
+
+  @Transform(normalizeQueryArray)
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  users?: string[];
+
+  @Transform(normalizeQueryArray)
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  entities?: string[];
+
+  @Transform(normalizeQueryArray)
+  @IsArray()
+  @IsEnum(MonitoringAuditStatusFilter, { each: true })
+  @IsOptional()
+  statuses?: MonitoringAuditStatusFilter[];
+
+  @IsString()
+  @IsOptional()
+  entityId?: string;
 }

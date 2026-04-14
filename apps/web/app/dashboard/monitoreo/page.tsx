@@ -41,17 +41,46 @@ import {
   getAudits, 
   getMonitoringPayrollPreview 
 } from "./actions";
+import { monitoringClient } from "@/lib/api/monitoreo-client";
 
 import { Audit, Session } from "./types";
+
+function getAuditActionLabel(action?: string | null) {
+  return (action || "").split("_")[0] || "N/A";
+}
+
+function getAuditStatusLabel(action?: string | null) {
+  return action?.includes("FAILED") ? "FALLIDA" : "EXITOSA";
+}
+
+function stringifyAuditValue(value: unknown) {
+  if (value === null || value === undefined) return "";
+  if (typeof value === "string") return value;
+
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return String(value);
+  }
+}
+
+function getAuditMetadataField(
+  metadata: Record<string, unknown> | undefined,
+  field: string,
+) {
+  const value = metadata?.[field];
+  return value === undefined || value === null ? "" : String(value);
+}
 
 export default function MonitoreoPage() {
   const [activeTab, setActiveTab] = useState<"actividad" | "auditoria">("actividad");
   const [activityTrendMode, setActivityTrendMode] = useState<"dias" | "semanas" | "meses">("dias");
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [isLogsModalOpen, setIsLogsModalOpen] = useState(false);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isKpiModalOpen, setIsKpiModalOpen] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [isExportingAudits, setIsExportingAudits] = useState(false);
   const [kpiModalType, setKpiModalType] = useState<"sessions" | "events" | "technicians" | null>(null);
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [selectedAudit, setSelectedAudit] = useState<Audit | null>(null);
@@ -95,13 +124,16 @@ export default function MonitoreoPage() {
   const {
     audits,
     meta,
+    filterOptions,
+    filters: auditFilters,
+    updateFilters: updateAuditFilters,
+    setEntityIdFilter,
+    clearFilters: clearAuditFilters,
     currentPage,
     setCurrentPage,
     lastUpdated: auditsLastUpdated,
     isLoading: isAuditsLoading,
     isRefreshing: isAuditsRefreshing,
-    searchQuery,
-    setSearchQuery,
     fetchAudits,
   } = useMonitoringAudits(dateStr);
 
@@ -141,6 +173,86 @@ export default function MonitoreoPage() {
   const handleOpenAudit = (audit: Audit) => {
     setSelectedAudit(audit);
     setIsAuditModalOpen(true);
+  };
+
+  const handleExportAuditsCrud = async () => {
+    if (isExportingAudits) return;
+
+    setIsExportingAudits(true);
+
+    try {
+      const pageSize = 100;
+      const baseParams = {
+        limit: pageSize,
+        date: dateStr,
+        entityId: auditFilters.entityId.trim() || undefined,
+        actions: auditFilters.actions.length > 0 ? auditFilters.actions : undefined,
+        users: auditFilters.users.length > 0 ? auditFilters.users : undefined,
+        entities: auditFilters.entities.length > 0 ? auditFilters.entities : undefined,
+        statuses: auditFilters.statuses.length > 0 ? auditFilters.statuses : undefined,
+      };
+
+      const firstPage = await monitoringClient.getAudits({
+        ...baseParams,
+        page: 1,
+      }) as {
+        results?: Audit[];
+        meta?: {
+          totalPages?: number;
+        };
+      };
+
+      const allAudits: Audit[] = Array.isArray(firstPage.results)
+        ? [...firstPage.results]
+        : [];
+      const totalPages = Math.max(1, firstPage.meta?.totalPages ?? 1);
+
+      for (let page = 2; page <= totalPages; page += 1) {
+        const response = await monitoringClient.getAudits({
+          ...baseParams,
+          page,
+        }) as {
+          results?: Audit[];
+        };
+
+        if (Array.isArray(response.results) && response.results.length > 0) {
+          allAudits.push(...response.results);
+        }
+      }
+
+      const crudData = allAudits.map((audit) => ({
+        Fecha: formatBogotaDateTime(audit.createdAt, "es-CO"),
+        Accion: getAuditActionLabel(audit.accion),
+        Estado: getAuditStatusLabel(audit.accion),
+        Entidad: audit.entidad || "N/A",
+        ID_Entidad: audit.entidadId || "N/A",
+        Usuario: `${audit.membership?.user?.nombre ?? ""} ${audit.membership?.user?.apellido ?? ""}`.trim() || "Sistema",
+        Username: audit.membership?.username || "sistema",
+        Ruta: getAuditMetadataField(audit.metadata, "path"),
+        Metodo: getAuditMetadataField(audit.metadata, "method"),
+        IP: getAuditMetadataField(audit.metadata, "ip"),
+        Anterior: stringifyAuditValue(audit.detalles?.anterior),
+        Nuevo: stringifyAuditValue(audit.detalles?.nuevo),
+        Resultado: stringifyAuditValue((audit.detalles as Record<string, unknown> | undefined)?.resultado),
+      }));
+
+      await exportToExcel(
+        [
+          {
+            name: "Auditoria CRUD",
+            data: crudData,
+          },
+        ],
+        "monitoreo_auditoria_crud",
+      );
+
+      toast.success(`CRUD exportado con ${crudData.length} registro(s)`);
+    } catch (error) {
+      console.error("Audit export error:", error);
+      toast.error("No pudimos exportar el CRUD de auditoría");
+    } finally {
+      setIsExportingAudits(false);
+    }
   };
 
   const handleExportRange = async (range: { from: Date; to: Date }) => {
@@ -337,10 +449,16 @@ export default function MonitoreoPage() {
               <AuditsTable
                 audits={audits}
                 meta={meta}
+                filterOptions={filterOptions}
+                filters={auditFilters}
                 currentPage={currentPage}
                 isLoading={isAuditsLoading}
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
+                isExportingCrud={isExportingAudits}
+                entityIdQuery={auditFilters.entityId}
+                onEntityIdChange={setEntityIdFilter}
+                onFiltersChange={updateAuditFilters}
+                onClearFilters={clearAuditFilters}
+                onExportCrud={handleExportAuditsCrud}
                 onPageChange={setCurrentPage}
                 onOpenAudit={handleOpenAudit}
               />

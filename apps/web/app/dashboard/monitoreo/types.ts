@@ -1,13 +1,36 @@
 export interface ApiResponse<T> {
   data: T;
-  meta?: {
-    total?: number;
-    page?: number;
-    limit?: number;
-    totalPages?: number;
-    [key: string]: unknown;
-  };
+  meta?: AuditMeta;
   message?: string;
+}
+
+export interface AuditFilterOption {
+  value: string;
+  label: string;
+}
+
+export interface AuditFilterOptions {
+  actions: AuditFilterOption[];
+  entities: AuditFilterOption[];
+  statuses: AuditFilterOption[];
+  users: AuditFilterOption[];
+}
+
+export interface AuditMeta {
+  total?: number;
+  page?: number;
+  limit?: number;
+  totalPages?: number;
+  filterOptions?: AuditFilterOptions;
+  [key: string]: unknown;
+}
+
+export interface AuditFilters {
+  entityId: string;
+  actions: string[];
+  users: string[];
+  entities: string[];
+  statuses: string[];
 }
 
 export interface User {

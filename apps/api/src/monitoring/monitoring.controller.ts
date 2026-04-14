@@ -20,6 +20,7 @@ import {
   RecordEventDto,
   HeartbeatDto,
   MonitoringPaginationDto,
+  MonitoringAuditsQueryDto,
 } from './dto/monitoring.dto';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request as ExpressRequest } from 'express';
@@ -102,16 +103,9 @@ export class MonitoringController {
   @Get('audits')
   async findAllAudits(
     @GetScope() scope: MonitoringScope,
-    @Query() query: MonitoringPaginationDto,
+    @Query() query: MonitoringAuditsQueryDto,
   ) {
-    return this.monitoringService.findAllAudits(
-      scope,
-      query.page || 1,
-      query.limit || 20,
-      query.date,
-      query.startDate,
-      query.endDate,
-    );
+    return this.monitoringService.findAllAudits(scope, query);
   }
 
   @Get('recent-logs')
