@@ -225,6 +225,7 @@ export type EmpresaWhereInput = {
   nominaDetalles?: Prisma.NominaDetalleListRelationFilter
   nominas?: Prisma.NominaListRelationFilter
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteListRelationFilter
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoListRelationFilter
   orgNodes?: Prisma.OrganizationNodeListRelationFilter
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
@@ -280,6 +281,7 @@ export type EmpresaOrderByWithRelationInput = {
   nominaDetalles?: Prisma.NominaDetalleOrderByRelationAggregateInput
   nominas?: Prisma.NominaOrderByRelationAggregateInput
   ordenesServicio?: Prisma.OrdenServicioOrderByRelationAggregateInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteOrderByRelationAggregateInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoOrderByRelationAggregateInput
   orgNodes?: Prisma.OrganizationNodeOrderByRelationAggregateInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoOrderByRelationAggregateInput
@@ -338,6 +340,7 @@ export type EmpresaWhereUniqueInput = Prisma.AtLeast<{
   nominaDetalles?: Prisma.NominaDetalleListRelationFilter
   nominas?: Prisma.NominaListRelationFilter
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteListRelationFilter
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoListRelationFilter
   orgNodes?: Prisma.OrganizationNodeListRelationFilter
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
@@ -418,6 +421,7 @@ export type EmpresaCreateInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -472,6 +476,7 @@ export type EmpresaUncheckedCreateInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -526,6 +531,7 @@ export type EmpresaUpdateInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -580,6 +586,7 @@ export type EmpresaUncheckedUpdateInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -921,6 +928,20 @@ export type EmpresaUpdateOneRequiredWithoutSeguimientosOrdenServicioNestedInput 
   upsert?: Prisma.EmpresaUpsertWithoutSeguimientosOrdenServicioInput
   connect?: Prisma.EmpresaWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutSeguimientosOrdenServicioInput, Prisma.EmpresaUpdateWithoutSeguimientosOrdenServicioInput>, Prisma.EmpresaUncheckedUpdateWithoutSeguimientosOrdenServicioInput>
+}
+
+export type EmpresaCreateNestedOneWithoutReportesOrdenServicioInput = {
+  create?: Prisma.XOR<Prisma.EmpresaCreateWithoutReportesOrdenServicioInput, Prisma.EmpresaUncheckedCreateWithoutReportesOrdenServicioInput>
+  connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutReportesOrdenServicioInput
+  connect?: Prisma.EmpresaWhereUniqueInput
+}
+
+export type EmpresaUpdateOneRequiredWithoutReportesOrdenServicioNestedInput = {
+  create?: Prisma.XOR<Prisma.EmpresaCreateWithoutReportesOrdenServicioInput, Prisma.EmpresaUncheckedCreateWithoutReportesOrdenServicioInput>
+  connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutReportesOrdenServicioInput
+  upsert?: Prisma.EmpresaUpsertWithoutReportesOrdenServicioInput
+  connect?: Prisma.EmpresaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutReportesOrdenServicioInput, Prisma.EmpresaUpdateWithoutReportesOrdenServicioInput>, Prisma.EmpresaUncheckedUpdateWithoutReportesOrdenServicioInput>
 }
 
 export type EmpresaCreateNestedOneWithoutEntidadesFinancierasInput = {
@@ -1384,6 +1405,7 @@ export type EmpresaCreateWithoutTenantInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -1437,6 +1459,7 @@ export type EmpresaUncheckedCreateWithoutTenantInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1529,6 +1552,7 @@ export type EmpresaCreateWithoutMembershipsInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -1582,6 +1606,7 @@ export type EmpresaUncheckedCreateWithoutMembershipsInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1651,6 +1676,7 @@ export type EmpresaUpdateWithoutMembershipsInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -1704,6 +1730,7 @@ export type EmpresaUncheckedUpdateWithoutMembershipsInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -1758,6 +1785,7 @@ export type EmpresaCreateWithoutOrgNodesInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
   resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutEmpresaInput
@@ -1811,6 +1839,7 @@ export type EmpresaUncheckedCreateWithoutOrgNodesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1880,6 +1909,7 @@ export type EmpresaUpdateWithoutOrgNodesInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
   resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutEmpresaNestedInput
@@ -1933,6 +1963,7 @@ export type EmpresaUncheckedUpdateWithoutOrgNodesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -1985,6 +2016,7 @@ export type EmpresaCreateWithoutCommissionsInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -2038,6 +2070,7 @@ export type EmpresaUncheckedCreateWithoutCommissionsInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2107,6 +2140,7 @@ export type EmpresaUpdateWithoutCommissionsInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -2160,6 +2194,7 @@ export type EmpresaUncheckedUpdateWithoutCommissionsInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2213,6 +2248,7 @@ export type EmpresaCreateWithoutClientesInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -2266,6 +2302,7 @@ export type EmpresaUncheckedCreateWithoutClientesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2335,6 +2372,7 @@ export type EmpresaUpdateWithoutClientesInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -2388,6 +2426,7 @@ export type EmpresaUncheckedUpdateWithoutClientesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2441,6 +2480,7 @@ export type EmpresaCreateWithoutContratosClienteInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -2494,6 +2534,7 @@ export type EmpresaUncheckedCreateWithoutContratosClienteInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2563,6 +2604,7 @@ export type EmpresaUpdateWithoutContratosClienteInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -2616,6 +2658,7 @@ export type EmpresaUncheckedUpdateWithoutContratosClienteInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2670,6 +2713,7 @@ export type EmpresaCreateWithoutVehiculosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -2723,6 +2767,7 @@ export type EmpresaUncheckedCreateWithoutVehiculosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2792,6 +2837,7 @@ export type EmpresaUpdateWithoutVehiculosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -2845,6 +2891,7 @@ export type EmpresaUncheckedUpdateWithoutVehiculosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2897,6 +2944,7 @@ export type EmpresaCreateWithoutDireccionesInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -2950,6 +2998,7 @@ export type EmpresaUncheckedCreateWithoutDireccionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3019,6 +3068,7 @@ export type EmpresaUpdateWithoutDireccionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -3072,6 +3122,7 @@ export type EmpresaUncheckedUpdateWithoutDireccionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3126,6 +3177,7 @@ export type EmpresaCreateWithoutZonasInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -3179,6 +3231,7 @@ export type EmpresaUncheckedCreateWithoutZonasInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3248,6 +3301,7 @@ export type EmpresaUpdateWithoutZonasInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -3301,6 +3355,7 @@ export type EmpresaUncheckedUpdateWithoutZonasInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3354,6 +3409,7 @@ export type EmpresaCreateWithoutServiciosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -3407,6 +3463,7 @@ export type EmpresaUncheckedCreateWithoutServiciosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3476,6 +3533,7 @@ export type EmpresaUpdateWithoutServiciosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -3529,6 +3587,7 @@ export type EmpresaUncheckedUpdateWithoutServiciosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3582,6 +3641,7 @@ export type EmpresaCreateWithoutTiposServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -3635,6 +3695,7 @@ export type EmpresaUncheckedCreateWithoutTiposServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3704,6 +3765,7 @@ export type EmpresaUpdateWithoutTiposServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -3757,6 +3819,7 @@ export type EmpresaUncheckedUpdateWithoutTiposServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3809,6 +3872,7 @@ export type EmpresaCreateWithoutMetodosPagoInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -3862,6 +3926,7 @@ export type EmpresaUncheckedCreateWithoutMetodosPagoInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3931,6 +3996,7 @@ export type EmpresaUpdateWithoutMetodosPagoInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -3984,6 +4050,7 @@ export type EmpresaUncheckedUpdateWithoutMetodosPagoInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4037,6 +4104,7 @@ export type EmpresaCreateWithoutEstadosServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -4090,6 +4158,7 @@ export type EmpresaUncheckedCreateWithoutEstadosServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4159,6 +4228,7 @@ export type EmpresaUpdateWithoutEstadosServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -4212,6 +4282,7 @@ export type EmpresaUncheckedUpdateWithoutEstadosServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4265,6 +4336,7 @@ export type EmpresaCreateWithoutOrdenesServicioInput = {
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutEmpresaInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -4318,6 +4390,7 @@ export type EmpresaUncheckedCreateWithoutOrdenesServicioInput = {
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutEmpresaInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4387,6 +4460,7 @@ export type EmpresaUpdateWithoutOrdenesServicioInput = {
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutEmpresaNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -4440,6 +4514,7 @@ export type EmpresaUncheckedUpdateWithoutOrdenesServicioInput = {
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutEmpresaNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4494,6 +4569,7 @@ export type EmpresaCreateWithoutSeguimientosOrdenServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
   resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutEmpresaInput
@@ -4547,6 +4623,7 @@ export type EmpresaUncheckedCreateWithoutSeguimientosOrdenServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4616,6 +4693,7 @@ export type EmpresaUpdateWithoutSeguimientosOrdenServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
   resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutEmpresaNestedInput
@@ -4669,6 +4747,239 @@ export type EmpresaUncheckedUpdateWithoutSeguimientosOrdenServicioInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutEmpresaNestedInput
+  permisos?: Prisma.PermisoUncheckedUpdateManyWithoutEmpresaNestedInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedUpdateManyWithoutEmpresaNestedInput
+  productos?: Prisma.ProductoUncheckedUpdateManyWithoutEmpresaNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutEmpresaNestedInput
+  proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutEmpresaNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
+  servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
+  zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+}
+
+export type EmpresaCreateWithoutReportesOrdenServicioInput = {
+  id?: string
+  nombre: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  deletedAt?: Date | string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutEmpresaInput
+  clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
+  commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutEmpresaInput
+  consignaciones?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutEmpresaInput
+  consultorios?: Prisma.ConsultorioCreateNestedManyWithoutEmpresaInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutEmpresaInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutEmpresaInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutEmpresaInput
+  declaraciones?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutEmpresaInput
+  direcciones?: Prisma.DireccionCreateNestedManyWithoutEmpresaInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutEmpresaInput
+  memberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutEmpresaInput
+  tenant: Prisma.TenantCreateNestedOneWithoutEmpresasInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraCreateNestedManyWithoutEmpresaInput
+  estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutEmpresaInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutEmpresaInput
+  logsEvento?: Prisma.LogEventoCreateNestedManyWithoutEmpresaInput
+  metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutEmpresaInput
+  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
+  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
+  orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
+  resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutEmpresaInput
+  permisos?: Prisma.PermisoCreateNestedManyWithoutEmpresaInput
+  picoPlaca?: Prisma.PicoPlacaCreateNestedManyWithoutEmpresaInput
+  productos?: Prisma.ProductoCreateNestedManyWithoutEmpresaInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutEmpresaInput
+  proveedores?: Prisma.ProveedoresCreateNestedManyWithoutEmpresaInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
+  servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
+  tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
+  zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+}
+
+export type EmpresaUncheckedCreateWithoutReportesOrdenServicioInput = {
+  id?: string
+  tenantId: string
+  nombre: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  deletedAt?: Date | string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutEmpresaInput
+  clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
+  commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutEmpresaInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutEmpresaInput
+  consultorios?: Prisma.ConsultorioUncheckedCreateNestedManyWithoutEmpresaInput
+  contratosCliente?: Prisma.ContratoClienteUncheckedCreateNestedManyWithoutEmpresaInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutEmpresaInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutEmpresaInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutEmpresaInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutEmpresaInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutEmpresaInput
+  memberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutEmpresaInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedCreateNestedManyWithoutEmpresaInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutEmpresaInput
+  logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutEmpresaInput
+  metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutEmpresaInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutEmpresaInput
+  permisos?: Prisma.PermisoUncheckedCreateNestedManyWithoutEmpresaInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedCreateNestedManyWithoutEmpresaInput
+  productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutEmpresaInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutEmpresaInput
+  proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutEmpresaInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
+  servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
+  zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+}
+
+export type EmpresaCreateOrConnectWithoutReportesOrdenServicioInput = {
+  where: Prisma.EmpresaWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmpresaCreateWithoutReportesOrdenServicioInput, Prisma.EmpresaUncheckedCreateWithoutReportesOrdenServicioInput>
+}
+
+export type EmpresaUpsertWithoutReportesOrdenServicioInput = {
+  update: Prisma.XOR<Prisma.EmpresaUpdateWithoutReportesOrdenServicioInput, Prisma.EmpresaUncheckedUpdateWithoutReportesOrdenServicioInput>
+  create: Prisma.XOR<Prisma.EmpresaCreateWithoutReportesOrdenServicioInput, Prisma.EmpresaUncheckedCreateWithoutReportesOrdenServicioInput>
+  where?: Prisma.EmpresaWhereInput
+}
+
+export type EmpresaUpdateToOneWithWhereWithoutReportesOrdenServicioInput = {
+  where?: Prisma.EmpresaWhereInput
+  data: Prisma.XOR<Prisma.EmpresaUpdateWithoutReportesOrdenServicioInput, Prisma.EmpresaUncheckedUpdateWithoutReportesOrdenServicioInput>
+}
+
+export type EmpresaUpdateWithoutReportesOrdenServicioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutEmpresaNestedInput
+  clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
+  commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutEmpresaNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUpdateManyWithoutEmpresaNestedInput
+  consultorios?: Prisma.ConsultorioUpdateManyWithoutEmpresaNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutEmpresaNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutEmpresaNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutEmpresaNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUpdateManyWithoutEmpresaNestedInput
+  direcciones?: Prisma.DireccionUpdateManyWithoutEmpresaNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutEmpresaNestedInput
+  memberships?: Prisma.EmpresaMembershipUpdateManyWithoutEmpresaNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutEmpresasNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUpdateManyWithoutEmpresaNestedInput
+  estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutEmpresaNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutEmpresaNestedInput
+  logsEvento?: Prisma.LogEventoUpdateManyWithoutEmpresaNestedInput
+  metodosPago?: Prisma.MetodoPagoUpdateManyWithoutEmpresaNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
+  orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutEmpresaNestedInput
+  permisos?: Prisma.PermisoUpdateManyWithoutEmpresaNestedInput
+  picoPlaca?: Prisma.PicoPlacaUpdateManyWithoutEmpresaNestedInput
+  productos?: Prisma.ProductoUpdateManyWithoutEmpresaNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutEmpresaNestedInput
+  proveedores?: Prisma.ProveedoresUpdateManyWithoutEmpresaNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
+  servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
+  tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
+  zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+}
+
+export type EmpresaUncheckedUpdateWithoutReportesOrdenServicioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutEmpresaNestedInput
+  clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
+  commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutEmpresaNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutEmpresaNestedInput
+  consultorios?: Prisma.ConsultorioUncheckedUpdateManyWithoutEmpresaNestedInput
+  contratosCliente?: Prisma.ContratoClienteUncheckedUpdateManyWithoutEmpresaNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutEmpresaNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutEmpresaNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutEmpresaNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutEmpresaNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutEmpresaNestedInput
+  memberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutEmpresaNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedUpdateManyWithoutEmpresaNestedInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutEmpresaNestedInput
+  logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutEmpresaNestedInput
+  metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutEmpresaNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4721,6 +5032,7 @@ export type EmpresaCreateWithoutEntidadesFinancierasInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -4774,6 +5086,7 @@ export type EmpresaUncheckedCreateWithoutEntidadesFinancierasInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4843,6 +5156,7 @@ export type EmpresaUpdateWithoutEntidadesFinancierasInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -4896,6 +5210,7 @@ export type EmpresaUncheckedUpdateWithoutEntidadesFinancierasInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4949,6 +5264,7 @@ export type EmpresaCreateWithoutGeolocalizacionesInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -5002,6 +5318,7 @@ export type EmpresaUncheckedCreateWithoutGeolocalizacionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5071,6 +5388,7 @@ export type EmpresaUpdateWithoutGeolocalizacionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -5124,6 +5442,7 @@ export type EmpresaUncheckedUpdateWithoutGeolocalizacionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5177,6 +5496,7 @@ export type EmpresaCreateWithoutNominasInput = {
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutEmpresaInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -5230,6 +5550,7 @@ export type EmpresaUncheckedCreateWithoutNominasInput = {
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutEmpresaInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5299,6 +5620,7 @@ export type EmpresaUpdateWithoutNominasInput = {
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutEmpresaNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -5352,6 +5674,7 @@ export type EmpresaUncheckedUpdateWithoutNominasInput = {
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutEmpresaNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5405,6 +5728,7 @@ export type EmpresaCreateWithoutNominaDetallesInput = {
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -5458,6 +5782,7 @@ export type EmpresaUncheckedCreateWithoutNominaDetallesInput = {
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5527,6 +5852,7 @@ export type EmpresaUpdateWithoutNominaDetallesInput = {
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -5580,6 +5906,7 @@ export type EmpresaUncheckedUpdateWithoutNominaDetallesInput = {
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5633,6 +5960,7 @@ export type EmpresaCreateWithoutCitasPsicologosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -5686,6 +6014,7 @@ export type EmpresaUncheckedCreateWithoutCitasPsicologosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5755,6 +6084,7 @@ export type EmpresaUpdateWithoutCitasPsicologosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -5808,6 +6138,7 @@ export type EmpresaUncheckedUpdateWithoutCitasPsicologosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5861,6 +6192,7 @@ export type EmpresaCreateWithoutConsultoriosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -5914,6 +6246,7 @@ export type EmpresaUncheckedCreateWithoutConsultoriosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5983,6 +6316,7 @@ export type EmpresaUpdateWithoutConsultoriosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -6036,6 +6370,7 @@ export type EmpresaUncheckedUpdateWithoutConsultoriosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6090,6 +6425,7 @@ export type EmpresaCreateWithoutTerapiasPsicologosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -6143,6 +6479,7 @@ export type EmpresaUncheckedCreateWithoutTerapiasPsicologosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6212,6 +6549,7 @@ export type EmpresaUpdateWithoutTerapiasPsicologosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -6265,6 +6603,7 @@ export type EmpresaUncheckedUpdateWithoutTerapiasPsicologosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6318,6 +6657,7 @@ export type EmpresaCreateWithoutPaquetesAdquiridosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutEmpresaInput
@@ -6371,6 +6711,7 @@ export type EmpresaUncheckedCreateWithoutPaquetesAdquiridosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6440,6 +6781,7 @@ export type EmpresaUpdateWithoutPaquetesAdquiridosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutEmpresaNestedInput
@@ -6493,6 +6835,7 @@ export type EmpresaUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6546,6 +6889,7 @@ export type EmpresaCreateWithoutTurnosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -6599,6 +6943,7 @@ export type EmpresaUncheckedCreateWithoutTurnosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6668,6 +7013,7 @@ export type EmpresaUpdateWithoutTurnosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -6721,6 +7067,7 @@ export type EmpresaUncheckedUpdateWithoutTurnosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6773,6 +7120,7 @@ export type EmpresaCreateWithoutCuentasCobroInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -6826,6 +7174,7 @@ export type EmpresaUncheckedCreateWithoutCuentasCobroInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6895,6 +7244,7 @@ export type EmpresaUpdateWithoutCuentasCobroInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -6948,6 +7298,7 @@ export type EmpresaUncheckedUpdateWithoutCuentasCobroInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7001,6 +7352,7 @@ export type EmpresaCreateWithoutDeclaracionesInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -7054,6 +7406,7 @@ export type EmpresaUncheckedCreateWithoutDeclaracionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7123,6 +7476,7 @@ export type EmpresaUpdateWithoutDeclaracionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -7176,6 +7530,7 @@ export type EmpresaUncheckedUpdateWithoutDeclaracionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7229,6 +7584,7 @@ export type EmpresaCreateWithoutConsignacionesInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -7282,6 +7638,7 @@ export type EmpresaUncheckedCreateWithoutConsignacionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7351,6 +7708,7 @@ export type EmpresaUpdateWithoutConsignacionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -7404,6 +7762,7 @@ export type EmpresaUncheckedUpdateWithoutConsignacionesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7457,6 +7816,7 @@ export type EmpresaCreateWithoutConsignacionOrdenesInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -7510,6 +7870,7 @@ export type EmpresaUncheckedCreateWithoutConsignacionOrdenesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7579,6 +7940,7 @@ export type EmpresaUpdateWithoutConsignacionOrdenesInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -7632,6 +7994,7 @@ export type EmpresaUncheckedUpdateWithoutConsignacionOrdenesInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7685,6 +8048,7 @@ export type EmpresaCreateWithoutAnticiposInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -7738,6 +8102,7 @@ export type EmpresaUncheckedCreateWithoutAnticiposInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7807,6 +8172,7 @@ export type EmpresaUpdateWithoutAnticiposInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -7860,6 +8226,7 @@ export type EmpresaUncheckedUpdateWithoutAnticiposInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7914,6 +8281,7 @@ export type EmpresaCreateWithoutProductosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -7967,6 +8335,7 @@ export type EmpresaUncheckedCreateWithoutProductosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8036,6 +8405,7 @@ export type EmpresaUpdateWithoutProductosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -8089,6 +8459,7 @@ export type EmpresaUncheckedUpdateWithoutProductosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8142,6 +8513,7 @@ export type EmpresaCreateWithoutProductosSolicitadosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -8195,6 +8567,7 @@ export type EmpresaUncheckedCreateWithoutProductosSolicitadosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8264,6 +8637,7 @@ export type EmpresaUpdateWithoutProductosSolicitadosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -8317,6 +8691,7 @@ export type EmpresaUncheckedUpdateWithoutProductosSolicitadosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8370,6 +8745,7 @@ export type EmpresaCreateWithoutProveedoresInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -8423,6 +8799,7 @@ export type EmpresaUncheckedCreateWithoutProveedoresInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8492,6 +8869,7 @@ export type EmpresaUpdateWithoutProveedoresInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -8545,6 +8923,7 @@ export type EmpresaUncheckedUpdateWithoutProveedoresInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8598,6 +8977,7 @@ export type EmpresaCreateWithoutPermisosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -8651,6 +9031,7 @@ export type EmpresaUncheckedCreateWithoutPermisosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8720,6 +9101,7 @@ export type EmpresaUpdateWithoutPermisosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -8773,6 +9155,7 @@ export type EmpresaUncheckedUpdateWithoutPermisosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8825,6 +9208,7 @@ export type EmpresaCreateWithoutConfiguracionPagosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -8878,6 +9262,7 @@ export type EmpresaUncheckedCreateWithoutConfiguracionPagosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8947,6 +9332,7 @@ export type EmpresaUpdateWithoutConfiguracionPagosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -9000,6 +9386,7 @@ export type EmpresaUncheckedUpdateWithoutConfiguracionPagosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9053,6 +9440,7 @@ export type EmpresaCreateWithoutCuentasPagoInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -9106,6 +9494,7 @@ export type EmpresaUncheckedCreateWithoutCuentasPagoInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9175,6 +9564,7 @@ export type EmpresaUpdateWithoutCuentasPagoInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -9228,6 +9618,7 @@ export type EmpresaUncheckedUpdateWithoutCuentasPagoInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9281,6 +9672,7 @@ export type EmpresaCreateWithoutEgresosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -9334,6 +9726,7 @@ export type EmpresaUncheckedCreateWithoutEgresosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9403,6 +9796,7 @@ export type EmpresaUpdateWithoutEgresosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -9456,6 +9850,7 @@ export type EmpresaUncheckedUpdateWithoutEgresosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9510,6 +9905,7 @@ export type EmpresaCreateWithoutPicoPlacaInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -9563,6 +9959,7 @@ export type EmpresaUncheckedCreateWithoutPicoPlacaInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9632,6 +10029,7 @@ export type EmpresaUpdateWithoutPicoPlacaInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -9685,6 +10083,7 @@ export type EmpresaUncheckedUpdateWithoutPicoPlacaInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9738,6 +10137,7 @@ export type EmpresaCreateWithoutReferidosInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -9791,6 +10191,7 @@ export type EmpresaUncheckedCreateWithoutReferidosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9860,6 +10261,7 @@ export type EmpresaUpdateWithoutReferidosInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -9913,6 +10315,7 @@ export type EmpresaUncheckedUpdateWithoutReferidosInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9965,6 +10368,7 @@ export type EmpresaCreateWithoutAuditoriasInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -10018,6 +10422,7 @@ export type EmpresaUncheckedCreateWithoutAuditoriasInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -10087,6 +10492,7 @@ export type EmpresaUpdateWithoutAuditoriasInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -10140,6 +10546,7 @@ export type EmpresaUncheckedUpdateWithoutAuditoriasInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -10194,6 +10601,7 @@ export type EmpresaCreateWithoutSesionesActividadInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -10247,6 +10655,7 @@ export type EmpresaUncheckedCreateWithoutSesionesActividadInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -10316,6 +10725,7 @@ export type EmpresaUpdateWithoutSesionesActividadInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -10369,6 +10779,7 @@ export type EmpresaUncheckedUpdateWithoutSesionesActividadInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -10421,6 +10832,7 @@ export type EmpresaCreateWithoutLogsEventoInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -10474,6 +10886,7 @@ export type EmpresaUncheckedCreateWithoutLogsEventoInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -10543,6 +10956,7 @@ export type EmpresaUpdateWithoutLogsEventoInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -10596,6 +11010,7 @@ export type EmpresaUncheckedUpdateWithoutLogsEventoInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -10649,6 +11064,7 @@ export type EmpresaCreateWithoutAuthSessionsInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -10702,6 +11118,7 @@ export type EmpresaUncheckedCreateWithoutAuthSessionsInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -10771,6 +11188,7 @@ export type EmpresaUpdateWithoutAuthSessionsInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -10824,6 +11242,7 @@ export type EmpresaUncheckedUpdateWithoutAuthSessionsInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -10878,6 +11297,7 @@ export type EmpresaCreateWithoutResetTokensInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -10931,6 +11351,7 @@ export type EmpresaUncheckedCreateWithoutResetTokensInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -11000,6 +11421,7 @@ export type EmpresaUpdateWithoutResetTokensInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -11053,6 +11475,7 @@ export type EmpresaUncheckedUpdateWithoutResetTokensInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -11105,6 +11528,7 @@ export type EmpresaCreateWithoutConfiguracionesOperativasInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -11158,6 +11582,7 @@ export type EmpresaUncheckedCreateWithoutConfiguracionesOperativasInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -11227,6 +11652,7 @@ export type EmpresaUpdateWithoutConfiguracionesOperativasInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -11280,6 +11706,7 @@ export type EmpresaUncheckedUpdateWithoutConfiguracionesOperativasInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -11334,6 +11761,7 @@ export type EmpresaCreateWithoutSugerenciasInput = {
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
@@ -11387,6 +11815,7 @@ export type EmpresaUncheckedCreateWithoutSugerenciasInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedCreateNestedManyWithoutEmpresaInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -11456,6 +11885,7 @@ export type EmpresaUpdateWithoutSugerenciasInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -11509,6 +11939,7 @@ export type EmpresaUncheckedUpdateWithoutSugerenciasInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -11570,6 +12001,7 @@ export type EmpresaUpdateWithoutTenantInput = {
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
@@ -11623,6 +12055,7 @@ export type EmpresaUncheckedUpdateWithoutTenantInput = {
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  reportesOrdenServicio?: Prisma.OrdenServicioReporteUncheckedUpdateManyWithoutEmpresaNestedInput
   seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -11684,6 +12117,7 @@ export type EmpresaCountOutputType = {
   nominaDetalles: number
   nominas: number
   ordenesServicio: number
+  reportesOrdenServicio: number
   seguimientosOrdenServicio: number
   orgNodes: number
   paquetesAdquiridos: number
@@ -11731,6 +12165,7 @@ export type EmpresaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   nominaDetalles?: boolean | EmpresaCountOutputTypeCountNominaDetallesArgs
   nominas?: boolean | EmpresaCountOutputTypeCountNominasArgs
   ordenesServicio?: boolean | EmpresaCountOutputTypeCountOrdenesServicioArgs
+  reportesOrdenServicio?: boolean | EmpresaCountOutputTypeCountReportesOrdenServicioArgs
   seguimientosOrdenServicio?: boolean | EmpresaCountOutputTypeCountSeguimientosOrdenServicioArgs
   orgNodes?: boolean | EmpresaCountOutputTypeCountOrgNodesArgs
   paquetesAdquiridos?: boolean | EmpresaCountOutputTypeCountPaquetesAdquiridosArgs
@@ -11946,6 +12381,13 @@ export type EmpresaCountOutputTypeCountOrdenesServicioArgs<ExtArgs extends runti
 /**
  * EmpresaCountOutputType without action
  */
+export type EmpresaCountOutputTypeCountReportesOrdenServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrdenServicioReporteWhereInput
+}
+
+/**
+ * EmpresaCountOutputType without action
+ */
 export type EmpresaCountOutputTypeCountSeguimientosOrdenServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.OrdenServicioSeguimientoWhereInput
 }
@@ -12105,6 +12547,7 @@ export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   nominaDetalles?: boolean | Prisma.Empresa$nominaDetallesArgs<ExtArgs>
   nominas?: boolean | Prisma.Empresa$nominasArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Empresa$ordenesServicioArgs<ExtArgs>
+  reportesOrdenServicio?: boolean | Prisma.Empresa$reportesOrdenServicioArgs<ExtArgs>
   seguimientosOrdenServicio?: boolean | Prisma.Empresa$seguimientosOrdenServicioArgs<ExtArgs>
   orgNodes?: boolean | Prisma.Empresa$orgNodesArgs<ExtArgs>
   paquetesAdquiridos?: boolean | Prisma.Empresa$paquetesAdquiridosArgs<ExtArgs>
@@ -12187,6 +12630,7 @@ export type EmpresaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   nominaDetalles?: boolean | Prisma.Empresa$nominaDetallesArgs<ExtArgs>
   nominas?: boolean | Prisma.Empresa$nominasArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Empresa$ordenesServicioArgs<ExtArgs>
+  reportesOrdenServicio?: boolean | Prisma.Empresa$reportesOrdenServicioArgs<ExtArgs>
   seguimientosOrdenServicio?: boolean | Prisma.Empresa$seguimientosOrdenServicioArgs<ExtArgs>
   orgNodes?: boolean | Prisma.Empresa$orgNodesArgs<ExtArgs>
   paquetesAdquiridos?: boolean | Prisma.Empresa$paquetesAdquiridosArgs<ExtArgs>
@@ -12244,6 +12688,7 @@ export type $EmpresaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     nominaDetalles: Prisma.$NominaDetallePayload<ExtArgs>[]
     nominas: Prisma.$NominaPayload<ExtArgs>[]
     ordenesServicio: Prisma.$OrdenServicioPayload<ExtArgs>[]
+    reportesOrdenServicio: Prisma.$OrdenServicioReportePayload<ExtArgs>[]
     seguimientosOrdenServicio: Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>[]
     orgNodes: Prisma.$OrganizationNodePayload<ExtArgs>[]
     paquetesAdquiridos: Prisma.$PaqueteAdquiridoPayload<ExtArgs>[]
@@ -12692,6 +13137,7 @@ export interface Prisma__EmpresaClient<T, Null = never, ExtArgs extends runtime.
   nominaDetalles<T extends Prisma.Empresa$nominaDetallesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$nominaDetallesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NominaDetallePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   nominas<T extends Prisma.Empresa$nominasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$nominasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ordenesServicio<T extends Prisma.Empresa$ordenesServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$ordenesServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reportesOrdenServicio<T extends Prisma.Empresa$reportesOrdenServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$reportesOrdenServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioReportePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   seguimientosOrdenServicio<T extends Prisma.Empresa$seguimientosOrdenServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$seguimientosOrdenServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orgNodes<T extends Prisma.Empresa$orgNodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$orgNodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrganizationNodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   paquetesAdquiridos<T extends Prisma.Empresa$paquetesAdquiridosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$paquetesAdquiridosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaqueteAdquiridoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -13763,6 +14209,30 @@ export type Empresa$ordenesServicioArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.OrdenServicioScalarFieldEnum | Prisma.OrdenServicioScalarFieldEnum[]
+}
+
+/**
+ * Empresa.reportesOrdenServicio
+ */
+export type Empresa$reportesOrdenServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrdenServicioReporte
+   */
+  select?: Prisma.OrdenServicioReporteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrdenServicioReporte
+   */
+  omit?: Prisma.OrdenServicioReporteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrdenServicioReporteInclude<ExtArgs> | null
+  where?: Prisma.OrdenServicioReporteWhereInput
+  orderBy?: Prisma.OrdenServicioReporteOrderByWithRelationInput | Prisma.OrdenServicioReporteOrderByWithRelationInput[]
+  cursor?: Prisma.OrdenServicioReporteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrdenServicioReporteScalarFieldEnum | Prisma.OrdenServicioReporteScalarFieldEnum[]
 }
 
 /**

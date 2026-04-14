@@ -284,6 +284,28 @@ export const EstadoOrden = {
 export type EstadoOrden = (typeof EstadoOrden)[keyof typeof EstadoOrden]
 
 
+export const TipoReporteOrdenServicio = {
+  CLIENTE_AUSENTE: 'CLIENTE_AUSENTE',
+  ACCESO_CERRADO: 'ACCESO_CERRADO',
+  DIRECCION_INCORRECTA: 'DIRECCION_INCORRECTA',
+  INCONVENIENTE_OPERATIVO: 'INCONVENIENTE_OPERATIVO',
+  CLIENTE_RECHAZA_SERVICIO: 'CLIENTE_RECHAZA_SERVICIO',
+  ZONA_INSEGURA: 'ZONA_INSEGURA',
+  SERVICIO_DUPLICADO: 'SERVICIO_DUPLICADO',
+  OTRO: 'OTRO'
+} as const
+
+export type TipoReporteOrdenServicio = (typeof TipoReporteOrdenServicio)[keyof typeof TipoReporteOrdenServicio]
+
+
+export const EstadoDestinoReporteOrdenServicio = {
+  REPROGRAMADO: 'REPROGRAMADO',
+  CANCELADO: 'CANCELADO'
+} as const
+
+export type EstadoDestinoReporteOrdenServicio = (typeof EstadoDestinoReporteOrdenServicio)[keyof typeof EstadoDestinoReporteOrdenServicio]
+
+
 export const DashboardPresetModule = {
   SERVICIOS: 'SERVICIOS',
   CLIENTES: 'CLIENTES'

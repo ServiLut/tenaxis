@@ -81,6 +81,23 @@ export class FinishMobileOperatorServiceDto {
   @IsOptional()
   facturaElectronica?: string;
 
+  @IsString()
+  @IsOptional()
+  comprobantePago?: string;
+
+  @IsString()
+  @IsOptional()
+  referenciaPago?: string;
+
+  @IsDateString()
+  @IsOptional()
+  fechaPago?: string;
+
+  @IsNumber()
+  @Min(0.01)
+  @IsOptional()
+  montoPagado?: number;
+
   @IsBoolean()
   @IsOptional()
   facturaSolicitada?: boolean;

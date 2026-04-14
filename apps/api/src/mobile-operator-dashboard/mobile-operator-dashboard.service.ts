@@ -18,6 +18,8 @@ const CLOSED_ORDER_STATUSES: EstadoOrden[] = [
   EstadoOrden.LIQUIDADO,
   EstadoOrden.TECNICO_FINALIZO,
   EstadoOrden.CANCELADO,
+  EstadoOrden.REPROGRAMADO,
+  EstadoOrden.SIN_CONCRETAR,
 ];
 
 type NextServiceRecord = Prisma.OrdenServicioGetPayload<{
@@ -346,15 +348,30 @@ export class MobileOperatorDashboardService {
     apellido: string | null;
     razonSocial: string | null;
   }): string | null {
-    if (cliente.razonSocial?.trim()) {
-      return cliente.razonSocial.trim();
+    const razonSocial = this.normalizeClientText(cliente.razonSocial);
+    if (razonSocial) {
+      return razonSocial;
     }
 
     const fullName = [cliente.nombre, cliente.apellido]
-      .filter((value): value is string => !!value && value.trim().length > 0)
+      .map((value) => this.normalizeClientText(value))
+      .filter((value): value is string => !!value)
       .join(' ')
       .trim();
 
     return fullName || null;
+  }
+
+  private normalizeClientText(value: string | null | undefined): string | null {
+    if (!value) {
+      return null;
+    }
+
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return null;
+    }
+
+    return trimmed.toLowerCase() === 'no concretado' ? null : trimmed;
   }
 }

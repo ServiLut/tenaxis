@@ -410,6 +410,7 @@ export const ModelName = {
   EstadoServicio: 'EstadoServicio',
   OrdenServicio: 'OrdenServicio',
   OrdenServicioSeguimiento: 'OrdenServicioSeguimiento',
+  OrdenServicioReporte: 'OrdenServicioReporte',
   EntidadFinanciera: 'EntidadFinanciera',
   Geolocalizacion: 'Geolocalizacion',
   Nomina: 'Nomina',
@@ -456,7 +457,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "dashboardPreset" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "tipoInteres" | "department" | "municipality" | "tenantMembershipDepartmentScope" | "tenantMembershipMunicipalityScope" | "cliente" | "contratoCliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "ordenServicioSeguimiento" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerenciaSeguimiento"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "dashboardPreset" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "tipoInteres" | "department" | "municipality" | "tenantMembershipDepartmentScope" | "tenantMembershipMunicipalityScope" | "cliente" | "contratoCliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "ordenServicioSeguimiento" | "ordenServicioReporte" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerenciaSeguimiento"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2381,6 +2382,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.OrdenServicioSeguimientoCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.OrdenServicioSeguimientoCountAggregateOutputType> | number
+        }
+      }
+    }
+    OrdenServicioReporte: {
+      payload: Prisma.$OrdenServicioReportePayload<ExtArgs>
+      fields: Prisma.OrdenServicioReporteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OrdenServicioReporteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OrdenServicioReporteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload>
+        }
+        findFirst: {
+          args: Prisma.OrdenServicioReporteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OrdenServicioReporteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload>
+        }
+        findMany: {
+          args: Prisma.OrdenServicioReporteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload>[]
+        }
+        create: {
+          args: Prisma.OrdenServicioReporteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload>
+        }
+        createMany: {
+          args: Prisma.OrdenServicioReporteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OrdenServicioReporteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload>[]
+        }
+        delete: {
+          args: Prisma.OrdenServicioReporteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload>
+        }
+        update: {
+          args: Prisma.OrdenServicioReporteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload>
+        }
+        deleteMany: {
+          args: Prisma.OrdenServicioReporteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OrdenServicioReporteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OrdenServicioReporteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload>[]
+        }
+        upsert: {
+          args: Prisma.OrdenServicioReporteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrdenServicioReportePayload>
+        }
+        aggregate: {
+          args: Prisma.OrdenServicioReporteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrdenServicioReporte>
+        }
+        groupBy: {
+          args: Prisma.OrdenServicioReporteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrdenServicioReporteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OrdenServicioReporteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrdenServicioReporteCountAggregateOutputType> | number
         }
       }
     }
@@ -5222,6 +5297,23 @@ export const OrdenServicioSeguimientoScalarFieldEnum = {
 export type OrdenServicioSeguimientoScalarFieldEnum = (typeof OrdenServicioSeguimientoScalarFieldEnum)[keyof typeof OrdenServicioSeguimientoScalarFieldEnum]
 
 
+export const OrdenServicioReporteScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
+  ordenServicioId: 'ordenServicioId',
+  membershipId: 'membershipId',
+  tipo: 'tipo',
+  estadoDestino: 'estadoDestino',
+  descripcion: 'descripcion',
+  evidenciaPaths: 'evidenciaPaths',
+  occurredAt: 'occurredAt',
+  createdAt: 'createdAt'
+} as const
+
+export type OrdenServicioReporteScalarFieldEnum = (typeof OrdenServicioReporteScalarFieldEnum)[keyof typeof OrdenServicioReporteScalarFieldEnum]
+
+
 export const EntidadFinancieraScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -6129,6 +6221,34 @@ export type ListEnumEstadoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'TipoReporteOrdenServicio'
+ */
+export type EnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoReporteOrdenServicio'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoReporteOrdenServicio[]'
+ */
+export type ListEnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoReporteOrdenServicio[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoDestinoReporteOrdenServicio'
+ */
+export type EnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoDestinoReporteOrdenServicio'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoDestinoReporteOrdenServicio[]'
+ */
+export type ListEnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoDestinoReporteOrdenServicio[]'>
+    
+
+
+/**
  * Reference to a field of type 'EstadoNomina'
  */
 export type EnumEstadoNominaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoNomina'>
@@ -6402,6 +6522,7 @@ export type GlobalOmitConfig = {
   estadoServicio?: Prisma.EstadoServicioOmit
   ordenServicio?: Prisma.OrdenServicioOmit
   ordenServicioSeguimiento?: Prisma.OrdenServicioSeguimientoOmit
+  ordenServicioReporte?: Prisma.OrdenServicioReporteOmit
   entidadFinanciera?: Prisma.EntidadFinancieraOmit
   geolocalizacion?: Prisma.GeolocalizacionOmit
   nomina?: Prisma.NominaOmit

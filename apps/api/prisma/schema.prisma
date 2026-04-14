@@ -67,6 +67,7 @@ model Tenant {
   nominaDetalles               NominaDetalle[]
   nominas                      Nomina[]
   ordenesServicio              OrdenServicio[]
+  reportesOrdenServicio        OrdenServicioReporte[]
   seguimientosOrdenServicio    OrdenServicioSeguimiento[]
   orgNodes                     OrganizationNode[]
   paquetesAdquiridos           PaqueteAdquirido[]
@@ -172,6 +173,7 @@ model TenantMembership {
   serviciosEliminados     OrdenServicio[]                     @relation("ServiciosEliminados")
   serviciosLiquidados     OrdenServicio[]                     @relation("ServiciosLiquidados")
   serviciosAsignados      OrdenServicio[]                     @relation("ServiciosAsignados")
+  reportesOrdenServicio   OrdenServicioReporte[]
   seguimientosCompletados OrdenServicioSeguimiento[]          @relation("SeguimientosCompletados")
   seguimientosCreados     OrdenServicioSeguimiento[]          @relation("SeguimientosCreados")
   paquetesAdquiridos      PaqueteAdquirido[]
@@ -248,6 +250,7 @@ model Empresa {
   nominaDetalles            NominaDetalle[]
   nominas                   Nomina[]
   ordenesServicio           OrdenServicio[]
+  reportesOrdenServicio     OrdenServicioReporte[]
   seguimientosOrdenServicio OrdenServicioSeguimiento[]
   orgNodes                  OrganizationNode[]
   paquetesAdquiridos        PaqueteAdquirido[]
@@ -761,6 +764,7 @@ model OrdenServicio {
   vehiculo                     Vehiculo?                  @relation(fields: [vehiculoId], references: [id])
   zona                         Zona?                      @relation(fields: [zonaId], references: [id])
   seguimientos                 OrdenServicioSeguimiento[]
+  reportesOperativos           OrdenServicioReporte[]
 
   @@index([tenantId])
   @@index([empresaId])
@@ -806,6 +810,33 @@ model OrdenServicioSeguimiento {
   @@index([status])
   @@index([dueAt])
   @@map("ordenes_servicio_seguimientos")
+}
+
+model OrdenServicioReporte {
+  id              String                           @id @default(uuid()) @db.Uuid
+  tenantId        String                           @db.Uuid
+  empresaId       String                           @db.Uuid
+  ordenServicioId String                           @db.Uuid
+  membershipId    String                           @db.Uuid
+  tipo            TipoReporteOrdenServicio
+  estadoDestino   EstadoDestinoReporteOrdenServicio
+  descripcion     String?
+  evidenciaPaths  Json?
+  occurredAt      DateTime
+  createdAt       DateTime                         @default(now())
+  empresa         Empresa                          @relation(fields: [empresaId], references: [id])
+  membership      TenantMembership                 @relation(fields: [membershipId], references: [id])
+  ordenServicio   OrdenServicio                    @relation(fields: [ordenServicioId], references: [id], onDelete: Cascade)
+  tenant          Tenant                           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([ordenServicioId])
+  @@index([membershipId])
+  @@index([tipo])
+  @@index([estadoDestino])
+  @@index([occurredAt])
+  @@map("ordenes_servicio_reportes")
 }
 
 model EntidadFinanciera {
@@ -1718,6 +1749,22 @@ enum EstadoOrden {
   TECNICO_FINALIZO
   REPROGRAMADO
   SIN_CONCRETAR
+}
+
+enum TipoReporteOrdenServicio {
+  CLIENTE_AUSENTE
+  ACCESO_CERRADO
+  DIRECCION_INCORRECTA
+  INCONVENIENTE_OPERATIVO
+  CLIENTE_RECHAZA_SERVICIO
+  ZONA_INSEGURA
+  SERVICIO_DUPLICADO
+  OTRO
+}
+
+enum EstadoDestinoReporteOrdenServicio {
+  REPROGRAMADO
+  CANCELADO
 }
 
 enum DashboardPresetModule {

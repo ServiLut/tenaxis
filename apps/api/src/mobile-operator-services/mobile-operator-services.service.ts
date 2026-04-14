@@ -30,14 +30,56 @@ import {
   MobileOperatorServiceTab,
 } from './dto/get-mobile-operator-services-query.dto';
 import { RegisterMobileOperatorServiceArrivalDto } from './dto/register-mobile-operator-service-arrival.dto';
-import { ReportMobileOperatorServiceDto } from './dto/report-mobile-operator-service.dto';
+import {
+  MobileOperatorServiceReportTargetStatus,
+  MobileOperatorServiceReportType,
+  ReportMobileOperatorServiceDto,
+} from './dto/report-mobile-operator-service.dto';
 import { OperatorServiceScope } from './types/operator-service-scope.type';
 
 const CLOSED_SERVICE_STATUSES: EstadoOrden[] = [
   EstadoOrden.LIQUIDADO,
   EstadoOrden.TECNICO_FINALIZO,
   EstadoOrden.CANCELADO,
+  EstadoOrden.REPROGRAMADO,
+  EstadoOrden.SIN_CONCRETAR,
 ];
+
+const DEFAULT_REPORT_TARGET_STATUS_BY_TYPE: Partial<
+  Record<
+    MobileOperatorServiceReportType,
+    MobileOperatorServiceReportTargetStatus
+  >
+> = {
+  [MobileOperatorServiceReportType.CLIENTE_AUSENTE]:
+    MobileOperatorServiceReportTargetStatus.REPROGRAMADO,
+  [MobileOperatorServiceReportType.ACCESO_CERRADO]:
+    MobileOperatorServiceReportTargetStatus.REPROGRAMADO,
+  [MobileOperatorServiceReportType.DIRECCION_INCORRECTA]:
+    MobileOperatorServiceReportTargetStatus.REPROGRAMADO,
+  [MobileOperatorServiceReportType.INCONVENIENTE_OPERATIVO]:
+    MobileOperatorServiceReportTargetStatus.REPROGRAMADO,
+  [MobileOperatorServiceReportType.CLIENTE_RECHAZA_SERVICIO]:
+    MobileOperatorServiceReportTargetStatus.CANCELADO,
+  [MobileOperatorServiceReportType.ZONA_INSEGURA]:
+    MobileOperatorServiceReportTargetStatus.CANCELADO,
+  [MobileOperatorServiceReportType.SERVICIO_DUPLICADO]:
+    MobileOperatorServiceReportTargetStatus.CANCELADO,
+};
+
+const REPORT_TYPE_LABELS: Record<MobileOperatorServiceReportType, string> = {
+  [MobileOperatorServiceReportType.CLIENTE_AUSENTE]: 'Cliente ausente',
+  [MobileOperatorServiceReportType.ACCESO_CERRADO]: 'Acceso cerrado',
+  [MobileOperatorServiceReportType.DIRECCION_INCORRECTA]:
+    'Dirección incorrecta',
+  [MobileOperatorServiceReportType.INCONVENIENTE_OPERATIVO]:
+    'Inconveniente operativo',
+  [MobileOperatorServiceReportType.CLIENTE_RECHAZA_SERVICIO]:
+    'Cliente rechaza el servicio',
+  [MobileOperatorServiceReportType.ZONA_INSEGURA]: 'Zona insegura',
+  [MobileOperatorServiceReportType.SERVICIO_DUPLICADO]: 'Servicio duplicado',
+  [MobileOperatorServiceReportType.OTRO]: 'Otro',
+};
 
 type ServiceListRecord = Prisma.OrdenServicioGetPayload<{
   select: {
@@ -525,6 +567,38 @@ export class MobileOperatorServicesService {
       );
     }
 
+    if (dto.montoPagado !== undefined && dto.transferencias?.length) {
+      throw new BadRequestException(
+        'Usá montoPagado o transferencias, pero no ambos al mismo tiempo',
+      );
+    }
+
+    const topLevelComprobantePath = dto.comprobantePago?.trim();
+    const topLevelReferenciaPago = dto.referenciaPago?.trim();
+    const topLevelFechaPago = dto.fechaPago?.trim();
+    const transferencias =
+      dto.montoPagado !== undefined
+        ? [
+            {
+              monto: dto.montoPagado,
+              comprobantePath: topLevelComprobantePath ?? '',
+              referenciaPago: topLevelReferenciaPago ?? '',
+              fechaPago: topLevelFechaPago ?? '',
+            },
+          ]
+        : dto.transferencias;
+
+    if (
+      dto.montoPagado !== undefined &&
+      (!topLevelComprobantePath ||
+        !topLevelReferenciaPago ||
+        !topLevelFechaPago)
+    ) {
+      throw new BadRequestException(
+        'Si enviás montoPagado debés adjuntar comprobantePago, referenciaPago y fechaPago',
+      );
+    }
+
     const occurredAt = this.parseOccurrence(dto.occurredAt, 'occurredAt');
     const order = await this.getEditableServiceOrThrow(scope, id);
     const openGeo = await this.prisma.geolocalizacion.findFirst({
@@ -552,6 +626,9 @@ export class MobileOperatorServicesService {
         metodoPagoId: dto.metodoPagoId,
         facturaPath: dto.facturaPath,
         facturaElectronica: dto.facturaElectronica,
+        comprobantePago: dto.comprobantePago,
+        referenciaPago: dto.referenciaPago,
+        fechaPago: dto.fechaPago,
         observacionFinal: dto.observacionFinal,
         diagnosticoTecnico: dto.diagnosticoTecnico,
         intervencionRealizada: dto.intervencionRealizada,
@@ -561,7 +638,7 @@ export class MobileOperatorServicesService {
         huboRecomendacionEstructural: dto.huboRecomendacionEstructural,
         nivelInfestacion: dto.nivelInfestacion,
         desglosePago: dto.desglosePago,
-        transferencias: dto.transferencias,
+        transferencias,
         horaFinReal: occurredAt.toISOString(),
         estadoServicio: EstadoOrden.TECNICO_FINALIZO,
       },
@@ -631,22 +708,50 @@ export class MobileOperatorServicesService {
 
     const occurredAt = this.parseOccurrence(dto.occurredAt, 'occurredAt');
     const order = await this.getEditableServiceOrThrow(scope, id);
-    const sanitizedReason = dto.motivo.trim();
-    if (!sanitizedReason) {
-      throw new BadRequestException('El motivo del reporte es obligatorio');
+    const sanitizedReason = dto.motivo?.trim() || null;
+    if (dto.tipo === MobileOperatorServiceReportType.OTRO && !sanitizedReason) {
+      throw new BadRequestException(
+        'Debés describir el motivo cuando el tipo de reporte es OTRO',
+      );
     }
+    const estadoDestino = this.resolveReportTargetStatus(
+      dto.tipo,
+      dto.estadoDestino,
+    );
+    const estadoServicio =
+      estadoDestino === MobileOperatorServiceReportTargetStatus.REPROGRAMADO
+        ? EstadoOrden.REPROGRAMADO
+        : EstadoOrden.CANCELADO;
+    const reportSummary = sanitizedReason || REPORT_TYPE_LABELS[dto.tipo];
 
     await this.ordenesServicioService.update(
       scope.tenantId,
       id,
       {
-        estadoServicio: EstadoOrden.CANCELADO,
-        observacionFinal: sanitizedReason,
+        estadoServicio,
+        observacionFinal: reportSummary,
       },
       user,
     );
 
     await this.prisma.$transaction(async (tx) => {
+      await tx.ordenServicioReporte.create({
+        data: {
+          tenantId: scope.tenantId,
+          empresaId: order.empresaId,
+          ordenServicioId: id,
+          membershipId: scope.membershipId,
+          tipo: dto.tipo,
+          estadoDestino,
+          descripcion: reportSummary,
+          evidenciaPaths:
+            dto.evidenciaPaths?.length && dto.evidenciaPaths.length > 0
+              ? (dto.evidenciaPaths as unknown as Prisma.InputJsonValue)
+              : undefined,
+          occurredAt,
+        },
+      });
+
       if (dto.evidenciaPaths?.length) {
         await Promise.all(
           dto.evidenciaPaths.map((path) =>
@@ -1171,20 +1276,64 @@ export class MobileOperatorServicesService {
     };
   }
 
+  private resolveReportTargetStatus(
+    tipo: MobileOperatorServiceReportType,
+    estadoDestino?: MobileOperatorServiceReportTargetStatus,
+  ): MobileOperatorServiceReportTargetStatus {
+    const expected = DEFAULT_REPORT_TARGET_STATUS_BY_TYPE[tipo];
+
+    if (tipo === MobileOperatorServiceReportType.OTRO) {
+      if (!estadoDestino) {
+        throw new BadRequestException(
+          'estadoDestino es obligatorio cuando el tipo de reporte es OTRO',
+        );
+      }
+
+      return estadoDestino;
+    }
+
+    if (!expected) {
+      throw new BadRequestException('tipo de reporte inválido');
+    }
+
+    if (estadoDestino && estadoDestino !== expected) {
+      throw new BadRequestException(
+        `El tipo de reporte ${tipo} solo permite estadoDestino ${expected}`,
+      );
+    }
+
+    return expected;
+  }
+
   private resolveClientName(cliente: {
     nombre: string | null;
     apellido: string | null;
     razonSocial: string | null;
   }): string | null {
-    if (cliente.razonSocial?.trim()) {
-      return cliente.razonSocial.trim();
+    const razonSocial = this.normalizeClientText(cliente.razonSocial);
+    if (razonSocial) {
+      return razonSocial;
     }
 
     const fullName = [cliente.nombre, cliente.apellido]
-      .filter((value): value is string => !!value && value.trim().length > 0)
+      .map((value) => this.normalizeClientText(value))
+      .filter((value): value is string => !!value)
       .join(' ')
       .trim();
 
     return fullName || null;
+  }
+
+  private normalizeClientText(value: string | null | undefined): string | null {
+    if (!value) {
+      return null;
+    }
+
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return null;
+    }
+
+    return trimmed.toLowerCase() === 'no concretado' ? null : trimmed;
   }
 }

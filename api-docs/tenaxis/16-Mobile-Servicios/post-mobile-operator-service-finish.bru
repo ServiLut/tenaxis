@@ -20,6 +20,10 @@ body:json {
     "metodoPagoId": "{{metodoPagoId}}",
     "facturaSolicitada": true,
     "facturaPath": "{{invoicePhotoPath}}",
+    "comprobantePago": "{{paymentReceiptPath}}",
+    "montoPagado": 120000,
+    "referenciaPago": "TRX-9981",
+    "fechaPago": "2026-04-11T11:30:00.000Z",
     "observacionFinal": "Servicio finalizado sin novedades",
     "intervencionRealizada": "Aplicación de tratamiento y control perimetral",
     "desglosePago": [
@@ -27,14 +31,6 @@ body:json {
         "metodo": "TRANSFERENCIA",
         "monto": 120000,
         "referencia": "TRX-9981"
-      }
-    ],
-    "transferencias": [
-      {
-        "monto": 120000,
-        "comprobantePath": "{{paymentReceiptPath}}",
-        "referenciaPago": "TRX-9981",
-        "fechaPago": "2026-04-11T11:30:00.000Z"
       }
     ],
     "latitud": 4.711,

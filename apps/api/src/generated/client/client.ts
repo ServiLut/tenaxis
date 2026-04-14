@@ -168,6 +168,11 @@ export type OrdenServicio = Prisma.OrdenServicioModel
  */
 export type OrdenServicioSeguimiento = Prisma.OrdenServicioSeguimientoModel
 /**
+ * Model OrdenServicioReporte
+ * 
+ */
+export type OrdenServicioReporte = Prisma.OrdenServicioReporteModel
+/**
  * Model EntidadFinanciera
  * 
  */

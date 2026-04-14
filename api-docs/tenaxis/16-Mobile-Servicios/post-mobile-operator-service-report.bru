@@ -16,7 +16,9 @@ auth:bearer {
 
 body:json {
   {
-    "motivo": "Cliente ausente en la visita",
+    "tipo": "CLIENTE_AUSENTE",
+    "estadoDestino": "REPROGRAMADO",
+    "motivo": "Cliente ausente en la visita; portería confirmó que no hubo atención",
     "evidenciaPaths": [
       "{{reportEvidencePath}}"
     ],

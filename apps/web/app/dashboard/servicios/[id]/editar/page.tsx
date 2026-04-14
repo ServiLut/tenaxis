@@ -503,9 +503,12 @@ function EditarServicioContent({ id }: { id: string }) {
     setSaving(true);
 
     if (
+      !selectedCliente ||
+      !selectedEmpresa ||
+      serviciosSeleccionados.length === 0 ||
       !diagnosticoTecnico.trim()
     ) {
-      toast.error("Completa los campos técnicos obligatorios");
+      toast.error("Completa los campos obligatorios");
       setSaving(false);
       return;
     }
@@ -769,8 +772,10 @@ function EditarServicioContent({ id }: { id: string }) {
                     ]}
                     value=""
                     onChange={(val) => {
-                      if (val && !serviciosSeleccionados.includes(val)) {
-                        setServiciosSeleccionados([...serviciosSeleccionados, val]);
+                      if (val) {
+                        setServiciosSeleccionados((current) =>
+                          current.includes(val) ? current : [...current, val],
+                        );
                       }
                     }}
                     disabled={!selectedEmpresa}
@@ -787,7 +792,9 @@ function EditarServicioContent({ id }: { id: string }) {
                           <button
                             type="button"
                             onClick={() =>
-                              setServiciosSeleccionados(serviciosSeleccionados.filter((service) => service !== srv))
+                              setServiciosSeleccionados((current) =>
+                                current.filter((service) => service !== srv),
+                              )
                             }
                             className="ml-1 text-[var(--color-azul-1)] hover:text-red-500 focus:outline-none"
                           >

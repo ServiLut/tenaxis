@@ -3245,26 +3245,86 @@ export class OrdenesServicioService {
       data.horaFinReal = horaFinReal;
     }
 
-    if (updateDto.servicioEspecifico) {
-      let servicio = await this.prisma.servicio.findFirst({
-        where: {
-          tenantId,
-          empresaId: orden.empresaId,
-          nombre: updateDto.servicioEspecifico,
-        },
-      });
+    const requestedServiceNamesFromArray = Array.isArray(
+      updateDto.serviciosSeleccionados,
+    )
+      ? Array.from(
+          new Set(
+            updateDto.serviciosSeleccionados
+              .map((value) => value?.trim())
+              .filter((value): value is string => Boolean(value)),
+          ),
+        )
+      : null;
+    const requestedServiceNames =
+      requestedServiceNamesFromArray &&
+      requestedServiceNamesFromArray.length > 0
+        ? requestedServiceNamesFromArray
+        : typeof updateDto.servicioEspecifico === 'string' &&
+            updateDto.servicioEspecifico.trim().length > 0
+          ? [updateDto.servicioEspecifico.trim()]
+          : [];
+    const shouldSyncSelectedServices =
+      requestedServiceNamesFromArray !== null ||
+      typeof updateDto.servicioEspecifico === 'string' ||
+      typeof updateDto.servicioId === 'string';
 
-      if (!servicio) {
-        servicio = await this.prisma.servicio.create({
-          data: {
+    if (shouldSyncSelectedServices) {
+      let servicioPrincipal: Awaited<
+        ReturnType<typeof this.prisma.servicio.findFirst>
+      > = null;
+      const serviciosProcesados: string[] = [];
+
+      if (requestedServiceNames.length > 0) {
+        for (const nombreServicio of requestedServiceNames) {
+          let servicio = await this.prisma.servicio.findFirst({
+            where: {
+              tenantId,
+              empresaId: orden.empresaId,
+              nombre: nombreServicio,
+            },
+          });
+
+          if (!servicio) {
+            servicio = await this.prisma.servicio.create({
+              data: {
+                tenantId,
+                empresaId: orden.empresaId,
+                nombre: nombreServicio,
+                activo: true,
+              },
+            });
+          }
+
+          serviciosProcesados.push(servicio.nombre);
+
+          if (!servicioPrincipal) {
+            servicioPrincipal = servicio;
+          }
+        }
+      } else if (updateDto.servicioId) {
+        servicioPrincipal = await this.prisma.servicio.findFirst({
+          where: {
+            id: updateDto.servicioId,
             tenantId,
             empresaId: orden.empresaId,
-            nombre: updateDto.servicioEspecifico,
-            activo: true,
           },
         });
+
+        if (!servicioPrincipal) {
+          throw new BadRequestException('servicioId inválido');
+        }
+
+        serviciosProcesados.push(servicioPrincipal.nombre);
       }
-      data.servicio = { connect: { id: servicio.id } };
+
+      if (!servicioPrincipal) {
+        throw new BadRequestException('Debe especificar al menos un servicio');
+      }
+
+      data.servicio = { connect: { id: servicioPrincipal.id } };
+      data.serviciosSeleccionados =
+        serviciosProcesados as unknown as Prisma.InputJsonValue;
     }
 
     const updatedOrden = await this.prisma.ordenServicio.update({

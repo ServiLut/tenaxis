@@ -77,6 +77,7 @@ export const ModelName = {
   EstadoServicio: 'EstadoServicio',
   OrdenServicio: 'OrdenServicio',
   OrdenServicioSeguimiento: 'OrdenServicioSeguimiento',
+  OrdenServicioReporte: 'OrdenServicioReporte',
   EntidadFinanciera: 'EntidadFinanciera',
   Geolocalizacion: 'Geolocalizacion',
   Nomina: 'Nomina',
@@ -629,6 +630,23 @@ export const OrdenServicioSeguimientoScalarFieldEnum = {
 } as const
 
 export type OrdenServicioSeguimientoScalarFieldEnum = (typeof OrdenServicioSeguimientoScalarFieldEnum)[keyof typeof OrdenServicioSeguimientoScalarFieldEnum]
+
+
+export const OrdenServicioReporteScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
+  ordenServicioId: 'ordenServicioId',
+  membershipId: 'membershipId',
+  tipo: 'tipo',
+  estadoDestino: 'estadoDestino',
+  descripcion: 'descripcion',
+  evidenciaPaths: 'evidenciaPaths',
+  occurredAt: 'occurredAt',
+  createdAt: 'createdAt'
+} as const
+
+export type OrdenServicioReporteScalarFieldEnum = (typeof OrdenServicioReporteScalarFieldEnum)[keyof typeof OrdenServicioReporteScalarFieldEnum]
 
 
 export const EntidadFinancieraScalarFieldEnum = {

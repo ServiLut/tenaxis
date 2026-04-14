@@ -758,6 +758,40 @@ export type EnumEstadoOrdenWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumEstadoOrdenFilter<$PrismaModel>
 }
 
+export type EnumTipoReporteOrdenServicioFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoReporteOrdenServicio | Prisma.EnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoReporteOrdenServicio[] | Prisma.ListEnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoReporteOrdenServicio[] | Prisma.ListEnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoReporteOrdenServicioFilter<$PrismaModel> | $Enums.TipoReporteOrdenServicio
+}
+
+export type EnumEstadoDestinoReporteOrdenServicioFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoDestinoReporteOrdenServicio | Prisma.EnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoDestinoReporteOrdenServicio[] | Prisma.ListEnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoDestinoReporteOrdenServicio[] | Prisma.ListEnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoDestinoReporteOrdenServicioFilter<$PrismaModel> | $Enums.EstadoDestinoReporteOrdenServicio
+}
+
+export type EnumTipoReporteOrdenServicioWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoReporteOrdenServicio | Prisma.EnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoReporteOrdenServicio[] | Prisma.ListEnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoReporteOrdenServicio[] | Prisma.ListEnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoReporteOrdenServicioWithAggregatesFilter<$PrismaModel> | $Enums.TipoReporteOrdenServicio
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoReporteOrdenServicioFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoReporteOrdenServicioFilter<$PrismaModel>
+}
+
+export type EnumEstadoDestinoReporteOrdenServicioWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoDestinoReporteOrdenServicio | Prisma.EnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoDestinoReporteOrdenServicio[] | Prisma.ListEnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoDestinoReporteOrdenServicio[] | Prisma.ListEnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoDestinoReporteOrdenServicioWithAggregatesFilter<$PrismaModel> | $Enums.EstadoDestinoReporteOrdenServicio
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEstadoDestinoReporteOrdenServicioFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEstadoDestinoReporteOrdenServicioFilter<$PrismaModel>
+}
+
 export type EnumEstadoNominaFilter<$PrismaModel = never> = {
   equals?: $Enums.EstadoNomina | Prisma.EnumEstadoNominaFieldRefInput<$PrismaModel>
   in?: $Enums.EstadoNomina[] | Prisma.ListEnumEstadoNominaFieldRefInput<$PrismaModel>
@@ -1648,6 +1682,40 @@ export type NestedEnumEstadoOrdenWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumEstadoOrdenFilter<$PrismaModel>
   _max?: Prisma.NestedEnumEstadoOrdenFilter<$PrismaModel>
+}
+
+export type NestedEnumTipoReporteOrdenServicioFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoReporteOrdenServicio | Prisma.EnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoReporteOrdenServicio[] | Prisma.ListEnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoReporteOrdenServicio[] | Prisma.ListEnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoReporteOrdenServicioFilter<$PrismaModel> | $Enums.TipoReporteOrdenServicio
+}
+
+export type NestedEnumEstadoDestinoReporteOrdenServicioFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoDestinoReporteOrdenServicio | Prisma.EnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoDestinoReporteOrdenServicio[] | Prisma.ListEnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoDestinoReporteOrdenServicio[] | Prisma.ListEnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoDestinoReporteOrdenServicioFilter<$PrismaModel> | $Enums.EstadoDestinoReporteOrdenServicio
+}
+
+export type NestedEnumTipoReporteOrdenServicioWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoReporteOrdenServicio | Prisma.EnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoReporteOrdenServicio[] | Prisma.ListEnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoReporteOrdenServicio[] | Prisma.ListEnumTipoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoReporteOrdenServicioWithAggregatesFilter<$PrismaModel> | $Enums.TipoReporteOrdenServicio
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoReporteOrdenServicioFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoReporteOrdenServicioFilter<$PrismaModel>
+}
+
+export type NestedEnumEstadoDestinoReporteOrdenServicioWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoDestinoReporteOrdenServicio | Prisma.EnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoDestinoReporteOrdenServicio[] | Prisma.ListEnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoDestinoReporteOrdenServicio[] | Prisma.ListEnumEstadoDestinoReporteOrdenServicioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoDestinoReporteOrdenServicioWithAggregatesFilter<$PrismaModel> | $Enums.EstadoDestinoReporteOrdenServicio
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEstadoDestinoReporteOrdenServicioFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEstadoDestinoReporteOrdenServicioFilter<$PrismaModel>
 }
 
 export type NestedEnumEstadoNominaFilter<$PrismaModel = never> = {
