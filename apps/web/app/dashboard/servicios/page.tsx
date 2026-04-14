@@ -656,18 +656,6 @@ const hasStoredTransferSettlementData = (orden?: Partial<OrdenServicioRaw> | nul
   );
 };
 
-const isTransferenciaMetadataComplete = (
-  transferencia?: Partial<LiquidarTransferenciaForm> | null,
-) => {
-  if (!transferencia?.existingPath && !transferencia?.comprobanteFile) return false;
-
-  return (
-    parseCurrencyInput(transferencia.monto) > 0 &&
-    Boolean(transferencia.fechaPago) &&
-    Boolean(transferencia.referenciaPago?.trim())
-  );
-};
-
 const CLOSED_FINANCIAL_STATES = new Set([
   "EFECTIVO_DECLARADO",
   "PAGADO",
