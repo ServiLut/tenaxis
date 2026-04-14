@@ -25,6 +25,7 @@ import { ProductosModule } from './productos/productos.module';
 import { MobileOperatorDashboardModule } from './mobile-operator-dashboard/mobile-operator-dashboard.module';
 import { MobileOperatorProductsModule } from './mobile-operator-products/mobile-operator-products.module';
 import { MobileOperatorReferralsModule } from './mobile-operator-referrals/mobile-operator-referrals.module';
+import { MobileOperatorServicesModule } from './mobile-operator-services/mobile-operator-services.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { MobileOperatorReferralsModule } from './mobile-operator-referrals/mobil
     MobileOperatorDashboardModule,
     MobileOperatorProductsModule,
     MobileOperatorReferralsModule,
+    MobileOperatorServicesModule,
   ],
   controllers: [AppController],
   providers: [

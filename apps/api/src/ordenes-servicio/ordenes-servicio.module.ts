@@ -18,5 +18,6 @@ import { OrdenesServicioExportJobsService } from './export-jobs.service';
   ],
   controllers: [OrdenesServicioController],
   providers: [OrdenesServicioService, OrdenesServicioExportJobsService],
+  exports: [OrdenesServicioService],
 })
 export class OrdenesServicioModule {}
