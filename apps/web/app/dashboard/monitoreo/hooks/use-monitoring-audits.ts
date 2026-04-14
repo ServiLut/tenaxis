@@ -36,9 +36,12 @@ const createDefaultFilters = (): AuditFilters => ({
 });
 
 export function useMonitoringAudits(date?: string) {
-  const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState<AuditFilters>(createDefaultFilters);
   const [debouncedEntityId, setDebouncedEntityId] = useState("");
+  const [pageState, setPageState] = useState<{ signature: string; page: number }>({
+    signature: "",
+    page: 1,
+  });
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -48,16 +51,34 @@ export function useMonitoringAudits(date?: string) {
     return () => window.clearTimeout(timeout);
   }, [filters.entityId]);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [
-    date,
-    filters.actions,
-    filters.users,
-    filters.entities,
-    filters.statuses,
-    debouncedEntityId,
-  ]);
+  const pageSignature = useMemo(
+    () =>
+      [
+        date ?? "",
+        debouncedEntityId,
+        filters.actions.join("|"),
+        filters.users.join("|"),
+        filters.entities.join("|"),
+        filters.statuses.join("|"),
+      ].join("::"),
+    [
+      date,
+      debouncedEntityId,
+      filters.actions,
+      filters.users,
+      filters.entities,
+      filters.statuses,
+    ],
+  );
+
+  const currentPage = pageState.signature === pageSignature ? pageState.page : 1;
+
+  const setCurrentPage = (page: number) => {
+    setPageState({
+      signature: pageSignature,
+      page,
+    });
+  };
 
   const auditsQuery = useQuery({
     queryKey: [
