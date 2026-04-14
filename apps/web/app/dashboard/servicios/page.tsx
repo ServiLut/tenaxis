@@ -180,6 +180,18 @@ function resolveSoportePagoUrl(bucket: string, path?: unknown) {
   return getStorageUrl(bucket, normalizedPath.replace(/^\/+/, ""));
 }
 
+const VISITA_EVIDENCE_PUBLIC_BASE_URL =
+  "https://supabase.servilutioncrm.cloud/storage/v1/object/public/tenaxis-docs/";
+
+function resolveVisitaEvidenceUrl(path?: string | null) {
+  const normalizedPath = typeof path === "string" ? path.trim() : "";
+
+  if (!normalizedPath) return "";
+  if (/^(https?:)?\/\//i.test(normalizedPath)) return normalizedPath;
+
+  return `${VISITA_EVIDENCE_PUBLIC_BASE_URL}${normalizedPath.replace(/^\/+/, "")}`;
+}
+
 
 interface LiquidarTransferenciaForm {
   id: string;
@@ -4539,7 +4551,7 @@ function ServiciosContent() {
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoLlegada ? (
                               <Image
-                                src={getStorageUrl("EvidenciaOrdenServicio", geo.fotoLlegada)}
+                                src={resolveVisitaEvidenceUrl(geo.fotoLlegada)}
                                 alt="Foto Llegada"
                                 fill
                                 className="object-cover"
@@ -4564,7 +4576,7 @@ function ServiciosContent() {
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoSalida ? (
                               <Image
-                                src={getStorageUrl("EvidenciaOrdenServicio", geo.fotoSalida)}
+                                src={resolveVisitaEvidenceUrl(geo.fotoSalida)}
                                 alt="Foto Salida"
                                 fill
                                 className="object-cover"
