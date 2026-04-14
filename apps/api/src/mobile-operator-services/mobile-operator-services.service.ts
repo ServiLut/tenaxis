@@ -13,9 +13,7 @@ import {
 import { OrdenesServicioService } from '../ordenes-servicio/ordenes-servicio.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
-import {
-  CreateMobileOperatorServiceSignedUploadUrlDto,
-} from './dto/create-mobile-operator-service-signed-upload-url.dto';
+import { CreateMobileOperatorServiceSignedUploadUrlDto } from './dto/create-mobile-operator-service-signed-upload-url.dto';
 import { FinishMobileOperatorServiceDto } from './dto/finish-mobile-operator-service.dto';
 import {
   MobileOperatorServiceDetailResponseDto,
@@ -493,7 +491,12 @@ export class MobileOperatorServicesService {
         },
       });
 
-      await this.backfillDirectionCoordinates(tx, order, dto.latitud, dto.longitud);
+      await this.backfillDirectionCoordinates(
+        tx,
+        order,
+        dto.latitud,
+        dto.longitud,
+      );
       await this.backfillDirectionLink(tx, order, dto.linkMaps);
     });
 
@@ -606,7 +609,12 @@ export class MobileOperatorServicesService {
         },
       });
 
-      await this.backfillDirectionCoordinates(tx, order, dto.latitud, dto.longitud);
+      await this.backfillDirectionCoordinates(
+        tx,
+        order,
+        dto.latitud,
+        dto.longitud,
+      );
       await this.backfillDirectionLink(tx, order, dto.linkMaps);
     });
 
@@ -687,7 +695,12 @@ export class MobileOperatorServicesService {
         },
       });
 
-      await this.backfillDirectionCoordinates(tx, order, dto.latitud, dto.longitud);
+      await this.backfillDirectionCoordinates(
+        tx,
+        order,
+        dto.latitud,
+        dto.longitud,
+      );
       await this.backfillDirectionLink(tx, order, dto.linkMaps);
     });
 
@@ -882,9 +895,7 @@ export class MobileOperatorServicesService {
     const hasLng = typeof longitud === 'number';
 
     if (hasLat !== hasLng) {
-      throw new BadRequestException(
-        'Latitud y longitud deben enviarse juntas',
-      );
+      throw new BadRequestException('Latitud y longitud deben enviarse juntas');
     }
   }
 
@@ -964,7 +975,9 @@ export class MobileOperatorServicesService {
     });
   }
 
-  private mapListItem(row: ServiceListRecord): MobileOperatorServiceListItemDto {
+  private mapListItem(
+    row: ServiceListRecord,
+  ): MobileOperatorServiceListItemDto {
     const latestGeo = row.geolocalizaciones[0] ?? null;
 
     return {

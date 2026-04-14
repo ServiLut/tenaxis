@@ -12,7 +12,10 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { MetodoPagoBase, NivelInfestacion } from '../../generated/client/client';
+import {
+  MetodoPagoBase,
+  NivelInfestacion,
+} from '../../generated/client/client';
 
 export class MobileOperatorServicePaymentBreakdownItemDto {
   @IsEnum(MetodoPagoBase)
