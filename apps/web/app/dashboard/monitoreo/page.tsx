@@ -35,6 +35,7 @@ import { KPIModal } from "./components/KPIModal";
 import { exportToExcel } from "./components/utils";
 import { DatePicker } from "@/components/ui/date-picker";
 import { ExportRangeModal } from "./components/ExportRangeModal";
+import { formatAuditValue } from "./utils/audit-formatters";
 import { toast } from "sonner";
 import { 
   getMonitoringSessions, 
@@ -51,17 +52,6 @@ function getAuditActionLabel(action?: string | null) {
 
 function getAuditStatusLabel(action?: string | null) {
   return action?.includes("FAILED") ? "FALLIDA" : "EXITOSA";
-}
-
-function stringifyAuditValue(value: unknown) {
-  if (value === null || value === undefined) return "";
-  if (typeof value === "string") return value;
-
-  try {
-    return JSON.stringify(value);
-  } catch {
-    return String(value);
-  }
 }
 
 function getAuditMetadataField(
@@ -231,9 +221,9 @@ export default function MonitoreoPage() {
         Ruta: getAuditMetadataField(audit.metadata, "path"),
         Metodo: getAuditMetadataField(audit.metadata, "method"),
         IP: getAuditMetadataField(audit.metadata, "ip"),
-        Anterior: stringifyAuditValue(audit.detalles?.anterior),
-        Nuevo: stringifyAuditValue(audit.detalles?.nuevo),
-        Resultado: stringifyAuditValue((audit.detalles as Record<string, unknown> | undefined)?.resultado),
+        Anterior: formatAuditValue(audit.detalles?.anterior),
+        Nuevo: formatAuditValue(audit.detalles?.nuevo),
+        Resultado: formatAuditValue(audit.detalles?.resultado),
       }));
 
       await exportToExcel(

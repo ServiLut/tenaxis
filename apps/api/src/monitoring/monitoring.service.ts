@@ -54,12 +54,345 @@ type PayrollSession = Prisma.SesionActividadGetPayload<{
   };
 }>;
 
+type AuditWithMembership = Prisma.AuditoriaGetPayload<{
+  include: {
+    membership: {
+      include: {
+        user: {
+          select: {
+            nombre: true;
+            apellido: true;
+            email: true;
+          };
+        };
+      };
+    };
+  };
+}>;
+
+type AuditLookupBucketName =
+  | 'clientes'
+  | 'servicios'
+  | 'memberships'
+  | 'direcciones'
+  | 'metodosPago'
+  | 'entidadesFinancieras';
+
+type AuditLookupBuckets = Record<AuditLookupBucketName, Set<string>>;
+type AuditLookupMaps = Record<AuditLookupBucketName, Map<string, string>>;
+
+const AUDIT_LOOKUP_FIELD_MAP: Record<string, AuditLookupBucketName> = {
+  clienteId: 'clientes',
+  servicioId: 'servicios',
+  creadoPorId: 'memberships',
+  tecnicoId: 'memberships',
+  liquidadoPorId: 'memberships',
+  deletedById: 'memberships',
+  membershipId: 'memberships',
+  createdByMembershipId: 'memberships',
+  adminId: 'memberships',
+  direccionId: 'direcciones',
+  metodoPagoId: 'metodosPago',
+  entidadFinancieraId: 'entidadesFinancieras',
+};
+
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 @Injectable()
 export class MonitoringService {
   constructor(private prisma: PrismaService) {}
 
   private buildTenantWhere(scope: MonitoringScope) {
     return scope.tenantId ? { tenantId: scope.tenantId } : {};
+  }
+
+  private createEmptyAuditLookupBuckets(): AuditLookupBuckets {
+    return {
+      clientes: new Set<string>(),
+      servicios: new Set<string>(),
+      memberships: new Set<string>(),
+      direcciones: new Set<string>(),
+      metodosPago: new Set<string>(),
+      entidadesFinancieras: new Set<string>(),
+    };
+  }
+
+  private createEmptyAuditLookupMaps(): AuditLookupMaps {
+    return {
+      clientes: new Map<string, string>(),
+      servicios: new Map<string, string>(),
+      memberships: new Map<string, string>(),
+      direcciones: new Map<string, string>(),
+      metodosPago: new Map<string, string>(),
+      entidadesFinancieras: new Map<string, string>(),
+    };
+  }
+
+  private isAuditPlainObject(value: unknown): value is Record<string, unknown> {
+    return !!value && typeof value === 'object' && !Array.isArray(value);
+  }
+
+  private isUuidLike(value: string): boolean {
+    return UUID_REGEX.test(value);
+  }
+
+  private collectAuditLookupIds(
+    value: unknown,
+    buckets: AuditLookupBuckets,
+  ): void {
+    if (Array.isArray(value)) {
+      value.forEach((item) => this.collectAuditLookupIds(item, buckets));
+      return;
+    }
+
+    if (!this.isAuditPlainObject(value)) {
+      return;
+    }
+
+    Object.entries(value).forEach(([key, currentValue]) => {
+      if (typeof currentValue === 'string' && this.isUuidLike(currentValue)) {
+        const bucket = AUDIT_LOOKUP_FIELD_MAP[key];
+        if (bucket) {
+          buckets[bucket].add(currentValue);
+        }
+      }
+
+      this.collectAuditLookupIds(currentValue, buckets);
+    });
+  }
+
+  private buildClienteDisplayLabel(cliente: {
+    nombre: string | null;
+    apellido: string | null;
+    razonSocial: string | null;
+  }): string {
+    const fullName = [cliente.nombre, cliente.apellido]
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+
+    return cliente.razonSocial?.trim() || fullName || 'Cliente sin nombre';
+  }
+
+  private buildDireccionDisplayLabel(direccion: {
+    direccion: string;
+    nombreSede: string | null;
+    barrio: string | null;
+    municipio: string | null;
+  }): string {
+    const extras = [direccion.nombreSede, direccion.barrio, direccion.municipio]
+      .filter(Boolean)
+      .join(' • ');
+
+    return extras ? `${direccion.direccion} (${extras})` : direccion.direccion;
+  }
+
+  private resolveAuditLookupValue(
+    key: string,
+    currentValue: string,
+    lookupMaps: AuditLookupMaps,
+  ): string {
+    const bucket = AUDIT_LOOKUP_FIELD_MAP[key];
+    if (!bucket) {
+      return currentValue;
+    }
+
+    return lookupMaps[bucket].get(currentValue) || currentValue;
+  }
+
+  private enrichAuditValueForDisplay(
+    value: unknown,
+    lookupMaps: AuditLookupMaps,
+  ): unknown {
+    if (Array.isArray(value)) {
+      return value.map((item) =>
+        this.enrichAuditValueForDisplay(item, lookupMaps),
+      );
+    }
+
+    if (!this.isAuditPlainObject(value)) {
+      return value;
+    }
+
+    const enrichedEntries = Object.entries(value).map(([key, currentValue]) => {
+      if (typeof currentValue === 'string' && this.isUuidLike(currentValue)) {
+        return [
+          key,
+          this.resolveAuditLookupValue(key, currentValue, lookupMaps),
+        ];
+      }
+
+      return [key, this.enrichAuditValueForDisplay(currentValue, lookupMaps)];
+    });
+
+    return Object.fromEntries(enrichedEntries);
+  }
+
+  private async buildAuditLookupMaps(
+    scope: MonitoringScope,
+    buckets: AuditLookupBuckets,
+  ): Promise<AuditLookupMaps> {
+    const tenantWhere = this.buildTenantWhere(scope);
+    const lookupMaps = this.createEmptyAuditLookupMaps();
+
+    if (buckets.clientes.size > 0) {
+      const clientes = await this.prisma.cliente.findMany({
+        where: {
+          ...tenantWhere,
+          id: { in: Array.from(buckets.clientes) },
+        },
+        select: {
+          id: true,
+          nombre: true,
+          apellido: true,
+          razonSocial: true,
+        },
+      });
+
+      clientes.forEach((cliente) => {
+        lookupMaps.clientes.set(
+          cliente.id,
+          this.buildClienteDisplayLabel(cliente),
+        );
+      });
+    }
+
+    if (buckets.servicios.size > 0) {
+      const servicios = await this.prisma.servicio.findMany({
+        where: {
+          ...tenantWhere,
+          id: { in: Array.from(buckets.servicios) },
+        },
+        select: {
+          id: true,
+          nombre: true,
+        },
+      });
+
+      servicios.forEach((servicio) => {
+        lookupMaps.servicios.set(servicio.id, servicio.nombre);
+      });
+    }
+
+    if (buckets.memberships.size > 0) {
+      const memberships = await this.prisma.tenantMembership.findMany({
+        where: {
+          ...tenantWhere,
+          id: { in: Array.from(buckets.memberships) },
+        },
+        select: {
+          id: true,
+          username: true,
+          user: {
+            select: {
+              nombre: true,
+              apellido: true,
+            },
+          },
+        },
+      });
+
+      memberships.forEach((membership) => {
+        lookupMaps.memberships.set(
+          membership.id,
+          this.buildUserOptionLabel({
+            username: membership.username ?? null,
+            nombre: membership.user?.nombre ?? null,
+            apellido: membership.user?.apellido ?? null,
+          }),
+        );
+      });
+    }
+
+    if (buckets.direcciones.size > 0) {
+      const direcciones = await this.prisma.direccion.findMany({
+        where: {
+          ...tenantWhere,
+          id: { in: Array.from(buckets.direcciones) },
+        },
+        select: {
+          id: true,
+          direccion: true,
+          nombreSede: true,
+          barrio: true,
+          municipio: true,
+        },
+      });
+
+      direcciones.forEach((direccion) => {
+        lookupMaps.direcciones.set(
+          direccion.id,
+          this.buildDireccionDisplayLabel(direccion),
+        );
+      });
+    }
+
+    if (buckets.metodosPago.size > 0) {
+      const metodosPago = await this.prisma.metodoPago.findMany({
+        where: {
+          ...tenantWhere,
+          id: { in: Array.from(buckets.metodosPago) },
+        },
+        select: {
+          id: true,
+          nombre: true,
+        },
+      });
+
+      metodosPago.forEach((metodoPago) => {
+        lookupMaps.metodosPago.set(metodoPago.id, metodoPago.nombre);
+      });
+    }
+
+    if (buckets.entidadesFinancieras.size > 0) {
+      const entidadesFinancieras = await this.prisma.entidadFinanciera.findMany(
+        {
+          where: {
+            ...tenantWhere,
+            id: { in: Array.from(buckets.entidadesFinancieras) },
+          },
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+      );
+
+      entidadesFinancieras.forEach((entidadFinanciera) => {
+        lookupMaps.entidadesFinancieras.set(
+          entidadFinanciera.id,
+          entidadFinanciera.nombre,
+        );
+      });
+    }
+
+    return lookupMaps;
+  }
+
+  private async enrichAuditsForDisplay(
+    scope: MonitoringScope,
+    audits: AuditWithMembership[],
+  ): Promise<AuditWithMembership[]> {
+    if (audits.length === 0) {
+      return audits;
+    }
+
+    const lookupBuckets = this.createEmptyAuditLookupBuckets();
+
+    audits.forEach((audit) => {
+      this.collectAuditLookupIds(audit.detalles, lookupBuckets);
+    });
+
+    const lookupMaps = await this.buildAuditLookupMaps(scope, lookupBuckets);
+
+    return audits.map((audit) => ({
+      ...audit,
+      detalles: this.enrichAuditValueForDisplay(
+        audit.detalles,
+        lookupMaps,
+      ) as Prisma.JsonValue,
+    }));
   }
 
   private getDateRange(dateStr?: string, startDate?: string, endDate?: string) {
@@ -912,7 +1245,9 @@ export class MonitoringService {
 
     if (query.users?.length) {
       const includeSystem = query.users.includes('__system__');
-      const membershipIds = query.users.filter((value) => value !== '__system__');
+      const membershipIds = query.users.filter(
+        (value) => value !== '__system__',
+      );
 
       if (includeSystem && membershipIds.length > 0) {
         andFilters.push({
@@ -971,7 +1306,10 @@ export class MonitoringService {
     nombre: string | null;
     apellido: string | null;
   }): string {
-    const fullName = [user.nombre, user.apellido].filter(Boolean).join(' ').trim();
+    const fullName = [user.nombre, user.apellido]
+      .filter(Boolean)
+      .join(' ')
+      .trim();
     if (fullName && user.username) {
       return `${fullName} (@${user.username})`;
     }
@@ -1103,10 +1441,7 @@ export class MonitoringService {
     };
   }
 
-  async findAllAudits(
-    scope: MonitoringScope,
-    query: MonitoringAuditsQueryDto,
-  ) {
+  async findAllAudits(scope: MonitoringScope, query: MonitoringAuditsQueryDto) {
     const page = query.page || 1;
     const limit = query.limit || 20;
     const skip = (page - 1) * limit;
@@ -1146,8 +1481,10 @@ export class MonitoringService {
       this.getAuditFilterOptions(baseWhere),
     ]);
 
+    const enrichedData = await this.enrichAuditsForDisplay(scope, data);
+
     return {
-      results: data,
+      results: enrichedData,
       meta: {
         total,
         page,

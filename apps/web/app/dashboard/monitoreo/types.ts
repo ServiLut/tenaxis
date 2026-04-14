@@ -84,6 +84,7 @@ export interface Audit {
   detalles: {
     anterior?: unknown;
     nuevo?: unknown;
+    resultado?: unknown;
   };
 }
 

@@ -19,6 +19,8 @@ interface AuditDetailModalProps {
 export function AuditDetailModal({ isOpen, onOpenChange, audit }: AuditDetailModalProps) {
   if (!audit) return null;
   const isSuccess = !audit.accion.includes('FAILED');
+  const responsibleName = `${audit.membership?.user?.nombre ?? ""} ${audit.membership?.user?.apellido ?? ""}`.trim() || "Sistema";
+  const responsibleUsername = audit.membership?.username ? `@${audit.membership.username}` : "@sistema";
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -65,10 +67,10 @@ export function AuditDetailModal({ isOpen, onOpenChange, audit }: AuditDetailMod
             <div className="p-6 bg-muted/20 rounded-3xl border border-border space-y-4">
               <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-accent" />Responsable</h4>
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center text-accent text-lg font-black shadow-inner">{audit.membership?.user.nombre[0]}</div>
+                <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center text-accent text-lg font-black shadow-inner">{audit.membership?.user?.nombre?.[0] ?? "S"}</div>
                 <div>
-                  <p className="font-black text-foreground uppercase text-sm">{audit.membership?.user.nombre} {audit.membership?.user.apellido}</p>
-                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">@{audit.membership?.username}</p>
+                  <p className="font-black text-foreground uppercase text-sm">{responsibleName}</p>
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{responsibleUsername}</p>
                 </div>
               </div>
             </div>
