@@ -1,0 +1,19 @@
+meta {
+  name: Get Mobile Operator Service Detail
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{local}}/mobile/operator/services/{{ordenServicioId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+vars:pre-request {
+  ordenServicioId: fba951ba-c891-4d69-a8ce-1f4b9427415d
+}
