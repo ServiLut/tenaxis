@@ -131,6 +131,9 @@ type OrdenFinancialLockState = {
   estadoPago?: EstadoPagoOrden | null;
   estadoServicio?: EstadoOrden | null;
   liquidadoAt?: Date | null;
+  comprobantePago?: Prisma.JsonValue | null;
+  referenciaPago?: string | null;
+  fechaPago?: Date | string | null;
 };
 
 type OrdenReadPayload = OrdenWithGeolocalizaciones &
@@ -2278,6 +2281,129 @@ export class OrdenesServicioService {
     );
   }
 
+  private hasDateLikeValue(value: unknown): boolean {
+    if (value instanceof Date) {
+      return !Number.isNaN(value.getTime());
+    }
+
+    return typeof value === 'string' && value.trim().length > 0;
+  }
+
+  private hasStoredTransferProofPath(
+    comprobantePago?: Prisma.JsonValue | null,
+  ): boolean {
+    if (typeof comprobantePago === 'string') {
+      return Boolean(this.toOptionalString(comprobantePago));
+    }
+
+    if (!Array.isArray(comprobantePago)) {
+      return false;
+    }
+
+    return comprobantePago.some((item) => {
+      if (typeof item === 'string') {
+        return Boolean(this.toOptionalString(item));
+      }
+
+      if (!this.isRecord(item)) {
+        return false;
+      }
+
+      return Boolean(
+        this.toOptionalString(item.path ?? item.comprobantePath ?? item.url),
+      );
+    });
+  }
+
+  private hasStoredTransferSettlementDataForLock(
+    orden: Pick<
+      OrdenFinancialLockState,
+      'comprobantePago' | 'referenciaPago' | 'fechaPago'
+    >,
+  ): boolean {
+    if (Array.isArray(orden.comprobantePago)) {
+      const hasStructuredMetadata = orden.comprobantePago.some((item) => {
+        if (!this.isRecord(item)) {
+          return false;
+        }
+
+        return Boolean(
+          this.toOptionalString(
+            item.path ?? item.comprobantePath ?? item.url,
+          ) &&
+          this.toOptionalString(item.referenciaPago ?? item.referencia) &&
+          this.hasDateLikeValue(item.fechaPago ?? item.fecha),
+        );
+      });
+
+      if (hasStructuredMetadata) {
+        return true;
+      }
+    }
+
+    return (
+      this.hasStoredTransferProofPath(orden.comprobantePago) &&
+      Boolean(this.toOptionalString(orden.referenciaPago)) &&
+      this.hasDateLikeValue(orden.fechaPago)
+    );
+  }
+
+  private canCompleteTransferSettlementWhileFinanciallyLocked(
+    orden: OrdenFinancialLockState,
+    updateDto: Partial<CreateOrdenServicioDto>,
+  ): boolean {
+    const onlyTransferSettlementRepair =
+      Array.isArray(updateDto.transferencias) &&
+      updateDto.transferencias.length > 0 &&
+      updateDto.valorCotizado === undefined &&
+      updateDto.metodoPagoId === undefined &&
+      updateDto.entidadFinancieraNombre === undefined &&
+      updateDto.estadoPago === undefined &&
+      updateDto.facturaPath === undefined &&
+      updateDto.facturaElectronica === undefined &&
+      updateDto.valorPagado === undefined;
+
+    if (!onlyTransferSettlementRepair) {
+      return false;
+    }
+
+    const allowedEstadoServicioChange =
+      updateDto.estadoServicio === undefined ||
+      updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) ||
+      updateDto.estadoServicio ===
+        (EstadoOrden.TECNICO_FINALIZO as EstadoOrden);
+
+    if (!allowedEstadoServicioChange) {
+      return false;
+    }
+
+    const normalizedBreakdown = this.normalizeBreakdown(
+      updateDto.desglosePago as
+        | Prisma.JsonValue
+        | Prisma.InputJsonValue
+        | undefined,
+    );
+
+    if (
+      normalizedBreakdown &&
+      normalizedBreakdown.some(
+        (line) => line.metodo !== MetodoPagoBase.TRANSFERENCIA,
+      )
+    ) {
+      return false;
+    }
+
+    return (
+      !orden.liquidadoAt &&
+      orden.estadoServicio !== (EstadoOrden.LIQUIDADO as EstadoOrden) &&
+      !orden.declaracionEfectivo &&
+      !orden.consignacionOrden &&
+      orden.estadoPago === EstadoPagoOrden.PAGADO &&
+      this.hasStoredTransferProofPath(orden.comprobantePago) &&
+      !this.hasStoredTransferSettlementDataForLock(orden)
+    );
+  }
+
   private canLiquidateOperationallyWhileFinanciallyLocked(
     orden: OrdenFinancialLockState,
     updateDto: Partial<CreateOrdenServicioDto>,
@@ -2791,7 +2917,11 @@ export class OrdenesServicioService {
     if (
       this.isFinanciallyLocked(orden) &&
       this.hasFinancialMutation(orden, updateDto) &&
-      !this.canLiquidateOperationallyWhileFinanciallyLocked(orden, updateDto)
+      !this.canLiquidateOperationallyWhileFinanciallyLocked(orden, updateDto) &&
+      !this.canCompleteTransferSettlementWhileFinanciallyLocked(
+        orden,
+        updateDto,
+      )
     ) {
       throw new ConflictException(
         'La orden ya tiene movimiento contable y sus datos financieros quedaron congelados; necesitas un flujo de ajuste aprobado',

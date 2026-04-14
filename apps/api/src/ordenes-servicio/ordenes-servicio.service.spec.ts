@@ -751,6 +751,55 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
         }),
       ).rejects.toBeInstanceOf(ConflictException);
     });
+
+    it('permite completar metadata de transferencia en una orden PAGADO que aún no fue liquidada', async () => {
+      await arrangeUpdate({
+        orderOverrides: {
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          estadoPago: EstadoPagoOrden.PAGADO,
+          valorPagado: 195000,
+          desglosePago: [
+            { metodo: MetodoPagoBase.TRANSFERENCIA, monto: 195000 },
+          ],
+          comprobantePago: 'ordenes/comp-incomplete.png',
+          referenciaPago: null,
+          fechaPago: null,
+          liquidadoAt: null,
+        },
+        updateDto: {
+          desglosePago: [
+            { metodo: MetodoPagoBase.TRANSFERENCIA, monto: 195000 },
+          ],
+          estadoServicio: EstadoOrden.LIQUIDADO,
+          comprobantePago: 'ordenes/comp-incomplete.png',
+          referenciaPago: 'M10704553',
+          fechaPago: '2026-04-09',
+          transferencias: [
+            {
+              monto: 195000,
+              comprobantePath: 'ordenes/comp-incomplete.png',
+              referenciaPago: 'M10704553',
+              fechaPago: '2026-04-09',
+            },
+          ],
+          confirmarMovimientoFinanciero: true,
+          observacionFinal: 'se instalo filtro en 195000',
+        },
+        updatedOverrides: {
+          estadoServicio: EstadoOrden.LIQUIDADO,
+          estadoPago: EstadoPagoOrden.PAGADO,
+          liquidadoAt: new Date('2026-04-09T12:00:00.000Z'),
+          referenciaPago: 'M10704553',
+          fechaPago: new Date('2026-04-09T05:00:00.000Z'),
+        },
+      });
+
+      const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
+
+      expect(updateCall.data.estadoServicio).toBe(EstadoOrden.LIQUIDADO);
+      expect(updateCall.data.referenciaPago).toBe('M10704553');
+      expect(updateCall.data.fechaPago).toBeInstanceOf(Date);
+    });
   });
 
   describe('cambios operativos sin tocar finanzas', () => {
