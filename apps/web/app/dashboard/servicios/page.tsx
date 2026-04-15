@@ -842,6 +842,7 @@ const ESTADO_PAGO_OPTIONS = [
   { id: "PARCIAL", nombre: "PARCIAL" },
   { id: "EFECTIVO_DECLARADO", nombre: "EFECTIVO DECLARADO" },
   { id: "PAGADO", nombre: "PAGADO" },
+  { id: "CREDITO", nombre: "CRÉDITO" },
   { id: "CONCILIADO", nombre: "CONCILIADO" },
   { id: "CORTESIA", nombre: "CORTESÍA" },
 ];
