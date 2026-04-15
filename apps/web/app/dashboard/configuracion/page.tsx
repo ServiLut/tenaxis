@@ -245,6 +245,7 @@ export default function ConfiguracionPage() {
           await tenantsClient.updateMembership(user.membershipId, {
             nombre: user.nombre,
             apellido: user.apellido,
+            email: user.email,
             telefono: user.telefono,
             tipoDocumento: user.tipoDocumento,
             numeroDocumento: user.numeroDocumento,
@@ -392,6 +393,7 @@ export default function ConfiguracionPage() {
                   <CardContent className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Nombre</Label><Input value={user?.nombre || ""} onChange={(e) => updateProfileField("nombre", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Apellido</Label><Input value={user?.apellido || ""} onChange={(e) => updateProfileField("apellido", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Correo Electrónico</Label><Input type="email" value={user?.email || ""} onChange={(e) => updateProfileField("email", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Celular</Label><Input value={user?.telefono || ""} onChange={(e) => updateProfileField("telefono", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Tipo Documento</Label><Select value={user?.tipoDocumento || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("tipoDocumento", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="" disabled>Seleccione...</option>{TIPOS_DOCUMENTO.map(t => <option key={t} value={t}>{t}</option>)}</Select></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Documento</Label><Input value={user?.numeroDocumento || ""} onChange={(e) => updateProfileField("numeroDocumento", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>

@@ -52,6 +52,7 @@ export interface TenantMembershipInvitePayload {
   nombre?: string;
   apellido?: string;
   telefono?: string;
+  password?: string;
   departmentIds?: string[];
   municipalityIds?: string[];
 }

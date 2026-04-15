@@ -1,4 +1,10 @@
-import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 import { Role } from '../../generated/client/client';
 
 export class InviteMemberDto {
@@ -18,4 +24,11 @@ export class InviteMemberDto {
   @IsString()
   @IsOptional()
   telefono?: string;
+
+  @IsString()
+  @IsOptional()
+  @MinLength(6, {
+    message: 'La contraseña debe tener al menos 6 caracteres',
+  })
+  password?: string;
 }

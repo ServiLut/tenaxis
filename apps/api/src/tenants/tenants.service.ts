@@ -433,6 +433,23 @@ export class TenantsService {
         data.tipoDocumento !== undefined ||
         data.numeroDocumento !== undefined
       ) {
+        if (data.email) {
+          const normalizedEmail = data.email.trim().toLowerCase();
+          const existingUserWithEmail = await tx.user.findFirst({
+            where: {
+              email: normalizedEmail,
+              id: { not: current.userId },
+            },
+            select: { id: true },
+          });
+
+          if (existingUserWithEmail) {
+            throw new ConflictException(
+              'El correo electrónico ya está en uso por otro usuario',
+            );
+          }
+        }
+
         // Separar nombre y apellido si solo se envía nombre (en el frontend a veces se envía completo)
         let nombre = data.nombre;
         let apellido = data.apellido;
@@ -448,7 +465,7 @@ export class TenantsService {
           data: {
             nombre: nombre || undefined,
             apellido: apellido || undefined,
-            email: data.email || undefined,
+            email: data.email ? data.email.trim().toLowerCase() : undefined,
             telefono: data.telefono !== undefined ? data.telefono : undefined,
             tipoDocumento:
               data.tipoDocumento !== undefined
@@ -1647,6 +1664,7 @@ export class TenantsService {
 
   async inviteMember(tenantId: string, dto: InviteMemberDto, user: JwtPayload) {
     const { email, role, nombre, apellido, telefono } = dto;
+    const normalizedPassword = dto.password?.trim();
 
     await this.assertCanManageTeamMembership(
       this.prisma,
@@ -1661,7 +1679,8 @@ export class TenantsService {
     let targetUser = await this.prisma.user.findUnique({ where: { email } });
 
     if (!targetUser) {
-      const defaultPassword = await bcrypt.hash('Tenaxis2026*', 10);
+      const initialPassword = normalizedPassword || 'Tenaxis2026*';
+      const defaultPassword = await bcrypt.hash(initialPassword, 10);
       targetUser = await this.prisma.user.create({
         data: {
           email,
@@ -1671,6 +1690,10 @@ export class TenantsService {
           telefono: telefono || null,
         },
       });
+    } else if (normalizedPassword) {
+      throw new ConflictException(
+        'El correo ya existe. No se puede redefinir la contraseña desde este formulario.',
+      );
     }
 
     // 2. Verificar si ya tiene membresía en este tenant

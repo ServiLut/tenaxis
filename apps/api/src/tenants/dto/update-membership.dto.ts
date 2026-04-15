@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsEmail,
   IsString,
   IsOptional,
   IsBoolean,
@@ -58,7 +59,7 @@ export class UpdateMembershipDto {
   @IsOptional()
   apellido?: string;
 
-  @IsString()
+  @IsEmail({}, { message: 'Email inválido' })
   @IsOptional()
   email?: string;
 

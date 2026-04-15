@@ -36,6 +36,8 @@ export default function NuevoUsuarioPage() {
     nombre: "",
     apellido: "",
     telefono: "",
+    password: "",
+    confirmPassword: "",
     role: "ASESOR", // Default role
   });
 
@@ -64,6 +66,19 @@ export default function NuevoUsuarioPage() {
       return;
     }
 
+    const normalizedPassword = formData.password.trim();
+    const normalizedConfirmPassword = formData.confirmPassword.trim();
+
+    if (normalizedPassword && normalizedPassword.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
+
+    if (normalizedPassword && normalizedPassword !== normalizedConfirmPassword) {
+      setError("La confirmación de contraseña no coincide.");
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -74,6 +89,7 @@ export default function NuevoUsuarioPage() {
         nombre: formData.nombre,
         apellido: formData.apellido,
         telefono: formData.telefono,
+        password: normalizedPassword || undefined,
       });
 
       // Volver a la lista de usuarios
@@ -202,7 +218,7 @@ export default function NuevoUsuarioPage() {
                     required
                   />
                   <p className="text-[10px] text-zinc-500 px-1">
-                    Se enviará una invitación a este correo.
+                    Si el correo no existe, se creará el usuario y se vinculará al tenant.
                   </p>
                 </div>
 
@@ -219,6 +235,50 @@ export default function NuevoUsuarioPage() {
                     className="h-12"
                     disabled={loading}
                   />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-[10px] font-black uppercase tracking-[0.1em] text-zinc-400 px-1">
+                    Contraseña Inicial
+                  </Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Mínimo 6 caracteres"
+                    className="h-12"
+                    disabled={loading}
+                    minLength={6}
+                    autoComplete="new-password"
+                  />
+                  <p className="text-[10px] text-zinc-500 px-1">
+                    Opcional. Si lo dejás vacío, se usará la contraseña por defecto actual.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword" className="text-[10px] font-black uppercase tracking-[0.1em] text-zinc-400 px-1">
+                    Confirmar Contraseña
+                  </Label>
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Repetí la contraseña"
+                    className="h-12"
+                    disabled={loading}
+                    minLength={6}
+                    autoComplete="new-password"
+                  />
+                  <p className="text-[10px] text-zinc-500 px-1">
+                    Si el correo ya existe, esta contraseña no reemplaza la actual.
+                  </p>
                 </div>
               </div>
 
