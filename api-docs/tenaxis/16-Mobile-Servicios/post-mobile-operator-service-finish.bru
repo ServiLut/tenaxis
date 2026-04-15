@@ -17,6 +17,10 @@ auth:bearer {
 body:json {
   {
     "fotoSalidaPath": "{{exitPhotoPath}}",
+    "serviceEvidencePaths": [
+      "{{serviceEvidencePath1}}",
+      "{{serviceEvidencePath2}}"
+    ],
     "metodoPagoId": "{{metodoPagoId}}",
     "facturaSolicitada": true,
     "facturaPath": "{{invoicePhotoPath}}",

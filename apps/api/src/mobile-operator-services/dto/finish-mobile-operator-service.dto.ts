@@ -69,6 +69,11 @@ export class FinishMobileOperatorServiceDto {
   @IsNotEmpty()
   fotoSalidaPath: string;
 
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  serviceEvidencePaths?: string[];
+
   @IsUUID()
   @IsOptional()
   metodoPagoId?: string;

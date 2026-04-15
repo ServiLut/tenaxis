@@ -13,7 +13,10 @@ import {
 import { OrdenesServicioService } from '../ordenes-servicio/ordenes-servicio.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
-import { CreateMobileOperatorServiceSignedUploadUrlDto } from './dto/create-mobile-operator-service-signed-upload-url.dto';
+import {
+  CreateMobileOperatorServiceSignedUploadUrlDto,
+  MobileOperatorServiceUploadKind,
+} from './dto/create-mobile-operator-service-signed-upload-url.dto';
 import { FinishMobileOperatorServiceDto } from './dto/finish-mobile-operator-service.dto';
 import {
   MobileOperatorServiceDetailResponseDto,
@@ -601,6 +604,15 @@ export class MobileOperatorServicesService {
 
     const occurredAt = this.parseOccurrence(dto.occurredAt, 'occurredAt');
     const order = await this.getEditableServiceOrThrow(scope, id);
+    const serviceEvidencePaths = this.validateStoragePaths(
+      dto.serviceEvidencePaths,
+      this.buildStoragePrefix(
+        scope.tenantId,
+        id,
+        MobileOperatorServiceUploadKind.SERVICE_EVIDENCE,
+      ),
+      'serviceEvidencePaths',
+    );
     const openGeo = await this.prisma.geolocalizacion.findFirst({
       where: {
         tenantId: scope.tenantId,
@@ -676,12 +688,25 @@ export class MobileOperatorServicesService {
         });
       }
 
+      if (serviceEvidencePaths.length) {
+        await this.createServiceEvidenceRecords(
+          tx,
+          scope.tenantId,
+          id,
+          serviceEvidencePaths,
+        );
+      }
+
       await tx.ordenServicio.update({
         where: { id },
         data: {
           linkMaps:
             !order.linkMaps && dto.linkMaps?.trim()
               ? dto.linkMaps.trim()
+              : undefined,
+          evidenciaPath:
+            !order.evidenciaPath?.trim() && serviceEvidencePaths[0]
+              ? serviceEvidencePaths[0]
               : undefined,
         },
       });
@@ -708,6 +733,15 @@ export class MobileOperatorServicesService {
 
     const occurredAt = this.parseOccurrence(dto.occurredAt, 'occurredAt');
     const order = await this.getEditableServiceOrThrow(scope, id);
+    const reportEvidencePaths = this.validateStoragePaths(
+      dto.evidenciaPaths,
+      this.buildStoragePrefix(
+        scope.tenantId,
+        id,
+        MobileOperatorServiceUploadKind.REPORT_EVIDENCE,
+      ),
+      'evidenciaPaths',
+    );
     const sanitizedReason = dto.motivo?.trim() || null;
     if (dto.tipo === MobileOperatorServiceReportType.OTRO && !sanitizedReason) {
       throw new BadRequestException(
@@ -744,31 +778,25 @@ export class MobileOperatorServicesService {
           tipo: dto.tipo,
           estadoDestino,
           descripcion: reportSummary,
-          evidenciaPaths:
-            dto.evidenciaPaths?.length && dto.evidenciaPaths.length > 0
-              ? (dto.evidenciaPaths as unknown as Prisma.InputJsonValue)
-              : undefined,
+          evidenciaPaths: reportEvidencePaths.length
+            ? (reportEvidencePaths as unknown as Prisma.InputJsonValue)
+            : undefined,
           occurredAt,
         },
       });
 
-      if (dto.evidenciaPaths?.length) {
-        await Promise.all(
-          dto.evidenciaPaths.map((path) =>
-            tx.evidenciaServicio.create({
-              data: {
-                tenantId: scope.tenantId,
-                ordenServicioId: id,
-                path,
-              },
-            }),
-          ),
+      if (reportEvidencePaths.length) {
+        await this.createServiceEvidenceRecords(
+          tx,
+          scope.tenantId,
+          id,
+          reportEvidencePaths,
         );
 
         await tx.ordenServicio.update({
           where: { id },
           data: {
-            evidenciaPath: dto.evidenciaPaths[0],
+            evidenciaPath: reportEvidencePaths[0],
           },
         });
       }
@@ -782,7 +810,7 @@ export class MobileOperatorServicesService {
             ordenId: id,
             llegada: occurredAt,
             salida: occurredAt,
-            fotoLlegada: dto.evidenciaPaths?.[0] ?? null,
+            fotoLlegada: reportEvidencePaths[0] ?? null,
             latitud: dto.latitud,
             longitud: dto.longitud,
             linkMaps: dto.linkMaps?.trim() || null,
@@ -954,6 +982,7 @@ export class MobileOperatorServicesService {
         id: true,
         empresaId: true,
         direccionId: true,
+        evidenciaPath: true,
         estadoServicio: true,
         horaInicioReal: true,
         linkMaps: true,
@@ -985,14 +1014,69 @@ export class MobileOperatorServicesService {
   private buildStoragePath(
     tenantId: string,
     ordenId: string,
-    kind: string,
+    kind: MobileOperatorServiceUploadKind,
     fileName: string,
   ) {
     const safeName = fileName.replace(/[^a-zA-Z0-9._-]/g, '_');
     const random = Math.random().toString(36).slice(2, 8);
     const finalName = `${Date.now()}-${random}-${safeName}`;
 
-    return `${tenantId}/ordenes-servicio/${ordenId}/mobile/${kind}/${finalName}`;
+    return `${this.buildStoragePrefix(tenantId, ordenId, kind)}${finalName}`;
+  }
+
+  private buildStoragePrefix(
+    tenantId: string,
+    ordenId: string,
+    kind: MobileOperatorServiceUploadKind,
+  ) {
+    return `${tenantId}/ordenes-servicio/${ordenId}/mobile/${kind}/`;
+  }
+
+  private validateStoragePaths(
+    paths: string[] | undefined,
+    expectedPrefix: string,
+    fieldName: string,
+  ): string[] {
+    if (!paths?.length) {
+      return [];
+    }
+
+    return paths.map((path, index) => {
+      const trimmedPath = path.trim();
+
+      if (!trimmedPath) {
+        throw new BadRequestException(
+          `${fieldName}[${index}] no puede estar vacío`,
+        );
+      }
+
+      if (!trimmedPath.startsWith(expectedPrefix)) {
+        throw new BadRequestException(
+          `Cada item de ${fieldName} debe pertenecer al prefijo ${expectedPrefix}`,
+        );
+      }
+
+      return trimmedPath;
+    });
+  }
+
+  private async createServiceEvidenceRecords(
+    tx: Prisma.TransactionClient,
+    tenantId: string,
+    ordenServicioId: string,
+    paths: string[],
+  ): Promise<void> {
+    if (!paths.length) {
+      return;
+    }
+
+    await tx.evidenciaServicio.createMany({
+      data: paths.map((path) => ({
+        tenantId,
+        ordenServicioId,
+        path,
+      })),
+    });
   }
 
   private ensureCoordinatePair(latitud?: number, longitud?: number): void {
