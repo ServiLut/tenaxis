@@ -14,6 +14,7 @@ import {
   Users, 
   Coins, 
   ArrowUpCircle, 
+  BellRing,
   Scale, 
   Plus, 
   TrendingDown,
@@ -631,6 +632,7 @@ function RecaudoView() {
   const [selectedOrdenIds, setSelectedOrdenIds] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [remindingTechId, setRemindingTechId] = useState<string | null>(null);
   const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     referenciaBanco: "",
@@ -685,6 +687,37 @@ function RecaudoView() {
     if (!selectedTech) return [];
     return selectedTech.declaraciones.filter(d => selectedOrdenIds.includes(d.ordenId));
   }, [selectedTech, selectedOrdenIds]);
+
+  const handleSendLiquidationReminder = async (tech: TechnicianRecaudo) => {
+    if (tech.saldoPendiente <= 0) {
+      toast.info("Ese operador ya está al día.");
+      return;
+    }
+
+    setRemindingTechId(tech.id);
+
+    try {
+      const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
+      const result = await contabilidadClient.enviarRecordatorioLiquidacion(
+        tech.id,
+        empresaId,
+      );
+
+      toast.success(
+        result.message ||
+          `Recordatorio enviado a ${tech.nombre} ${tech.apellido}.`,
+      );
+    } catch (error) {
+      console.error("Error sending liquidation reminder:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "No se pudo enviar el recordatorio de liquidación",
+      );
+    } finally {
+      setRemindingTechId(null);
+    }
+  };
 
   const handleRegisterConsignacion = async () => {
     if (!selectedTech || !formData.referenciaBanco || !comprobanteFile) {
@@ -847,14 +880,33 @@ function RecaudoView() {
                         )}
                       </TableCell>
                       <TableCell className="px-8 py-6 text-right">
-                        <Button 
-                          size="sm" 
-                          className="h-10 px-6 rounded-xl bg-[#01ADFB] hover:bg-blue-700 text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-[#01ADFB]/20 border-none"
-                          onClick={() => handleOpenModal(tech)}
-                          disabled={tech.saldoPendiente <= 0}
-                        >
-                          Gestionar Conciliación
-                        </Button>
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-10 px-4 rounded-xl gap-2 border-amber-500/20 bg-amber-500/10 text-amber-700 hover:bg-amber-500/20 dark:text-amber-300 font-black text-[10px] uppercase tracking-widest"
+                            onClick={() => handleSendLiquidationReminder(tech)}
+                            disabled={
+                              tech.saldoPendiente <= 0 ||
+                              remindingTechId === tech.id
+                            }
+                          >
+                            {remindingTechId === tech.id ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <BellRing className="h-4 w-4" />
+                            )}
+                            Recordar liquidación
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            className="h-10 px-6 rounded-xl bg-[#01ADFB] hover:bg-blue-700 text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-[#01ADFB]/20 border-none"
+                            onClick={() => handleOpenModal(tech)}
+                            disabled={tech.saldoPendiente <= 0}
+                          >
+                            Gestionar Conciliación
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))

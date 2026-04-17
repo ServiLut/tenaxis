@@ -61,6 +61,14 @@ export interface RegistrarConsignacionPayload {
   comprobantePath: string;
 }
 
+export interface SendLiquidationReminderResponse {
+  success: boolean;
+  membershipId: string;
+  saldoPendiente: number;
+  ordenesPendientesCount: number;
+  message: string;
+}
+
 export const contabilidadClient = {
   async getRecaudoTecnicos(empresaId?: string): Promise<TechnicianRecaudo[]> {
     const url = empresaId
@@ -144,6 +152,19 @@ export const contabilidadClient = {
       method: "POST",
       body: JSON.stringify(data),
     });
+  },
+
+  async enviarRecordatorioLiquidacion(
+    membershipId: string,
+    empresaId?: string,
+  ): Promise<SendLiquidationReminderResponse> {
+    return apiFetch<SendLiquidationReminderResponse>(
+      `/finanzas/recaudo-tecnicos/${membershipId}/recordatorio-liquidacion`,
+      {
+        method: "POST",
+        body: JSON.stringify(empresaId ? { empresaId } : {}),
+      },
+    );
   },
 
   async generarNominaDesdeMonitoreo(

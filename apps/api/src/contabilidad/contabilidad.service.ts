@@ -92,6 +92,81 @@ export class ContabilidadService {
     }
   }
 
+  async sendManualCashCollectionReminder(
+    tenantId: string,
+    membershipId: string,
+    empresaId?: string,
+  ) {
+    const recaudos = await this.buildRecaudoTecnicos(
+      tenantId,
+      empresaId ? [empresaId] : undefined,
+    );
+    const target = recaudos.find((item) => item.id === membershipId);
+
+    if (!target || Number(target.saldoPendiente || 0) <= 0) {
+      this.logger.warn(
+        `PUSH_CARTERA_MANUAL: Membership ${membershipId} sin cartera pendiente en tenant ${tenantId}${empresaId ? ` y empresa ${empresaId}` : ''}.`,
+      );
+      throw new BadRequestException(
+        'El operador no tiene cartera pendiente para recordar.',
+      );
+    }
+
+    const membership = await this.prisma.tenantMembership.findFirst({
+      where: {
+        id: membershipId,
+        tenantId,
+        activo: true,
+        role: Role.OPERADOR,
+        pushToken: { not: null },
+        empresaMemberships: empresaId
+          ? {
+              some: {
+                empresaId,
+                activo: true,
+              },
+            }
+          : undefined,
+      },
+      select: {
+        id: true,
+        pushToken: true,
+      },
+    });
+
+    if (!membership?.pushToken?.trim()) {
+      this.logger.warn(
+        `PUSH_CARTERA_MANUAL: Membership ${membershipId} sin Expo Push Token registrado en tenant ${tenantId}.`,
+      );
+      throw new ConflictException(
+        'El operador no tiene un Expo Push Token registrado.',
+      );
+    }
+
+    const sent = await this.notifyPaymentReminder({
+      tenantId,
+      membershipId,
+    });
+
+    if (!sent) {
+      throw new ConflictException(
+        'No se pudo confirmar el envío del recordatorio. Revisá los logs de push.',
+      );
+    }
+
+    this.logger.log(
+      `PUSH_CARTERA_MANUAL: Recordatorio enviado manualmente a membership ${membershipId} del tenant ${tenantId}. saldo=${Number(target.saldoPendiente || 0)}, ordenes=${Number(target.ordenesPendientesCount || 0)}.`,
+    );
+
+    return {
+      success: true,
+      membershipId,
+      saldoPendiente: Number(target.saldoPendiente || 0),
+      ordenesPendientesCount: Number(target.ordenesPendientesCount || 0),
+      message: `Recordatorio enviado a ${target.nombre} ${target.apellido}.`,
+    };
+  }
+
   private normalizeDesglosePago(raw: unknown): DesglosePagoItem[] {
     if (!Array.isArray(raw)) {
       return [];

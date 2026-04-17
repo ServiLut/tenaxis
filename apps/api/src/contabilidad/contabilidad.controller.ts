@@ -4,6 +4,7 @@ import {
   Get,
   Post,
   Body,
+  Param,
   Req,
   UseGuards,
   Query,
@@ -17,6 +18,7 @@ import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request } from 'express';
 import { GenerateMonitoringPayrollDto } from './generate-monitoring-payroll.dto';
 import { RegistrarConsignacionDto } from './registrar-consignacion.dto';
+import { SendLiquidationReminderDto } from './send-liquidation-reminder.dto';
 import { resolveScopedEmpresaId } from '../common/utils/access-control.util';
 
 interface RequestWithUser extends Request {
@@ -183,6 +185,25 @@ export class FinanzasController {
         fechaConsignacion: data.fechaConsignacion,
         observacion: data.observacion,
       },
+    );
+  }
+
+  @Post('recaudo-tecnicos/:membershipId/recordatorio-liquidacion')
+  async sendLiquidationReminder(
+    @Req() req: RequestWithUser,
+    @Param('membershipId') membershipId: string,
+    @Body() data: SendLiquidationReminderDto,
+  ) {
+    const tenantId = req.user.tenantId;
+
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+
+    return this.contabilidadService.sendManualCashCollectionReminder(
+      tenantId,
+      membershipId,
+      resolveScopedEmpresaId(req.user, data.empresaId),
     );
   }
 }

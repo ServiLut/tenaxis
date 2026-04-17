@@ -1,5 +1,6 @@
 import { FinanzasController } from './contabilidad.controller';
 import { RegistrarConsignacionDto } from './registrar-consignacion.dto';
+import { SendLiquidationReminderDto } from './send-liquidation-reminder.dto';
 import type { ContabilidadService } from './contabilidad.service';
 
 type ContabilidadServiceMock = Pick<
@@ -66,5 +67,49 @@ describe('FinanzasController - registrar consignación JSON', () => {
         observacion: dto.observacion,
       },
     );
+  });
+});
+
+describe('FinanzasController - recordatorio manual de liquidación', () => {
+  it('reenvía membershipId y empresa scope al service', async () => {
+    const contabilidadService = {
+      sendManualCashCollectionReminder: jest
+        .fn<
+          ReturnType<ContabilidadService['sendManualCashCollectionReminder']>,
+          Parameters<ContabilidadService['sendManualCashCollectionReminder']>
+        >()
+        .mockResolvedValue({
+          success: true,
+          membershipId: 'membership-operator-1',
+          saldoPendiente: 150000,
+          ordenesPendientesCount: 3,
+          message: 'Recordatorio enviado a Operador Demo.',
+        } as Awaited<
+          ReturnType<ContabilidadService['sendManualCashCollectionReminder']>
+        >),
+    };
+
+    const controller = new FinanzasController(
+      contabilidadService as unknown as ContabilidadService,
+    );
+
+    const req = {
+      user: {
+        tenantId: 'tenant-1',
+        role: 'ADMIN',
+      },
+    } as unknown as Parameters<
+      FinanzasController['sendLiquidationReminder']
+    >[0];
+
+    const dto: SendLiquidationReminderDto = {
+      empresaId: '01906f58-8c7d-75a4-a685-3c3da2c46802',
+    };
+
+    await controller.sendLiquidationReminder(req, 'membership-operator-1', dto);
+
+    expect(
+      contabilidadService.sendManualCashCollectionReminder,
+    ).toHaveBeenCalledWith('tenant-1', 'membership-operator-1', dto.empresaId);
   });
 });
