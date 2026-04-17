@@ -2,13 +2,17 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  Logger,
 } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { PrismaService } from '../prisma/prisma.service';
+import { PushNotificationsService } from '../push-notifications/push-notifications.service';
 import {
   EstadoConsignacion,
   EstadoOrden,
   EstadoPagoOrden,
   MetodoPagoBase,
+  Role,
 } from '../generated/client/client';
 import { GenerateMonitoringPayrollDto } from './generate-monitoring-payroll.dto';
 import {
@@ -47,7 +51,46 @@ export interface RecaudoTecnicoPendiente {
 
 @Injectable()
 export class ContabilidadService {
-  constructor(private prisma: PrismaService) {}
+  private readonly logger = new Logger(ContabilidadService.name);
+
+  constructor(
+    private prisma: PrismaService,
+    private readonly pushNotificationsService: PushNotificationsService,
+  ) {}
+
+  private async notifyPaymentReminder(params: {
+    tenantId: string;
+    membershipId: string;
+  }) {
+    try {
+      const sent =
+        await this.pushNotificationsService.sendPaymentReminderNotification({
+          tenantId: params.tenantId,
+          membershipId: params.membershipId,
+        });
+
+      if (sent) {
+        this.logger.log(
+          `PUSH_CARTERA: Recordatorio push enviado al membership ${params.membershipId} del tenant ${params.tenantId}.`,
+        );
+        return true;
+      }
+
+      this.logger.warn(
+        `PUSH_CARTERA: No se confirmó envío para membership ${params.membershipId} del tenant ${params.tenantId}. Revisá los logs de PushNotificationsService.`,
+      );
+      return false;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      const stack = error instanceof Error ? error.stack : undefined;
+
+      this.logger.error(
+        `PUSH_CARTERA: Falló el envío push para membership ${params.membershipId} del tenant ${params.tenantId}: ${message}`,
+        stack,
+      );
+      return false;
+    }
+  }
 
   private normalizeDesglosePago(raw: unknown): DesglosePagoItem[] {
     if (!Array.isArray(raw)) {
@@ -463,6 +506,95 @@ export class ContabilidadService {
         diasSinTransferir,
       };
     });
+  }
+
+  @Cron('0 0 9 * * *', { timeZone: 'America/Bogota' })
+  async sendDailyCashCollectionReminders() {
+    this.logger.log(
+      'PUSH_CARTERA_CRON: Iniciando recordatorios diarios de cartera.',
+    );
+
+    const tenants = await this.prisma.tenant.findMany({
+      where: { isActive: true },
+      select: { id: true },
+    });
+
+    let tenantsProcessed = 0;
+    let eligibleOperators = 0;
+    let notificationsSent = 0;
+    let skippedWithoutToken = 0;
+
+    for (const tenant of tenants) {
+      try {
+        const recaudos = await this.buildRecaudoTecnicos(tenant.id);
+        const overdueMembershipIds = recaudos
+          .filter(
+            (item) =>
+              Number(item.saldoPendiente || 0) > 0 &&
+              item.diasSinTransferir >= 1,
+          )
+          .map((item) => item.id);
+
+        if (overdueMembershipIds.length === 0) {
+          this.logger.log(
+            `PUSH_CARTERA_CRON: Tenant ${tenant.id} sin operadores elegibles para recordatorio.`,
+          );
+          tenantsProcessed += 1;
+          continue;
+        }
+
+        const membershipsWithPushToken =
+          await this.prisma.tenantMembership.findMany({
+            where: {
+              tenantId: tenant.id,
+              id: { in: overdueMembershipIds },
+              activo: true,
+              role: Role.OPERADOR,
+              pushToken: { not: null },
+            },
+            select: {
+              id: true,
+              pushToken: true,
+            },
+          });
+
+        const eligibleMemberships = membershipsWithPushToken.filter(
+          (membership) => membership.pushToken?.trim().length,
+        );
+
+        eligibleOperators += eligibleMemberships.length;
+        skippedWithoutToken +=
+          overdueMembershipIds.length - eligibleMemberships.length;
+
+        for (const membership of eligibleMemberships) {
+          const sent = await this.notifyPaymentReminder({
+            tenantId: tenant.id,
+            membershipId: membership.id,
+          });
+
+          if (sent) {
+            notificationsSent += 1;
+          }
+        }
+
+        this.logger.log(
+          `PUSH_CARTERA_CRON: Tenant ${tenant.id} procesado. Elegibles=${eligibleMemberships.length}, sinToken=${overdueMembershipIds.length - eligibleMemberships.length}.`,
+        );
+        tenantsProcessed += 1;
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        const stack = error instanceof Error ? error.stack : undefined;
+
+        this.logger.error(
+          `PUSH_CARTERA_CRON: Error procesando tenant ${tenant.id}: ${message}`,
+          stack,
+        );
+      }
+    }
+
+    this.logger.log(
+      `PUSH_CARTERA_CRON: Finalizado. tenantsProcesados=${tenantsProcessed}, operadoresElegibles=${eligibleOperators}, enviados=${notificationsSent}, sinToken=${skippedWithoutToken}.`,
+    );
   }
 
   async getRecaudoTecnicos(tenantId: string, empresaId?: string) {

@@ -1,6 +1,7 @@
 import { BadRequestException, ConflictException } from '@nestjs/common';
 import { EstadoOrden, EstadoPagoOrden } from '../generated/client/client';
 import type { PrismaService } from '../prisma/prisma.service';
+import type { PushNotificationsService } from '../push-notifications/push-notifications.service';
 import { ContabilidadService } from './contabilidad.service';
 
 type MockComprobantePago = {
@@ -174,10 +175,17 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
       >,
       ...txMock,
     };
+    const pushNotificationsServiceMock = {
+      sendPaymentReminderNotification: jest.fn().mockResolvedValue(true),
+    };
 
     return {
-      service: new ContabilidadService(prismaMock as unknown as PrismaService),
+      service: new ContabilidadService(
+        prismaMock as unknown as PrismaService,
+        pushNotificationsServiceMock as unknown as PushNotificationsService,
+      ),
       prismaMock,
+      pushNotificationsServiceMock,
     };
   }
 

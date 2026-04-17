@@ -5,6 +5,7 @@ import { OrdenesServicioService } from './ordenes-servicio.service';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AuthModule } from '../auth/auth.module';
 import { ContratosClienteModule } from '../contratos-cliente/contratos-cliente.module';
+import { PushNotificationsModule } from '../push-notifications/push-notifications.module';
 import { SupabaseModule } from '../supabase/supabase.module';
 import { OrdenesServicioExportJobsService } from './export-jobs.service';
 
@@ -14,6 +15,7 @@ import { OrdenesServicioExportJobsService } from './export-jobs.service';
     PrismaModule,
     AuthModule,
     ContratosClienteModule,
+    PushNotificationsModule,
     SupabaseModule,
   ],
   controllers: [OrdenesServicioController],

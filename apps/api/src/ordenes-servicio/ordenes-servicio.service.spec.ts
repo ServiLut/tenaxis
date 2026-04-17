@@ -1,4 +1,5 @@
 import { BadRequestException, ConflictException } from '@nestjs/common';
+import type { ConfigService } from '@nestjs/config';
 import type { ContratosClienteService } from '../contratos-cliente/contratos-cliente.service';
 import {
   EstadoPagoOrden,
@@ -8,6 +9,7 @@ import {
   TipoVisita,
 } from '../generated/client/client';
 import type { PrismaService } from '../prisma/prisma.service';
+import type { PushNotificationsService } from '../push-notifications/push-notifications.service';
 import type { SupabaseService } from '../supabase/supabase.service';
 import { OrdenesServicioService } from './ordenes-servicio.service';
 
@@ -16,6 +18,12 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
   let prismaMock: PrismaMock;
   let contratosMock: ContratosClienteMock;
   let supabaseMock: SupabaseMock;
+  let pushNotificationsMock: {
+    sendServiceAssignedNotification: jest.Mock;
+  };
+  let configServiceMock: {
+    get: jest.Mock;
+  };
 
   type ServiceUser = Parameters<OrdenesServicioService['findAll']>[0];
   type ServiceUpdateDto = Parameters<OrdenesServicioService['update']>[2];
@@ -250,6 +258,12 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     contratosMock = {
       getActiveByCliente: mockFn(),
     };
+    pushNotificationsMock = {
+      sendServiceAssignedNotification: jest.fn().mockResolvedValue(true),
+    };
+    configServiceMock = {
+      get: jest.fn().mockReturnValue(undefined),
+    };
 
     prismaMock.declaracionEfectivo.findUnique.mockResolvedValue(null);
     prismaMock.direccion.findUnique.mockResolvedValue({
@@ -263,6 +277,8 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       prismaMock as unknown as PrismaService,
       supabaseMock as unknown as SupabaseService,
       contratosMock as unknown as ContratosClienteService,
+      pushNotificationsMock as unknown as PushNotificationsService,
+      configServiceMock as unknown as ConfigService,
     );
   });
 
