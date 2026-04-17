@@ -10,7 +10,6 @@ import {
 } from "../../../actions";
 import {
   getOrdenServicio,
-  notifyServiceOperatorWebhook,
   updateOrdenServicio,
   type OrdenServicioDetail,
 } from "../../api";
@@ -40,8 +39,6 @@ import { geoClient } from "@/lib/api/geo-client";
 import {
   bogotaDateTimeToUtcIso,
   bogotaDateToUtcIso,
-  formatBogotaDate,
-  formatBogotaTime,
   pickerDateToYmd,
   utcIsoToBogotaHm,
   utcIsoToBogotaYmd,
@@ -228,8 +225,6 @@ function EditarServicioContent({ id }: { id: string }) {
   const [selectedDireccion, setSelectedDireccion] = useState("");
   const [selectedEmpresa, setSelectedEmpresa] = useState("");
   const [selectedOperador, setSelectedOperador] = useState("");
-  const [initialOperadorId, setInitialOperadorId] = useState("");
-  const [numeroOrden, setNumeroOrden] = useState("");
 
   useEffect(() => {
     if (!isLoadingRole && !checkPermission("SERVICE_EDIT")) {
@@ -365,8 +360,6 @@ function EditarServicioContent({ id }: { id: string }) {
         setSelectedCliente(getVal("cliente", orderData.clienteId));
         setSelectedEmpresa(orderData.empresaId);
         setSelectedOperador(getVal("operador", orderData.tecnicoId || ""));
-        setInitialOperadorId(orderData.tecnicoId || "");
-        setNumeroOrden(orderData.numeroOrden || id.slice(0, 8).toUpperCase());
         const urlServicios = urlParams.get("servicios") || urlParams.get("servicio");
         const orderServicios =
           urlServicios?.split(",").map((value) => value.trim()).filter(Boolean) ||
@@ -564,73 +557,6 @@ function EditarServicioContent({ id }: { id: string }) {
 
     try {
       await updateOrdenServicio(id, payload);
-
-      // Webhook Notification if operator changed
-      console.log("Checking for operator change and service status...", { 
-        selectedOperador, 
-        initialOperadorId, 
-        estadoServicio 
-      });
-
-      const isFinishedOrLiquidated = estadoServicio === "TECNICO_FINALIZO" || estadoServicio === "LIQUIDADO";
-
-      if (selectedOperador && selectedOperador !== initialOperadorId && !isFinishedOrLiquidated) {
-        const operator = operadores.find(o => o.id === selectedOperador);
-        const client = clientes.find(c => c.id === selectedCliente);
-        const direccion = direccionesCliente.find(d => d.id === selectedDireccion);
-        
-        console.log("Operator found:", operator);
-        
-        if (operator?.telefono) {
-          toast.info(`Notificando al operador ${operator.nombre}...`);
-          
-          // Formatear fecha legible
-          const utcDateTime = bogotaDateTimeToUtcIso(fechaVisita, horaInicio);
-          const formattedDate = formatBogotaDate(utcDateTime);
-          const formattedTime = formatBogotaTime(utcDateTime, "es-CO", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          });
-
-          // Formatear métodos de pago
-          const metodosFormatted = breakdown
-            .map(b => `${b.metodo} ($ ${b.monto})`)
-            .join(", ");
-
-          notifyServiceOperatorWebhook({
-            telefonoOperador: operator.telefono,
-            numeroOrden: `#${numeroOrden}`,
-            cliente: client ? (client.tipoCliente === "EMPRESA" ? (client.razonSocial || "") : `${client.nombre} ${client.apellido}`) : "Cliente desconocido",
-            servicio: serviciosSeleccionados.join(", ").toUpperCase(),
-            programacion: `${formattedDate} a las ${formattedTime}`,
-            tecnico: operator.nombre,
-            estado: estadoServicio,
-            urgencia: urgencia,
-            direccion: direccion ? direccion.direccion : "N/A",
-            linkMaps: (direccion && direccion.linkMaps) ? direccion.linkMaps : "N/A",
-            municipio: (direccion && direccion.municipio) ? direccion.municipio : "N/A",
-            barrio: (direccion && direccion.barrio) ? direccion.barrio : "N/A",
-            detalles: "Sin detalles adicionales",
-            valorCotizado: `$ ${valorCotizado}`,
-            metodosPago: metodosFormatted,
-            observaciones: diagnosticoTecnico || "Sin diagnóstico técnico",
-            idServicio: id
-          }).then(webhookRes => {
-            if (webhookRes.success) {
-              toast.success("Operador notificado correctamente");
-            } else {
-              toast.error("Error al notificar al operador");
-            }
-          }).catch(err => {
-            console.error("Error triggering operator notification webhook", err);
-            toast.error("Error crítico al notificar operador");
-          });
-        } else {
-          console.warn("Operator has no phone number, skipping notification");
-          toast.warning("El operador no tiene teléfono registrado. No se pudo enviar la notificación.");
-        }
-      }
 
       toast.success("Orden de servicio actualizada correctamente");
       router.push(returnTo || "/dashboard/servicios");
