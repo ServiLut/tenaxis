@@ -17,7 +17,10 @@ import {
   CreateMobileOperatorServiceSignedUploadUrlDto,
   MobileOperatorServiceUploadKind,
 } from './dto/create-mobile-operator-service-signed-upload-url.dto';
-import { FinishMobileOperatorServiceDto } from './dto/finish-mobile-operator-service.dto';
+import {
+  FinishMobileOperatorServiceDto,
+  MobileOperatorServiceInvoiceType,
+} from './dto/finish-mobile-operator-service.dto';
 import {
   MobileOperatorServiceDetailResponseDto,
   MobileOperatorServiceGeolocationDto,
@@ -556,18 +559,44 @@ export class MobileOperatorServicesService {
   ): Promise<MobileOperatorServiceDetailResponseDto> {
     this.ensureCoordinatePair(dto.latitud, dto.longitud);
     const fotoSalidaPath = dto.fotoSalidaPath.trim();
+    const facturaPath = dto.facturaPath?.trim() || undefined;
+    const facturaElectronica = dto.facturaElectronica?.trim() || undefined;
+    const resolvedInvoiceType =
+      dto.invoiceType ??
+      (facturaPath
+        ? MobileOperatorServiceInvoiceType.PHYSICAL
+        : facturaElectronica
+          ? MobileOperatorServiceInvoiceType.ELECTRONIC
+          : undefined);
+    const persistedFacturaPath =
+      resolvedInvoiceType === MobileOperatorServiceInvoiceType.ELECTRONIC
+        ? undefined
+        : facturaPath;
+    const persistedFacturaElectronica =
+      resolvedInvoiceType === MobileOperatorServiceInvoiceType.PHYSICAL
+        ? undefined
+        : facturaElectronica;
+
     if (!fotoSalidaPath) {
       throw new BadRequestException('La foto de salida es obligatoria');
     }
 
-    if (
-      dto.facturaSolicitada &&
-      !dto.facturaPath?.trim() &&
-      !dto.facturaElectronica?.trim()
-    ) {
-      throw new BadRequestException(
-        'Si el cliente pidió factura, debés adjuntar facturaPath o facturaElectronica',
-      );
+    if (dto.facturaSolicitada) {
+      if (resolvedInvoiceType === MobileOperatorServiceInvoiceType.PHYSICAL) {
+        if (!facturaPath) {
+          throw new BadRequestException(
+            'Si el cliente pidió factura física, debés adjuntar facturaPath',
+          );
+        }
+      } else if (
+        resolvedInvoiceType === MobileOperatorServiceInvoiceType.ELECTRONIC
+      ) {
+        // Compatibilidad: en factura electrónica no exigimos archivo ni marker adicional.
+      } else {
+        throw new BadRequestException(
+          'Si el cliente pidió factura, debés indicar invoiceType o usar el flujo legacy con facturaPath/facturaElectronica',
+        );
+      }
     }
 
     if (dto.montoPagado !== undefined && dto.transferencias?.length) {
@@ -636,8 +665,8 @@ export class MobileOperatorServicesService {
       id,
       {
         metodoPagoId: dto.metodoPagoId,
-        facturaPath: dto.facturaPath,
-        facturaElectronica: dto.facturaElectronica,
+        facturaPath: persistedFacturaPath,
+        facturaElectronica: persistedFacturaElectronica,
         comprobantePago: dto.comprobantePago,
         referenciaPago: dto.referenciaPago,
         fechaPago: dto.fechaPago,

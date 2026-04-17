@@ -64,6 +64,11 @@ export class MobileOperatorServiceTransferDto {
   observacion?: string;
 }
 
+export enum MobileOperatorServiceInvoiceType {
+  PHYSICAL = 'physical',
+  ELECTRONIC = 'electronic',
+}
+
 export class FinishMobileOperatorServiceDto {
   @IsString()
   @IsNotEmpty()
@@ -85,6 +90,10 @@ export class FinishMobileOperatorServiceDto {
   @IsString()
   @IsOptional()
   facturaElectronica?: string;
+
+  @IsEnum(MobileOperatorServiceInvoiceType)
+  @IsOptional()
+  invoiceType?: MobileOperatorServiceInvoiceType;
 
   @IsString()
   @IsOptional()
