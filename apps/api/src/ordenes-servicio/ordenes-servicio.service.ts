@@ -5,10 +5,12 @@ import {
   ForbiddenException,
   Logger,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
 import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
 import { ContratosClienteService } from '../contratos-cliente/contratos-cliente.service';
+import { PushNotificationsService } from '../push-notifications/push-notifications.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
 import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
@@ -218,6 +220,10 @@ export interface ServicioExportPayload {
   creadaEn: string;
 }
 
+const AUTOMATIC_REINFORCEMENT_MIN_SERVICE_DATE_UTC = new Date(
+  Date.UTC(2026, 1, 1, 5, 0, 0, 0),
+);
+
 @Injectable()
 export class OrdenesServicioService {
   private readonly logger = new Logger(OrdenesServicioService.name);
@@ -226,7 +232,171 @@ export class OrdenesServicioService {
     private prisma: PrismaService,
     private supabase: SupabaseService,
     private contratosClienteService: ContratosClienteService,
+    private readonly pushNotificationsService: PushNotificationsService,
+    private readonly configService: ConfigService,
   ) {}
+
+  private getReinforcementFallbackMembershipId(tenantId: string) {
+    const tenantMapRaw = this.configService
+      .get<string>('REINFORCEMENT_FALLBACK_MEMBERSHIP_IDS')
+      ?.trim();
+
+    if (tenantMapRaw) {
+      try {
+        const parsed = JSON.parse(tenantMapRaw) as Record<string, unknown>;
+        const tenantSpecificMembershipId = parsed[tenantId];
+
+        if (
+          typeof tenantSpecificMembershipId === 'string' &&
+          tenantSpecificMembershipId.trim()
+        ) {
+          return tenantSpecificMembershipId.trim();
+        }
+      } catch (error: unknown) {
+        const message =
+          error instanceof Error ? error.message : 'Unknown error';
+        this.logger.error(
+          `AUTO_FOLLOW_UPS: No se pudo parsear REINFORCEMENT_FALLBACK_MEMBERSHIP_IDS. ${message}`,
+        );
+      }
+    }
+
+    return (
+      this.configService
+        .get<string>('REINFORCEMENT_FALLBACK_MEMBERSHIP_ID')
+        ?.trim() || null
+    );
+  }
+
+  private async resolveAutomaticFollowUpCreatorMembership(
+    tenantId: string,
+    empresaId: string,
+    ordenId: string,
+    currentMembershipId: string | null,
+  ): Promise<{
+    membershipId: string | null;
+    source: 'original' | 'fallback' | 'missing';
+  }> {
+    if (currentMembershipId) {
+      return {
+        membershipId: currentMembershipId,
+        source: 'original',
+      };
+    }
+
+    const fallbackMembershipId =
+      this.getReinforcementFallbackMembershipId(tenantId);
+
+    if (!fallbackMembershipId) {
+      this.logger.warn(
+        `AUTO_FOLLOW_UPS: La orden ${ordenId} no tiene creadoPorId y no hay fallback configurado. Definí REINFORCEMENT_FALLBACK_MEMBERSHIP_ID o REINFORCEMENT_FALLBACK_MEMBERSHIP_IDS para no perder seguimientos.`,
+      );
+      return {
+        membershipId: null,
+        source: 'missing',
+      };
+    }
+
+    const fallbackMembership = await this.prisma.tenantMembership.findFirst({
+      where: {
+        id: fallbackMembershipId,
+        tenantId,
+        activo: true,
+      },
+      select: {
+        id: true,
+        empresaMemberships: {
+          where: {
+            empresaId,
+            activo: true,
+            deletedAt: null,
+          },
+          select: {
+            id: true,
+          },
+          take: 1,
+        },
+      },
+    });
+
+    if (!fallbackMembership) {
+      this.logger.error(
+        `AUTO_FOLLOW_UPS: El fallback membership ${fallbackMembershipId} no existe o no pertenece al tenant ${tenantId}. La orden ${ordenId} seguirá sin responsable explícito.`,
+      );
+      return {
+        membershipId: null,
+        source: 'missing',
+      };
+    }
+
+    if (fallbackMembership.empresaMemberships.length === 0) {
+      this.logger.warn(
+        `AUTO_FOLLOW_UPS: El fallback membership ${fallbackMembership.id} no tiene empresaMembership activa para la empresa ${empresaId}. Se usará igual para no perder el seguimiento, pero revisá su visibilidad operativa.`,
+      );
+    }
+
+    await this.prisma.ordenServicio.updateMany({
+      where: {
+        id: ordenId,
+        tenantId,
+        creadoPorId: null,
+      },
+      data: {
+        creadoPorId: fallbackMembership.id,
+      },
+    });
+
+    this.logger.warn(
+      `AUTO_FOLLOW_UPS: La orden ${ordenId} no tenía creadoPorId. Se asignó el fallback membership ${fallbackMembership.id}.`,
+    );
+
+    return {
+      membershipId: fallbackMembership.id,
+      source: 'fallback',
+    };
+  }
+
+  private async notifyServiceAssignment(params: {
+    tenantId: string;
+    membershipId: string | null | undefined;
+    serviceId: string;
+    source: 'create' | 'update';
+  }) {
+    if (!params.membershipId) {
+      this.logger.log(
+        `PUSH_ASSIGNMENT: Se omite envío en ${params.source}; la orden ${params.serviceId} quedó sin técnico asignado.`,
+      );
+      return;
+    }
+
+    try {
+      const sent =
+        await this.pushNotificationsService.sendServiceAssignedNotification({
+          tenantId: params.tenantId,
+          membershipId: params.membershipId,
+          serviceId: params.serviceId,
+        });
+
+      if (sent) {
+        this.logger.log(
+          `PUSH_ASSIGNMENT: Push enviado para la orden ${params.serviceId} al membership ${params.membershipId} (${params.source}).`,
+        );
+        return;
+      }
+
+      this.logger.warn(
+        `PUSH_ASSIGNMENT: No se confirmó envío para la orden ${params.serviceId} al membership ${params.membershipId} (${params.source}). Revisá los logs de PushNotificationsService.`,
+      );
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      const stack = error instanceof Error ? error.stack : undefined;
+
+      this.logger.error(
+        `PUSH_ASSIGNMENT: Falló el envío push para la orden ${params.serviceId} al membership ${params.membershipId}: ${message}`,
+        stack,
+      );
+    }
+  }
 
   private mapDireccionSnapshot(
     direccion: DireccionSnapshotRecord,
@@ -531,6 +701,13 @@ export class OrdenesServicioService {
       contratoActivo,
       { allowWithoutContract: false },
     );
+
+    await this.notifyServiceAssignment({
+      tenantId,
+      membershipId: nuevaOrden.tecnicoId,
+      serviceId: nuevaOrden.id,
+      source: 'create',
+    });
 
     return this.processSignedUrls(nuevaOrden as OrdenWithGeolocalizaciones);
   }
@@ -2902,6 +3079,8 @@ export class OrdenesServicioService {
       );
     }
 
+    const previousTecnicoId = orden.tecnicoId ?? null;
+
     if (updateDto.estadoPago !== undefined) {
       throw new BadRequestException(
         'El estado de pago se calcula automáticamente; no se puede editar manualmente',
@@ -3429,6 +3608,18 @@ export class OrdenesServicioService {
       await this.recalculateClientStatus(updatedOrden.clienteId);
     }
 
+    if (
+      updatedOrden.tecnicoId &&
+      updatedOrden.tecnicoId !== previousTecnicoId
+    ) {
+      await this.notifyServiceAssignment({
+        tenantId,
+        membershipId: updatedOrden.tecnicoId,
+        serviceId: updatedOrden.id,
+        source: 'update',
+      });
+    }
+
     return this.processSignedUrls(updatedOrden as OrdenWithGeolocalizaciones);
   }
 
@@ -3894,9 +4085,14 @@ export class OrdenesServicioService {
       allowWithoutContract?: boolean;
     },
   ) {
-    if (!orden.creadoPorId) {
-      return;
-    }
+    const creatorResolution =
+      await this.resolveAutomaticFollowUpCreatorMembership(
+        tenantId,
+        orden.empresaId,
+        orden.id,
+        orden.creadoPorId ?? null,
+      );
+    const creatorMembershipId = creatorResolution.membershipId;
 
     const baseDate = startOfBogotaDayUtc(fechaBase || new Date());
     const originalObservacion = this.toOptionalString(orden.observacion);
@@ -3913,9 +4109,13 @@ export class OrdenesServicioService {
       );
 
       if (!frecuenciaContrato || totalServicios <= 1) {
-        return;
+        this.logger.log(
+          `AUTO_FOLLOW_UPS: Orden ${orden.id} con contrato activo pero sin servicios adicionales por programar.`,
+        );
+        return 0;
       }
 
+      let createdOrders = 0;
       for (let index = 1; index < totalServicios; index += 1) {
         const dueAt = addBogotaDaysUtc(baseDate, frecuenciaContrato * index);
 
@@ -3925,7 +4125,7 @@ export class OrdenesServicioService {
             empresaId: orden.empresaId,
             clienteId: orden.clienteId,
             servicioId: orden.servicioId,
-            creadoPorId: orden.creadoPorId,
+            creadoPorId: creatorMembershipId,
             direccionId: orden.direccionId,
             direccionTexto: orden.direccionTexto,
             estadoServicio: EstadoOrden.NUEVO,
@@ -3939,23 +4139,52 @@ export class OrdenesServicioService {
             ordenPadreId: orden.id,
           },
         });
+        createdOrders += 1;
       }
-      return;
+      this.logger.log(
+        `AUTO_FOLLOW_UPS: Orden ${orden.id} generó ${createdOrders} servicios automáticos por contrato. creatorSource=${creatorResolution.source}.`,
+      );
+      return createdOrders;
     }
 
     if (!options?.allowWithoutContract || !servicio.requiereSeguimiento) {
-      return;
+      this.logger.log(
+        `AUTO_FOLLOW_UPS: Orden ${orden.id} omitida. allowWithoutContract=${Boolean(options?.allowWithoutContract)} requiereSeguimiento=${Boolean(servicio.requiereSeguimiento)}.`,
+      );
+      return 0;
+    }
+
+    const serviceDate = fechaBase ?? null;
+    if (!serviceDate) {
+      this.logger.warn(
+        `AUTO_FOLLOW_UPS: La orden ${orden.id} se omite porque no tiene fecha de servicio para validar el cutoff ${AUTOMATIC_REINFORCEMENT_MIN_SERVICE_DATE_UTC.toISOString()}.`,
+      );
+      return 0;
+    }
+
+    if (
+      serviceDate.getTime() <
+      AUTOMATIC_REINFORCEMENT_MIN_SERVICE_DATE_UTC.getTime()
+    ) {
+      this.logger.warn(
+        `AUTO_FOLLOW_UPS: La orden ${orden.id} se omite por cutoff de fecha. fechaServicio=${serviceDate.toISOString()} cutoff=${AUTOMATIC_REINFORCEMENT_MIN_SERVICE_DATE_UTC.toISOString()}.`,
+      );
+      return 0;
     }
 
     const existingFollowUpOrders = await this.prisma.ordenServicio.count({
       where: {
         tenantId,
         ordenPadreId: orden.id,
+        deletedAt: null,
       },
     });
 
     if (existingFollowUpOrders > 0) {
-      return;
+      this.logger.warn(
+        `AUTO_FOLLOW_UPS: La orden ${orden.id} ya tiene ${existingFollowUpOrders} refuerzo(s) activos. Se omite recreación.`,
+      );
+      return 0;
     }
 
     const followUpBlueprints: Array<{
@@ -3987,6 +4216,14 @@ export class OrdenesServicioService {
       });
     }
 
+    if (followUpBlueprints.length === 0) {
+      this.logger.warn(
+        `AUTO_FOLLOW_UPS: La orden ${orden.id} requiere seguimiento, pero el servicio no tiene reglas configuradas para generar refuerzos.`,
+      );
+      return 0;
+    }
+
+    let createdOrders = 0;
     for (const blueprint of followUpBlueprints) {
       const ordenSeguimiento = await this.prisma.ordenServicio.create({
         data: {
@@ -3994,7 +4231,7 @@ export class OrdenesServicioService {
           empresaId: orden.empresaId,
           clienteId: orden.clienteId,
           servicioId: orden.servicioId,
-          creadoPorId: orden.creadoPorId,
+          creadoPorId: creatorMembershipId,
           direccionId: orden.direccionId,
           direccionTexto: orden.direccionTexto,
           estadoServicio: EstadoOrden.NUEVO,
@@ -4007,14 +4244,15 @@ export class OrdenesServicioService {
           ordenPadreId: orden.id,
         },
       });
+      createdOrders += 1;
 
-      if (orden.creadoPorId) {
+      if (creatorMembershipId) {
         await this.prisma.ordenServicioSeguimiento.create({
           data: {
             tenantId,
             empresaId: servicio.empresaId,
             ordenServicioId: ordenSeguimiento.id,
-            createdByMembershipId: orden.creadoPorId,
+            createdByMembershipId: creatorMembershipId,
             followUpType: blueprint.followUpType,
             dueAt: blueprint.dueAt,
             status: 'PENDIENTE',
@@ -4022,65 +4260,149 @@ export class OrdenesServicioService {
         });
       }
     }
+
+    this.logger.log(
+      `AUTO_FOLLOW_UPS: Orden ${orden.id} generó ${createdOrders} refuerzo(s). creator=${creatorMembershipId ?? 'null'} source=${creatorResolution.source}.`,
+    );
+    return createdOrders;
   }
 
   // Job para procesar refuerzos pendientes (estilo Cron)
   @Cron('0 0 19 * * *', { timeZone: 'America/Bogota' })
   async processReinforcementsJob() {
-    this.logger.log('Iniciando job de procesamiento de refuerzos...');
+    const fallbackConfigured = Boolean(
+      this.configService
+        .get<string>('REINFORCEMENT_FALLBACK_MEMBERSHIP_IDS')
+        ?.trim() ||
+      this.configService
+        .get<string>('REINFORCEMENT_FALLBACK_MEMBERSHIP_ID')
+        ?.trim(),
+    );
 
-    const terminadasSinRefuerzo = await this.prisma.ordenServicio.findMany({
+    this.logger.log(
+      `REINFORCEMENT_JOB: Iniciando procesamiento de refuerzos para estados ${EstadoOrden.LIQUIDADO} y ${EstadoOrden.TECNICO_FINALIZO}. fallbackConfigured=${fallbackConfigured}.`,
+    );
+
+    const candidateOrders = await this.prisma.ordenServicio.findMany({
       where: {
         deletedAt: null,
-        ordenPadreId: null, // Solo órdenes principales
         estadoServicio: {
           in: [
             EstadoOrden.LIQUIDADO as EstadoOrden,
             EstadoOrden.TECNICO_FINALIZO as EstadoOrden,
           ],
         },
-        ordenesHijas: {
-          none: {
-            deletedAt: null,
-          },
-        },
-        servicio: {
-          requiereSeguimiento: true,
-        },
       },
       include: {
         servicio: true,
+        ordenesHijas: {
+          where: {
+            deletedAt: null,
+          },
+          select: {
+            id: true,
+          },
+          take: 1,
+        },
       },
     });
 
     this.logger.log(
-      `Encontradas ${terminadasSinRefuerzo.length} órdenes terminadas sin refuerzo.`,
+      `REINFORCEMENT_JOB: Encontradas ${candidateOrders.length} órdenes con estado elegible antes de filtros secundarios.`,
     );
 
+    let elegibles = 0;
     let procesadas = 0;
-    for (const orden of terminadasSinRefuerzo) {
+    let omitidasPorSerRefuerzo = 0;
+    let omitidasSinSeguimientoConfigurado = 0;
+    let omitidasSinReglasProgramacion = 0;
+    let omitidasConRefuerzosActivos = 0;
+    let omitidasSinFechaServicio = 0;
+    let omitidasPorFechaCorte = 0;
+
+    for (const orden of candidateOrders) {
       try {
-        if (orden.servicio) {
-          await this.createAutomaticFollowUps(
-            orden.tenantId,
-            orden,
-            orden.servicio,
-            orden.fechaVisita,
-            null,
-            { allowWithoutContract: true },
-          );
-          procesadas += 1;
+        if (orden.ordenPadreId) {
+          omitidasPorSerRefuerzo += 1;
+          continue;
         }
+
+        if (!orden.servicio?.requiereSeguimiento) {
+          omitidasSinSeguimientoConfigurado += 1;
+          continue;
+        }
+
+        const hasSchedulingRules = Boolean(
+          orden.servicio.primerSeguimientoDias ||
+          orden.servicio.requiereSeguimientoTresMeses,
+        );
+
+        if (!hasSchedulingRules) {
+          omitidasSinReglasProgramacion += 1;
+          continue;
+        }
+
+        if (orden.ordenesHijas.length > 0) {
+          omitidasConRefuerzosActivos += 1;
+          continue;
+        }
+
+        const serviceDate = orden.fechaVisita ?? null;
+        if (!serviceDate) {
+          omitidasSinFechaServicio += 1;
+          continue;
+        }
+
+        if (
+          serviceDate.getTime() <
+          AUTOMATIC_REINFORCEMENT_MIN_SERVICE_DATE_UTC.getTime()
+        ) {
+          omitidasPorFechaCorte += 1;
+          continue;
+        }
+
+        elegibles += 1;
+
+        this.logger.log(
+          `REINFORCEMENT_JOB: Procesando orden ${orden.id} tenant=${orden.tenantId} empresa=${orden.empresaId} estado=${orden.estadoServicio} creadoPorId=${orden.creadoPorId ?? 'null'} fechaVisita=${orden.fechaVisita?.toISOString() ?? 'null'} servicioId=${orden.servicioId} primerSeguimientoDias=${orden.servicio.primerSeguimientoDias ?? 'null'} tresMeses=${orden.servicio.requiereSeguimientoTresMeses}.`,
+        );
+
+        const createdForOrder = await this.createAutomaticFollowUps(
+          orden.tenantId,
+          orden,
+          orden.servicio,
+          orden.fechaVisita,
+          null,
+          { allowWithoutContract: true },
+        );
+
+        procesadas += createdForOrder;
+
+        this.logger.log(
+          `REINFORCEMENT_JOB: Orden ${orden.id} procesada. Refuerzos creados=${createdForOrder}.`,
+        );
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : 'Unknown error';
         this.logger.error(
-          `Error procesando refuerzo para orden ${orden.id}: ${msg}`,
+          `REINFORCEMENT_JOB: Error procesando orden ${orden.id} tenant=${orden.tenantId}: ${msg}`,
         );
       }
     }
 
-    this.logger.log(`Job finalizado. Órdenes procesadas: ${procesadas}`);
-    return { procesadas };
+    this.logger.log(
+      `REINFORCEMENT_JOB: Finalizado. evaluadas=${candidateOrders.length} elegibles=${elegibles} creadas=${procesadas} omitidasPorSerRefuerzo=${omitidasPorSerRefuerzo} omitidasSinSeguimientoConfigurado=${omitidasSinSeguimientoConfigurado} omitidasSinReglasProgramacion=${omitidasSinReglasProgramacion} omitidasConRefuerzosActivos=${omitidasConRefuerzosActivos} omitidasSinFechaServicio=${omitidasSinFechaServicio} omitidasPorFechaCorte=${omitidasPorFechaCorte}.`,
+    );
+    return {
+      procesadas,
+      evaluadas: candidateOrders.length,
+      elegibles,
+      omitidasPorSerRefuerzo,
+      omitidasSinSeguimientoConfigurado,
+      omitidasSinReglasProgramacion,
+      omitidasConRefuerzosActivos,
+      omitidasSinFechaServicio,
+      omitidasPorFechaCorte,
+    };
   }
 
   private isGarantiaVisitType(tipoVisita?: TipoVisita | null) {

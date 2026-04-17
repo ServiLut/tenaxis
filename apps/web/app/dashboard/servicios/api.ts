@@ -612,7 +612,17 @@ export async function notifyServiceOperatorWebhook(data: {
 }
 
 export async function triggerReinforcementsJob() {
-  return apiFetch<{ procesadas: number }>("/ordenes-servicio/trigger-reinforcements-job", {
+  return apiFetch<{
+    procesadas: number;
+    evaluadas: number;
+    elegibles: number;
+    omitidasPorSerRefuerzo: number;
+    omitidasSinSeguimientoConfigurado: number;
+    omitidasSinReglasProgramacion: number;
+    omitidasConRefuerzosActivos: number;
+    omitidasSinFechaServicio: number;
+    omitidasPorFechaCorte: number;
+  }>("/ordenes-servicio/trigger-reinforcements-job", {
     method: "POST",
   });
 }

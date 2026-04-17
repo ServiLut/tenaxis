@@ -350,6 +350,190 @@ const isServicioScheduledInFuture = (orden?: Partial<OrdenServicioRaw> | null) =
   return scheduledDateTime > new Date();
 };
 
+type ReinforcementsJobResponse = Awaited<ReturnType<typeof triggerReinforcementsJob>>;
+
+const reinforcementCountFormatter = new Intl.NumberFormat("es-CO");
+
+const formatReinforcementMetric = (
+  value: number,
+  singular: string,
+  plural = `${singular}s`,
+) => `${reinforcementCountFormatter.format(value)} ${value === 1 ? singular : plural}`;
+
+type ReinforcementsToastTone = "success" | "warning" | "neutral";
+
+interface ReinforcementsDiagnosticReason {
+  count: number;
+  label: string;
+}
+
+interface ReinforcementsToastMetric {
+  label: string;
+  value: string;
+}
+
+interface ReinforcementsToastViewModel {
+  tone: ReinforcementsToastTone;
+  title: string;
+  summary: string;
+  metrics: ReinforcementsToastMetric[];
+  topReasons: ReinforcementsDiagnosticReason[];
+  remainingReasonsCount: number;
+}
+
+const getReinforcementsDiagnosticReasons = (
+  result: ReinforcementsJobResponse,
+): ReinforcementsDiagnosticReason[] => {
+  return [
+    { count: result.omitidasPorFechaCorte, label: "Fuera de fecha de corte" },
+    { count: result.omitidasConRefuerzosActivos, label: "Ya tenían refuerzos activos" },
+    { count: result.omitidasSinSeguimientoConfigurado, label: "Sin seguimiento configurado" },
+    { count: result.omitidasPorSerRefuerzo, label: "Ya eran refuerzos" },
+    { count: result.omitidasSinReglasProgramacion, label: "Sin reglas de programación" },
+    { count: result.omitidasSinFechaServicio, label: "Sin fecha de servicio" },
+  ]
+    .filter((item) => item.count > 0)
+    .sort((a, b) => b.count - a.count);
+};
+
+const buildReinforcementsToastViewModel = (
+  result: ReinforcementsJobResponse,
+): ReinforcementsToastViewModel => {
+  const diagnosticReasons = getReinforcementsDiagnosticReasons(result);
+  const tone: ReinforcementsToastTone =
+    result.procesadas > 0 ? "success" : result.elegibles > 0 ? "warning" : "neutral";
+
+  const title =
+    tone === "success"
+      ? "Refuerzos procesados"
+      : tone === "warning"
+        ? "Sin refuerzos creados"
+        : "Sin casos elegibles";
+
+  const summary =
+    tone === "success"
+      ? `Se crearon ${formatReinforcementMetric(result.procesadas, "refuerzo")} de ${formatReinforcementMetric(result.elegibles, "caso", "casos")} elegibles.`
+      : tone === "warning"
+        ? `Se detectaron ${formatReinforcementMetric(result.elegibles, "caso", "casos")} elegibles, pero ninguno cumplió las condiciones finales para crear refuerzos.`
+        : "No se encontraron órdenes elegibles para crear refuerzos en esta ejecución.";
+
+  return {
+    tone,
+    title,
+    summary,
+    metrics: [
+      { label: "Creados", value: reinforcementCountFormatter.format(result.procesadas) },
+      { label: "Elegibles", value: reinforcementCountFormatter.format(result.elegibles) },
+      { label: "Evaluadas", value: reinforcementCountFormatter.format(result.evaluadas) },
+    ],
+    topReasons: diagnosticReasons.slice(0, 3),
+    remainingReasonsCount: Math.max(0, diagnosticReasons.length - 3),
+  };
+};
+
+const renderReinforcementsToastContent = (result: ReinforcementsJobResponse) => {
+  const viewModel = buildReinforcementsToastViewModel(result);
+  const toneStyles = {
+    success: {
+      icon: CheckCircle2,
+      iconWrapper: "border-emerald-500/20 bg-emerald-500/10 text-emerald-600",
+      metricCard: "border-emerald-500/15 bg-emerald-500/[0.06]",
+    },
+    warning: {
+      icon: AlertTriangle,
+      iconWrapper: "border-amber-500/20 bg-amber-500/10 text-amber-600",
+      metricCard: "border-amber-500/15 bg-amber-500/[0.06]",
+    },
+    neutral: {
+      icon: Activity,
+      iconWrapper: "border-sky-500/20 bg-sky-500/10 text-sky-600",
+      metricCard: "border-sky-500/15 bg-sky-500/[0.06]",
+    },
+  } as const;
+
+  const toneConfig = toneStyles[viewModel.tone];
+  const ToneIcon = toneConfig.icon;
+
+  return (
+    <div className="w-full max-w-[360px] space-y-3">
+      <div className="flex items-start gap-3">
+        <div
+          className={cn(
+            "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border",
+            toneConfig.iconWrapper,
+          )}
+        >
+          <ToneIcon className="h-4 w-4" />
+        </div>
+        <div className="min-w-0 space-y-1">
+          <p className="text-sm font-semibold leading-none text-foreground">
+            {viewModel.title}
+          </p>
+          <p className="text-[13px] leading-5 text-muted-foreground">
+            {viewModel.summary}
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-2">
+        {viewModel.metrics.map((metric) => (
+          <div
+            key={metric.label}
+            className={cn("rounded-xl border px-3 py-2", toneConfig.metricCard)}
+          >
+            <p className="text-base font-semibold leading-none text-foreground">
+              {metric.value}
+            </p>
+            <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              {metric.label}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {viewModel.topReasons.length > 0 ? (
+        <div className="rounded-xl border border-border/60 bg-background/80 px-3 py-3">
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Descartes relevantes
+            </p>
+            {viewModel.remainingReasonsCount > 0 ? (
+              <span className="text-[10px] font-medium text-muted-foreground">
+                +{viewModel.remainingReasonsCount} más
+              </span>
+            ) : null}
+          </div>
+
+          <div className="space-y-1.5">
+            {viewModel.topReasons.map((reason) => (
+              <div
+                key={reason.label}
+                className="flex items-center justify-between gap-3 rounded-lg bg-muted/40 px-2.5 py-2"
+              >
+                <span className="text-[13px] leading-4 text-foreground">
+                  {reason.label}
+                </span>
+                <span className="rounded-full border border-border/60 bg-background px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
+                  {reinforcementCountFormatter.format(reason.count)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+const renderReinforcementsLoadingToast = () => (
+  <div className="space-y-1">
+    <p className="text-sm font-semibold text-foreground">Procesando refuerzos...</p>
+    <p className="text-[13px] leading-5 text-muted-foreground">
+      Estamos evaluando órdenes elegibles y validando los descartes del job.
+    </p>
+  </div>
+);
+
 const SERVICIOS_UI_CACHE_KEY = "tenaxis:dashboard:servicios:ui-state:v1";
 
 const UUID_V4_REGEX =
@@ -1102,10 +1286,10 @@ function ServiciosContent() {
 
   const handleTriggerJob = async () => {
     setIsProcessingJob(true);
-    const toastId = toast.loading("Ejecutando job de refuerzos...");
+    const toastId = toast.loading(renderReinforcementsLoadingToast());
     try {
       const res = await triggerReinforcementsJob();
-      toast.success(`Job finalizado. Se agendaron ${res.procesadas} refuerzos pendientes.`, { id: toastId });
+      toast.success(renderReinforcementsToastContent(res), { id: toastId, duration: 9000 });
       await fetchServicios();
     } catch (error) {
       console.error("Error triggering job:", error);
